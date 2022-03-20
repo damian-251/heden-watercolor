@@ -82,7 +82,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'en', //We are going to keep English as default language
 
     /*
     |--------------------------------------------------------------------------
@@ -193,5 +193,22 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // ...
     ])->toArray(),
+
+
+    /*
+|--------------------------------------------------------------------------
+| Available locales
+|--------------------------------------------------------------------------
+|
+| List all locales that your application works with
+        Lista de idiomas disponibles en la web
+|
+*/
+//TODO: tener en cuenta este array para ver los idiomas disponibles
+'available_locales' => [
+    'English' => 'en',
+    'Spanish' => 'es',
+    'Norwegian' => 'no',
+  ],
 
 ];
