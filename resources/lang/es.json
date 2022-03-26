@@ -3,5 +3,8 @@
     "Home" : "Inicio",
     "Shop" : "Tienda",
     "Exhibitions" : "Exposiciones",
-    "Contact" : "Contacto"
+    "Contact" : "Contacto",
+    "Description" : "Descripción",
+    "Title" : "Título",
+    "Product" : "Producto"
   }

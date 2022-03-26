@@ -13,15 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('tag_trs', function (Blueprint $table) {
             $table->id();
+            $table->string('language_code');
             $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->string('phone'); //Número de teléfono
-            $table->boolean('isAdmin')->default(false); //El valor true se pondrá de forma manual al administrador
-            $table->rememberToken();
+            $table->bigInteger('tag_id');
             $table->timestamps();
         });
     }
@@ -33,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('tag_tr');
     }
 };

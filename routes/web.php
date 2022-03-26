@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TestDbController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -54,3 +55,7 @@ Route::get('language/{locale}', function ($locale) {
 Route::get('translation2', function () {
     return view('translation-2');
 });
+
+//Ruta para realizar pruebas de las bases de datos
+
+Route::get('dbtest', [TestDbController::class, 'index'])->name('test.db');
