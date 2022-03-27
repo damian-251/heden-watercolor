@@ -58,4 +58,10 @@ Route::get('translation2', function () {
 
 //Ruta para realizar pruebas de las bases de datos
 
+//Vistas
 Route::get('dbtest', [TestDbController::class, 'index'])->name('test.db');
+Route::get('shop', [TestDbController::class, 'shop'])->name('test.shop');
+Route::get('cart', [TestDbController::class, 'cart'])->name('cart.shop');
+
+//Procesos
+Route::post('add-to-cart', [TestDbController::class, 'addToCart'])->name('cart.add');

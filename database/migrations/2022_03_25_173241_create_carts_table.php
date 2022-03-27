@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('user_id')->nullable(); //Para el carrito de usuarios registrados
+            $table->string('session_id')->nullable(); //Para el carrito de usuarios no registrados
             $table->timestamps();
         });
     }
