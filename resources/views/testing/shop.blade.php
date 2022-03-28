@@ -13,6 +13,12 @@
 
                 {{ __('Title') }}: {{$translation->name}} 
                 {{ __('Description') }}: {{$translation->description}}
+                <form action="{{ route('cart.add')}}" method="POST" >
+                    @csrf {{--Token que generamos --}}
+                    {{-- Enviamos como request el id del producto como campo oculto --}}
+                    <input type="hidden" name="product_id" value="{{$product->id}}">
+                    <input type="submit" value="Add product">
+                </form>
 
             </div>
                 

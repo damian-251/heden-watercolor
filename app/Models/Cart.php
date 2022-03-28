@@ -13,6 +13,10 @@ class Cart extends Model
         return $this->belongsToMany(Product::class, 'cart_product');
     }
 
+    public function attachProducts($products) {
+        return $this->products()->attach($products);
+    }
+
     public function user() {
         return $this->belongsTo(User::class);
     }
