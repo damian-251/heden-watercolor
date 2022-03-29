@@ -2,9 +2,18 @@
 
 @section('main')
     {{-- //TODO: Cuando haya un usuario registrado habrá que rellenar los campos automáticamente con su nombre --}}
-
+    <h1>{{ __('Checkout') }}</h1>
+    @foreach ($cart->products as $product)
+        <div>
+        <div>{{$product->id}}</div>
+        <div>{{$product->price}}</div>
+        </div>
+        <hr>
+    @endforeach
+    <p>Subtotal: {{$totalPrice}}</p>
     <form action="" method="POST">
-        <input type="text" name="fullName" placeholder={{ __('Write your full name') }} required>
+        @csrf 
+        <input type="text" name="fullName" placeholder="{{ __('Write your full name') }}" required>
         <input type="text" name="address_line1" placeholder="{{ __('Write your address (first line)') }}" required>
         <input type="text" name="address_line2" placeholder="{{ __('Write your address (second line) (optional)') }}">
         <input type="text" name="phone" placeholder="{{ __('Phone number with international code') }}" required>

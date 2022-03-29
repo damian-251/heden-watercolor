@@ -65,3 +65,4 @@ Route::get('cart', [TestDbController::class, 'cart'])->name('cart.shop');
 
 //Procesos
 Route::post('add-to-cart', [TestDbController::class, 'addToCart'])->name('cart.add');
+Route::post('checkout', [TestDbController::class, 'checkout'])->name('test.checkout');

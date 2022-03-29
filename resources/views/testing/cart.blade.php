@@ -12,9 +12,8 @@
     @endforeach
     <p>Subtotal: {{$totalPrice}}</p>
     <div>
-        <form action="" method="POST">
+        <form action="{{ route('test.checkout')}}" method="POST">
             @csrf
-            <input type="hidden" name="cart_id" value="{{$cart->id}}">
             <input type="submit" value="{{ __('Checkout') }}">
         </form>
     </div>

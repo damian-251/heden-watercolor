@@ -40,12 +40,12 @@ class TestDbController extends Controller
 
         $cart = Cart::where('session_id', session()->getId())->first(); //TODO: Cuando haya usuarios habría que cambiar esto
 
-        // if ($cart->isEmpty()) {
-        //     $cart = new Cart();
-        //     //FIXME: Aquí que si no hay usuario activo use la session_id, si no usará el id de usuario
-        //     $cart->session_id = session()->getId();
-        //     $cart->save();
-        // }
+        if ($cart == null) {
+            $cart = new Cart();
+            //FIXME: Aquí que si no hay usuario activo use la session_id, si no usará el id de usuario
+            $cart->session_id = session()->getId();
+            $cart->save();
+        }
 
         //Introducimos el producto en la tabla del Carrito
         $product_id = $request->product_id;
@@ -62,12 +62,13 @@ class TestDbController extends Controller
 
         //Si el carrito está vacío lo creamos
         $cart = Cart::where('session_id', session()->getId())->first();
-        // if ($cart->isEmpty()) {
-        //     $cart = new Cart();
-        //     //FIXME: Aquí que si no hay usuario activo use la session_id, si no usará el id de usuario
-        //     $cart->session_id = session()->getId();
-        //     $cart->save();
-        // }
+        //Si no existe el carrito con el session id lo creamos
+        if ($cart == null) {
+            $cart = new Cart();
+            //FIXME: Aquí que si no hay usuario activo use la session_id, si no usará el id de usuario
+            $cart->session_id = session()->getId();
+            $cart->save();
+        }
 
         //Este es el controlador de prueba para el carrito de la compra.
         //Se necesita--> Productos que se hayan añadido a la cesta
@@ -98,5 +99,23 @@ class TestDbController extends Controller
         return view('testing.cart', compact('cart', 'totalPrice'));
 
 
+    }
+
+    public function checkout() {
+
+        //Recuperamos el carrito del usuario
+        $cart = Cart::where('session_id', session()->getId())->first();
+
+        $totalPrice = 0;
+        foreach ($cart->products as $product) {
+            $totalPrice += $product->price;
+        }
+
+        return view('testing.checkout', compact('cart', 'totalPrice'));
+
+    }
+
+    public function shipping(Request $request) {
+        /* */
     }
 }
