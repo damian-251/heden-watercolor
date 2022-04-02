@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use App\Models\Cart;
+use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class TestDbController extends Controller
@@ -116,6 +119,82 @@ class TestDbController extends Controller
     }
 
     public function shipping(Request $request) {
-        /* */
+        /* Guardamos la dirección en la tabla dirección 
+            A partir del país deberíamos obtener los gastos de envío 
+            Aquí ya se pondría el botón pagar*/
+
+        $request->validate([
+            'fullName' => 'required',
+            'address_line1' => 'required',
+            'phone' => 'required',
+            'postal_code' => 'required',
+            'city'=> 'required',
+            'province' => 'required',
+            'country' => 'required'
+        ]);
+        //Metemos los datos en la tabla de direcciones
+        $address= new Address();
+        $address->line1 = $request->address_line1;
+        if (isset( $request->address_line2)) {
+            $address->line2 = $request->address_line2;
+        }
+        $address->full_name = $request->fullName;
+        $address->phone = $request->phone;
+        $address->postal_code = $request->postal_code;
+        $address->city = $request->city;
+        $address->province = $request->province;
+        $address->country = $request->country;
+        $address->session_id = session()->getId();
+        $address->save();
+        
+        $shippingEur = 5;
+        $cart = Cart::where('session_id', session()->getId())->first();
+
+        $totalPrice = 0;
+        foreach ($cart->products as $product) {
+            $totalPrice += $product->price;
+        }
+
+        $finalPrice = $totalPrice + $shippingEur;
+        return view('testing.shipping', compact('cart', 'shippingEur', 'finalPrice', 'totalPrice'));
+    }
+
+    public function paynow(Request $request) {
+
+        /*
+        Se realiza la lógica de pago y se pone en orders
+        */
+        //Iniciamos una transacción, ponemos los datos en orders y
+        //borramos el carrito
+        DB::transaction(function () {
+            $address = Address::where('session_id', session()->getId())->latest()->first();
+            $cart = Cart::where('session_id', session()->getId())->first();
+            $order = new Order();
+            $shippingEur = 5;
+            $totalPrice = 0;
+            foreach ($cart->products as $product) {
+                $totalPrice += $product->price;
+            }
+            $finalPrice = $totalPrice + $shippingEur;
+            $order->sub_total = $totalPrice;
+            $order->total_price = $finalPrice;
+            $order->shipping_price = $shippingEur;
+            $order->payment_method = "stripe";  
+            $order->status = "paid";
+            $order->address()->associate($address);
+            $order->save(); //Guardamos para que pueda generar el id
+            $order->products()->attach($cart->products);
+            $order->finshed = true;
+            //Borramos el carrito
+            $order->save();
+            $cart->delete();  //TODO: Estaría bien mirar softdeletes
+
+            //Probando el log
+            Log::channel('custom')->debug("Usuario " . $order->address->session_id . " ha realizado el pedido con id" . $order->id);
+
+        });
+
+
+        return view('home');
     }
 }

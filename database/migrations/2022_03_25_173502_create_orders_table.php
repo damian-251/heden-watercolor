@@ -22,6 +22,7 @@ return new class extends Migration
             $table->float('shipping_price');
             $table->string('payment_method');
             $table->boolean('finished')->default(false); //indica si se ha acabado la orden
+            $table->bigInteger('address_id'); //fk tabla address
         });
     }
 

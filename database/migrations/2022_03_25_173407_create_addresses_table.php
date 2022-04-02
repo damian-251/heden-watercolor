@@ -21,7 +21,10 @@ return new class extends Migration
             $table->string('postal_code');
             $table->string('city');
             $table->string('country');
-            $table->bigInteger('user_id'); //Fk
+            $table->bigInteger('user_id')->nullable(); //Fk
+            $table->string('session_id')->nullable(); //Por si un usuario hace la compra sin cuenta
+            $table->string('full_name');
+            $table->string('phone');
         });
     }
 

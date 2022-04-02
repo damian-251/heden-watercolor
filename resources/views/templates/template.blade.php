@@ -15,7 +15,7 @@
             <ul class="navbar-nav">
                 <li class="nav-item"> <a class="nav-link" href="#">{{ __('Home') }}</a> </li>
                 <li class="nav-item"> <a class="nav-link" href="#">{{ __('Portfolio') }}</a> </li>
-                <li class="nav-item"> <a class="nav-link" href="#">{{ __('Shop') }}</a> </li>
+                <li class="nav-item"> <a class="nav-link" href="{{ route('test.shop') }}">{{ __('Shop') }}</a> </li>
                 <li class="nav-item"> <a class="nav-link" href="#">{{ __('Exhibitions') }}</a> </li>
                 <li class="nav-item"> <a class="nav-link" href="#">{{ __('Contact') }}</a> </li>
                 <li class="nav-item"> <a class="nav-link" href="{{route('cart.shop')}}">{{ __('Shopping Cart') }}</a> </li>

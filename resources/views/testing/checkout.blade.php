@@ -11,16 +11,16 @@
         <hr>
     @endforeach
     <p>Subtotal: {{$totalPrice}}</p>
-    <form action="" method="POST">
+    <form action="{{ route('testing.shipping')}}" method="POST">
         @csrf 
         <input type="text" name="fullName" placeholder="{{ __('Write your full name') }}" required>
         <input type="text" name="address_line1" placeholder="{{ __('Write your address (first line)') }}" required>
         <input type="text" name="address_line2" placeholder="{{ __('Write your address (second line) (optional)') }}">
         <input type="text" name="phone" placeholder="{{ __('Phone number with international code') }}" required>
         <input type="text" name="postal_code" placeholder={{ __('Postal code') }} required>
-        <input type="text" name="postal_code" placeholder={{ __('City') }} required>
-        <input type="text" name="postal_code" placeholder={{ __('Province') }} required>
-        <input type="text" name="postal_code" placeholder={{ __('Country') }} required>
+        <input type="text" name="city" placeholder={{ __('City') }} required>
+        <input type="text" name="province" placeholder={{ __('Province') }} required>
+        <input type="text" name="country" placeholder={{ __('Country') }} required>
         <p>{{ __('In the next screen will appear the shipping cost and the final price') }}</p>
         <input type="submit" value="{{ __('Select payment method') }}">
     </form>
