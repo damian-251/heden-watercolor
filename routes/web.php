@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TestDbController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -68,3 +69,11 @@ Route::post('add-to-cart', [TestDbController::class, 'addToCart'])->name('cart.a
 Route::post('checkout', [TestDbController::class, 'checkout'])->name('test.checkout');
 Route::post('shipping', [TestDbController::class, 'shipping'])->name('testing.shipping');
 Route::post('paynow', [TestDbController::class, 'paynow'])->name('testing.paynow');
+
+
+
+Auth::routes(['verify' => true]);
+
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+
