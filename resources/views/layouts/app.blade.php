@@ -33,7 +33,12 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-
+                        <li class="nav-item"> <a class="nav-link" href="#">{{ __('Home') }}</a> </li>
+                        <li class="nav-item"> <a class="nav-link" href="#">{{ __('Portfolio') }}</a> </li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('test.shop') }}">{{ __('Shop') }}</a> </li>
+                        <li class="nav-item"> <a class="nav-link" href="#">{{ __('Exhibitions') }}</a> </li>
+                        <li class="nav-item"> <a class="nav-link" href="#">{{ __('Contact') }}</a> </li>
+                        <li class="nav-item"> <a class="nav-link" href="{{route('cart.shop')}}">{{ __('Shopping Cart') }}</a> </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -70,6 +75,25 @@
                                 </div>
                             </li>
                         @endguest
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                {{__('Language') }}
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                @foreach(config('app.available_locales') as $locale_name => $available_locale)
+                                {{-- @if($available_locale === Config::get('app.locale'))
+                                    <span class="ml-2 mr-2 text-gray-700">{{ $locale_name }}</span>
+                                @else
+                                    <a class="ml-1 underline ml-2 mr-2" href="language/{{ $available_locale }}">
+                                        <span>{{ $locale_name }}</span>
+                                    </a>
+                                @endif --}}
+                                 <a class="dropdown-item" href="language/{{ $available_locale }}">{{ $locale_name }}</a>
+                                @endforeach
+                            </div>
+                        </li>
+
                     </ul>
                 </div>
             </div>

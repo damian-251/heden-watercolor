@@ -1,6 +1,6 @@
-@extends('templates/template')
+@extends('layouts.app')
 
-@section('main')
+@section('content')
     <h1>Cesta de la compra test</h1>
 
     @foreach ($cart->products as $product)
