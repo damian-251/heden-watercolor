@@ -1,6 +1,6 @@
-@extends('templates/template')
+@extends('layouts.app')
 
-@section('main')
+@section('content')
     <h1>This is a test for the database</h1>
     <h2>Lista de productos</h2>
     @foreach ($products as $product)

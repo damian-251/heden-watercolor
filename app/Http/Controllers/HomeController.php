@@ -13,6 +13,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
+        //Verfied
         $this->middleware(['auth', 'verified']);
     }
 
