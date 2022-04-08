@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TestDbController;
 use Illuminate\Support\Facades\App;
@@ -75,5 +76,12 @@ Route::post('paynow', [TestDbController::class, 'paynow'])->name('testing.paynow
 Auth::routes(['verify' => true]);
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+//Panel de Control del Administrador
+Route::get('admin/admin-cp', [AdminController::class, 'index'])->name('admin-cp');
+//Creación de etiquetas
+Route::get('admin/create-tag', [AdminController::class, 'createTag'])->name('create-tag');
+    Route::post('admin/create-tag-p', [AdminController::class, 'createTagP'])->name('create-tag-p');
+//Edición de etiquetas
 
 

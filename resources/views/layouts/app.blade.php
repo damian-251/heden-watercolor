@@ -68,11 +68,14 @@
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
+                                        
                                     <a class="dropdown-item" href="#">  {{ __('User settings') }} </a>
-                                    @if (Auth::user()->isAdmin == true) {{--Mostramos el panel de administración a los administradores --}}
-                                        <a class="dropdown-item" href="#">  {{ __('Administration Panel') }} </a>
+
+                                    @if (Auth::user()->is_admin) {{--Mostramos el panel de administración a los administradores --}}
+                                        <a class="dropdown-item" href="{{ route('admin-cp') }}">  {{ __('Administration Panel') }} </a>
                                     @endif
-                                    
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none"></form>
+
                                 </div>
                             </li>
                         @endguest

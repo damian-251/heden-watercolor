@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('phone'); //Número de teléfono
-            $table->boolean('isAdmin')->default(false); //El valor true se pondrá de forma manual al administrador
+            //$table->string('phone'); //Número de teléfono (ya lo hemos puesto en dirección)
+            $table->boolean('is_admin')->default(false); //El valor true se pondrá de forma manual al administrador
             $table->rememberToken();
             $table->timestamps();
         });

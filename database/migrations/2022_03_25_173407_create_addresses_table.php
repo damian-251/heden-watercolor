@@ -24,6 +24,7 @@ return new class extends Migration
             $table->bigInteger('user_id')->nullable(); //Fk
             $table->string('session_id')->nullable(); //Por si un usuario hace la compra sin cuenta
             $table->string('full_name');
+            $table->string('email')->nullable(); //Para poder conectar con los visitantes que han realizado pedido
             $table->string('phone');
         });
     }
