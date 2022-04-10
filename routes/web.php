@@ -83,5 +83,6 @@ Route::get('admin/admin-cp', [AdminController::class, 'index'])->name('admin-cp'
 Route::get('admin/create-tag', [AdminController::class, 'createTag'])->name('create-tag');
     Route::post('admin/create-tag-p', [AdminController::class, 'createTagP'])->name('create-tag-p');
 //Edición de etiquetas
-
+Route::get('admin/edit-tag', [AdminController::class, 'editTag'])->name('edit-tag');
+    Route::post('admin/edit-tag-p', [AdminController::class, 'editTagP'])->name('edit-tag-p');
 
