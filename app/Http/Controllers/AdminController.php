@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Colour;
+use App\Models\Colour_tr;
 use App\Models\Tag;
 use App\Models\Tag_tr;
 use Illuminate\Contracts\Session\Session;
@@ -34,7 +36,13 @@ class AdminController extends Controller {
         ]);
 
         $tag = new Tag(); //Generamos una nueva etiqueta para obtener su id
+        //Comprobamos si es una etiqueta especial (para luego poder aplicarse en la sección temporal)
+        if($request->isSpecial == 'true') {
+            $tag->isSpecial = true;
+            Log::channel('custom')->debug('La etiqueta tiene un valor isSpecial de ' . $tag->isSpecial);
+        }
         $tag->save();
+
         $tagId = $tag->id;
 
         $tagEn = new Tag_tr();
@@ -126,6 +134,94 @@ class AdminController extends Controller {
         }
        
         return back()->with('message', 'Tag ' . $request->tag_en . ' updated!');
+
+    }
+
+    /**
+     * Carga la página con el formulario para la creación de un nuevo color
+     */
+    public function createColour() {
+        return view('admin.create-colour');
+    }
+
+    /**
+     * Inserta el nuevo color en la tabla de color y sus traducciones
+     */
+    public function createColourP(Request $request) {
+        
+        //Obligatorio el color en inglés
+        $validated = $request->validate([
+            'colour_en' => 'required'
+        ]);
+
+        $colour = new Colour(); //Generamos una nueva etiqueta para obtener su id
+        //Comprobamos si es una etiqueta especial (para luego poder aplicarse en la sección temporal)
+        $colour->save();
+
+        $colourId = $colour->id;
+
+        $colourEn = new Colour_tr();
+        $colourEn->language_code = "en";
+        $colourEn->colour_id = $colourId;
+        $colourEn->name = $request->colour_en;
+        $colourEn->save();
+
+        //Los colores en otros idiomas serán opcionales
+        if (isset($request->colour_es)) {
+            $colourEn = new Colour_tr();
+            $colourEn->language_code = "es";
+            $colourEn->colour_id = $colourId;
+            $colourEn->name = $request->colour_es;
+            $colourEn->save();
+        }
+
+        if (isset($request->colour_no)) {
+            $colourNo = new Colour_tr();
+            $colourNo->language_code = "no";
+            $colourNo->colour_id = $colourId;
+            $colourNo->name = $request->colour_no;
+            $colourNo->save();
+        }
+
+        return back()->with('message', 'Colour ' . $request->colour_en . " added!");
+
+    }
+
+    public function editColour() {
+        $colours = Colour::all();
+        return view('admin.edit-colour', compact('colours'));
+    }
+
+    public function editColourP(Request $request) {
+        //El valor en inglés es obligatorio. El id es obligatorio
+        $validated = $request->validate([
+            'colour_en' => 'required',
+            'colour_id' => 'required'
+        ]);
+
+        //Recuperamos los valores de la tabla de la traducción
+        $colourEn = Colour_tr::where('colour_id', $request->colour_id)->where('language_code', 'en');
+        $colourEn->update([
+            'name' => $request->colour_en
+        ]);
+
+
+        if(isset($request->colour_es)) {
+
+            $colourEs = Colour_tr::where('colour_id', $request->colour_id)->where('language_code', 'es');
+            $colourEs->update([
+                'name' => $request->colour_es
+            ]);
+        }
+
+        if(isset($request->colour_no)) {
+            $tagNo = Colour_tr::where('colour_id', $request->colour_id)->where('language_code', 'no');
+            $tagNo->update([
+                'name' => $request->colour_no
+            ]);
+        }
+        
+        return back()->with('message', 'Colour ' . $request->colour_en . ' updated!');
 
     }
     

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Colour;
+use App\Models\Colour_tr;
 use App\Models\Tag;
 use App\Models\Tag_tr;
 use Illuminate\Http\Request;
@@ -12,8 +14,16 @@ class ApiController extends Controller
      * Devuelve los datos de una etiqueta dado su id
      */
     public function tag($id = 1) {
-        $tag = Tag_tr::where('tag_id', $id)->get();
+        $tag = Tag_tr::select('name', 'language_code')->where('tag_id', $id)->get();
         return $tag;
+    }
+
+    /**
+     * Devuelve los datos de un color dado el id
+     */
+    public function colour($id = 1) {
+        $colour = Colour_tr::select('name', 'language_code')->where('colour_id', $id)->get();
+        return $colour;
     }
 
 
