@@ -28,7 +28,7 @@ class TestDbController extends Controller
         //Parecida a la vista anterior solo que aquí solo se mostrarán los que tengan el atributo de sold en false
         //Podríamos cambiar el sold por disponible, así sería más adecuado
 
-        $products = Product::where('sold' , 0)->get(); //Aparacerán los que no estén vendidos, o no estén en venta
+        $products = Product::where('available' , 1)->get(); //Aparacerán los que no estén vendidos, o no estén en venta
         $language = Config::get('app.locale'); //El idioma que tenemos en este momento para mostrar solo los datos en ese idioma
 
         return view('testing.shop', compact('products', 'language'));

@@ -15,12 +15,15 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->float('price')->nullable(); //Si no está a la venta no tendrá precio
-            $table->boolean('sold'); //Los que no estén a la venta también se marcarán como vendidos
+            $table->float('price_eur')->nullable(); //Precio en euros
+            $table->float('price_nok')->nullable(); //Precio en coronas noruegas
+            $table->boolean('available')->default(false); //Indica si está a la venta o no
             $table->date('creation_date'); //Fecha en la que se pintó la obra
             $table->integer('width')->nullable();
             $table->integer('height')->nullable();
-            $table->string('img_path'); //Ruta de la imagen
+            $table->string('img_path_jpg'); //Ruta de la imagen en jpg
+            $table->string('img_path_webp'); //Ruta de la imagen en webp (formato prioritario para la carga)
+            $table->bigInteger('location_id')->nullable(); //Id de la tabla de localización (en qué lugar se encuentra la obra ambientada)
             $table->timestamps();
         });
     }
