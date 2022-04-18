@@ -4,11 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Colour;
 use App\Models\Colour_tr;
+use App\Models\Location;
+use App\Models\Product;
+use App\Models\Product_tr;
 use App\Models\Tag;
 use App\Models\Tag_tr;
-use Illuminate\Contracts\Session\Session;
+
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class AdminController extends Controller {
 
@@ -223,6 +228,126 @@ class AdminController extends Controller {
         
         return back()->with('message', 'Colour ' . $request->colour_en . ' updated!');
 
+    }
+
+    public function createProduct(){
+        //Para crear el producto necesitamos recuperar la lista de  nombres colores, de localizaciones y de etiquetas
+
+        $colours = Colour::all();
+        $locations = Location::all();
+        $tags = Tag::where('isSpecial', false)->get();
+        $specialTags = Tag::where('isSpecial', true)->get();
+        return view('admin.create-product', compact('colours', 'locations', 'tags', 'specialTags'));
+    }
+
+    public function createProductP(Request $request) {
+
+        $validated = $request->validate([
+            'title_en' => 'required',
+            'description_en' => 'required',
+            'width' => 'required',
+            'height' => 'required',
+            'image_jpg' => 'required|mimes:jpeg|max:200',
+            'image_webp' => 'mimes:webp|max:100'
+        ]);
+
+        //Creamos el nuevo producto
+        $product = new Product();
+        //Primero agregamos los datos propios de la tabla producto.
+
+        // ---- PRECIO ----
+
+        if (isset($request->price_nok) && $request->price_nok > 0) {
+            $product->price_nok = $request->price_nok;
+            $product->available = true;
+        }else {
+            //Si no tiene precio o es 0 significa que no está a la venta
+            $product->available = false;
+        }
+
+        if (isset($request->price_eur) && $request->price_eur > 0) {
+            $product->price_eur = $request->price_eur;
+            $product->available = true;
+        }else {
+            //Si no tiene precio o es 0 significa que no está a la venta
+            $product->available = false;
+        }
+
+        // ---- Fecha de creación ---- 
+
+        $product->creation_date = $request->creation_date;
+
+        // ---- Localización de la obra ---- 
+
+        if (isset($request->location) && $request->location != "no_location") {
+            $product->location()->associate(Location::findOrFail($request->location));
+        }
+        //Si no se cumple se deja el valor por defecto que es nulo
+
+
+
+        //Altura y anchura
+
+        $product->height = $request->height;
+        $product->width = $request->width;
+        
+
+        // --- IMÁGENES DEL PRODUCTO ----
+
+        $nombre = Str::random(20);
+
+        //jpg
+        $image_jpg_name = $nombre . "_jpg.jpg";
+        $path = base_path() . '/public/assets/images/jpg';
+        $request->file('image_jpg')->move($path,$image_jpg_name);  
+        $product->img_path_jpg = 'assets/images/jpg/' .$image_jpg_name;
+        Log::channel('custom')->debug("Imagen jpg");
+
+        //webp
+        if (isset($request->image_webp)) {
+            $image_webp_name = $nombre . "_webp.webp";
+            $path = base_path() . '/public/assets/images/webp';
+            $request->file('image_webp')->move($path,$image_webp_name);  
+            $product->img_path_webp = 'assets/images/webp/' .$image_webp_name;
+            Log::channel('custom')->debug("Imagen webp");
+        }
+
+        $product->save();
+
+        //Ahora rellenamos los datos correspondientes en la tabla de traducciones
+
+        //Traducción al inglés
+        $product_en = new Product_tr();
+        $product_en->language_code = "en";
+        $product_en->name = $request->title_en;
+        $product_en->description = $request->description_en;
+        $product_en->product_id = $product->id;
+        $product_en->save();
+
+        //Traducción al Español
+
+        if (isset($request->title_es)) {
+            $product_es = new Product_tr();
+            $product_es->language_code = "es";
+            $product_es->name = $request->title_es;
+            $product_es->description = $request->description_es;
+            $product_es->product_id = $product->id;
+            $product_es->save();
+        }
+
+        //Traducción al noruego
+
+        if (isset($request->title_no)) {
+            $product_no = new Product_tr();
+            $product_no->language_code = "no";
+            $product_no->name = $request->title_no;
+            $product_no->description = $request->description_no;
+            $product_no->product_id = $product->id;
+            $product_no->save();
+        }
+
+        //TODO: Completar función
+        return back()->with('message', 'Product created!');
     }
     
 }

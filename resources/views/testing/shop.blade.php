@@ -5,7 +5,13 @@
     <h2>Lista de productos</h2>
     @foreach ($products as $product)
         {{__('Product')}} {{$product->id}}
-        <img src="{{ asset('assets/images/'. $product->id . '-watercolor.jpg') }}">
+
+        <picture>
+        <source srcset="{{ asset($product->img_path_webp) }}" type="image/webp">
+        <source srcset="{{ asset($product->img_path_jpg) }}" type="image/jpeg"> 
+        <img src="{{ asset($product->img_path_jpg) }}" alt="Product image">
+        </picture>
+          
         @foreach ($product->product_translation as $translation)
 
             @if ($translation->language_code == $language)

@@ -40,8 +40,8 @@ class ProductSeeder extends Seeder
             $path = public_path() . '/assets/images';
             $image = $faker->image($path, 500, 500, 'watercolor');
             rename($image, public_path() . '/assets/images/' . $image_name);
-            $product->img_path_jpg = public_path() . '/assets/images/' . $image_name;
-            $product->img_path_webp = public_path() . '/assets/images/' . $image_name;
+            $product->img_path_jpg = 'assets/images/' . $image_name;
+            $product->img_path_webp = 'assets/images/' . $image_name;
             $product->save();
 
             //Añadimos etiquetas

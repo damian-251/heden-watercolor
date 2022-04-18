@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Cache\TagSet;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -17,6 +18,7 @@ class DatabaseSeeder extends Seeder
         //\App\Models\User::factory(10)->create();
         $this->call(LocationSeeder::class);
         $this->call(ColourSeeder::class);
+        $this->call(TagSeeder::class);
         $this->call(ProductSeeder::class);
     }
 }
