@@ -100,6 +100,14 @@ Route::post('admin/edit-colour-p', [AdminController::class, 'editColourP'])->nam
 Route::get('admin/create-product', [AdminController::class, 'createProduct'])->name('create-product');
 Route::post('admin/create-product-p', [AdminController::class, 'createProductP'])->name('create-product-p');
 
+
+//Vista de todos los productos para su edición
+Route::get('admin/product-list', [AdminController::class, 'productList'])->name('product-list');
+
+//Se elimina el producto seleccionado pasando su identificador como parámetro
+Route::delete('admin/remove-product/{id}', [AdminController::class, 'deleteProduct'])->name('delete-product');
+
 //Edición de productos
-Route::get('admin/edit-product', [AdminController::class, 'editProduct'])->name('edit-product');
-Route::post('admin/edit-product-p', [AdminController::class, 'editProductP'])->name('edit-product-p');
+Route::get('admin/edit-product/{id}', [AdminController::class, 'editProduct'])->name('edit-product');
+Route::put('admin/edit-product-p/{id}', [AdminController::class, 'editProductP'])->name('edit-product-p');
+

@@ -18,6 +18,10 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/global.css') }}" rel="stylesheet">
+    <!-- Aquí irán las hojas de estilo secundarias que se añadan -->
+    @yield('styles')
+
 </head>
 <body>
     <div id="app">

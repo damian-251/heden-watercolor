@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\CreateProductException;
 use App\Models\Colour;
 use App\Models\Colour_tr;
 use App\Models\Location;
@@ -9,9 +10,9 @@ use App\Models\Product;
 use App\Models\Product_tr;
 use App\Models\Tag;
 use App\Models\Tag_tr;
-
+use Faker\Core\Color;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -159,6 +160,8 @@ class AdminController extends Controller {
             'colour_en' => 'required'
         ]);
 
+        DB::beginTransaction();
+
         $colour = new Colour(); //Generamos una nueva etiqueta para obtener su id
         //Comprobamos si es una etiqueta especial (para luego poder aplicarse en la sección temporal)
         $colour->save();
@@ -257,21 +260,27 @@ class AdminController extends Controller {
 
         // ---- PRECIO ----
 
-        if (isset($request->price_nok) && $request->price_nok > 0) {
-            $product->price_nok = $request->price_nok;
-            $product->available = true;
+        if (isset($request->price_nok) && isset($request->price_eur)) {
+
+            if (isset($request->price_nok) && $request->price_nok > 0) {
+                $product->price_nok = $request->price_nok;
+                $product->available = true;
+            }else {
+                //Si no tiene precio o es 0 significa que no está a la venta
+                $product->available = false;
+            }
+    
+            if (isset($request->price_eur) && $request->price_eur > 0) {
+                $product->price_eur = $request->price_eur;
+                $product->available = true;
+            }else {
+                //Si no tiene precio o es 0 significa que no está a la venta
+                $product->available = false;
+            }
         }else {
-            //Si no tiene precio o es 0 significa que no está a la venta
-            $product->available = false;
+            throw new CreateProductException('You have to specify both eur and nok');
         }
 
-        if (isset($request->price_eur) && $request->price_eur > 0) {
-            $product->price_eur = $request->price_eur;
-            $product->available = true;
-        }else {
-            //Si no tiene precio o es 0 significa que no está a la venta
-            $product->available = false;
-        }
 
         // ---- Fecha de creación ---- 
 
@@ -312,7 +321,17 @@ class AdminController extends Controller {
             Log::channel('custom')->debug("Imagen webp");
         }
 
+        //Guardamos para que se genera la id para poder añadir las etiquetas y lo colores
         $product->save();
+
+
+        //Etiquetas
+        $product->tags()->attach($request->tags);
+
+        //Colores
+        $product->colours()->attach($request->tags);
+
+        
 
         //Ahora rellenamos los datos correspondientes en la tabla de traducciones
 
@@ -346,8 +365,196 @@ class AdminController extends Controller {
             $product_no->save();
         }
 
-        //TODO: Completar función
+        DB::commit();
+
         return back()->with('message', 'Product created!');
+    }
+
+
+    //Edición de productos
+
+    /**
+     * Función que editar un producto seleccionado
+     */
+    public function editProduct($id) {
+        //Producto que queremos editar
+        $product = Product::findOrFail($id);
+        $productEn = Product_tr::where('product_id', $id)->where('language_code', 'en')->first();
+        $productEs = Product_tr::where('product_id', $id)->where('language_code', 'es')->first();
+        $productNo = Product_tr::where('product_id', $id)->where('language_code', 'no')->first();
+        // Log::channel('custom')->debug("Producto tr");
+        // Log::channel('custom')->debug($productEn);
+        $colours = Colour::all();
+        $tags = Tag::where('isSpecial', false)->get();
+        $specialTags = Tag::where('isSpecial', true)->get();
+        $locations = Location::all();
+        //TODO: Completar función 
+        return view('admin.edit-product', compact('product', 'productEn', 'productEs', 
+        'productNo', 'colours','tags','locations', 'specialTags'));
+    }
+
+    /**
+     * Muestra una lista de productos con acciones de editar y borrar
+     */
+    public function productList() {
+
+        $products = Product::all();
+
+        return view('admin.product-list', compact('products'));
+
+    }
+
+    /**
+     * Proceso de edición de producto, recibimos los datos procedentes
+     * del formulario de edición
+     */
+    public function  editProductP(Request $request) {
+        $validated = $request->validate([
+            'title_en' => 'required',
+            'description_en' => 'required',
+            'width' => 'required',
+            'height' => 'required',
+        ]);
+
+        $product = Product::findOrFail($request->id);
+        //Primero agregamos los datos propios de la tabla producto.
+
+        //Iniciamos la transacción para que si algo falla en el proceso no se realice la edición
+        DB::beginTransaction();
+
+        // ---- PRECIO ----
+
+        if (isset($request->price_nok) && isset($request->price_eur)) {
+
+            if (isset($request->price_nok) && $request->price_nok > 0) {
+                $product->price_nok = $request->price_nok;
+                $product->available = true;
+            }else {
+                //Si no tiene precio o es 0 significa que no está a la venta
+                $product->available = false;
+            }
+    
+            if (isset($request->price_eur) && $request->price_eur > 0) {
+                $product->price_eur = $request->price_eur;
+                $product->available = true;
+            }else {
+                //Si no tiene precio o es 0 significa que no está a la venta
+                $product->available = false;
+            }
+        }else {
+            throw new CreateProductException('You have to specify both eur and nok');
+        }
+
+
+        // ---- Fecha de creación ---- 
+
+        $product->creation_date = $request->creation_date;
+
+        // ---- Localización de la obra ---- 
+
+        if (isset($request->location) && $request->location != "no_location") {
+            $product->location()->associate(Location::findOrFail($request->location));
+        }
+        //Si no se cumple se deja el valor por defecto que es nulo
+
+
+
+        //Altura y anchura
+
+        $product->height = $request->height;
+        $product->width = $request->width;
+        
+
+        // --- IMÁGENES DEL PRODUCTO ----
+
+        $nombre = Str::random(20);
+
+        if(isset($request->image_jpg)) {
+
+            //jpg
+            $image_jpg_name = $nombre . "_jpg.jpg";
+            $path = base_path() . '/public/assets/images/jpg';
+            $request->file('image_jpg')->move($path,$image_jpg_name);  
+            $product->img_path_jpg = 'assets/images/jpg/' .$image_jpg_name;
+            Log::channel('custom')->debug("Imagen jpg");
+        }
+
+        if (isset($request->image_webp)) {
+            $image_webp_name = $nombre . "_webp.webp";
+            $path = base_path() . '/public/assets/images/webp';
+            $request->file('image_webp')->move($path,$image_webp_name);  
+            $product->img_path_webp = 'assets/images/webp/' .$image_webp_name;
+            Log::channel('custom')->debug("Imagen webp");
+        }
+  
+
+
+        //Ahora rellenamos los datos correspondientes en la tabla de traducciones
+
+        //Traducción al inglés
+
+        $product_en = Product_tr::where('product_id', $product->id)->where('language_code', 'en')->first();
+        $product_en->name = $request->title_en;
+        $product_en->description = $request->description_en;
+        $product_en->save();
+
+        //Traducción al Español
+
+        if (isset($request->title_es)) {
+            $product_es = Product_tr::where('product_id', $product->id)->where('language_code', 'es')->first();
+
+            if (!$product_es) { //Si la query no devuelve nada se crea
+                $product_es = new Product_tr();
+                $product_es->language_code = "es";
+                $product_es->product_id = $product->id;
+            }
+
+            $product_es->name = $request->title_es;
+            $product_es->description = $request->description_es;
+            $product_es->save();
+        }
+
+        //Traducción al noruego
+
+        if (isset($request->title_no)) {
+
+            $product_no = Product_tr::where('product_id', $product->id)->where('language_code', 'no')->first();
+
+            if (!$product_no) { //Si la query no devuelve nada se crea
+                $product_no = new Product_tr();
+                $product_no->language_code = "no";
+                $product_no->product_id = $product->id;
+            }
+            $product_no->name = $request->title_no;
+            $product_no->description = $request->description_no;
+            $product_no->save();
+        }
+
+        //Etiquetas
+        $product->tags()->detach();
+        $product->tags()->attach($request->tags);
+
+        //Colores
+        $product->colours()->detach();
+        $product->colours()->attach($request->tags);
+
+        $product->save();
+
+        //Guardamos los cambios
+        DB::commit();
+
+        return back()->with('message', 'Product updated!');
+
+    }
+
+    /**
+     * Función que elimina un producto pasándole el id del mismo
+     */
+    public function deleteProduct($id) {
+        $product = Product::findOrFail($id);
+        $product->delete(); //Hemos configurado softdelete
+        //TODO: Faltaría borrar/modificar las asociaciones que tuviese es producto
+        return back()->with('message', 'Product deleted!');
     }
     
 }

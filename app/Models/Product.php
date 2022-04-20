@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     public function product_translation() {
         return $this->hasMany(Product_tr::class);
@@ -30,6 +32,6 @@ class Product extends Model
     }
 
     public function colours() {
-        return $this->hasMany(Colour::class);
+        return $this->belongsToMany(Colour::class, 'colour_product');
     }
 }
