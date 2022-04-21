@@ -111,3 +111,10 @@ Route::delete('admin/remove-product/{id}', [AdminController::class, 'deleteProdu
 Route::get('admin/edit-product/{id}', [AdminController::class, 'editProduct'])->name('edit-product');
 Route::put('admin/edit-product-p/{id}', [AdminController::class, 'editProductP'])->name('edit-product-p');
 
+//Creación de localizaciones
+Route::get('admin/create-location', [AdminController::class, 'createLocation'])->name('create-location');
+Route::post('admin/create-location-p', [AdminController::class, 'createLocationP'])->name('create-location-p');
+
+//Edición de localizaciones
+Route::get('admin/edit-location', [AdminController::class, 'editLocation'])->name('edit-location');
+Route::put('admin/edit-location-p', [AdminController::class, 'editLocationP'])->name('edit-location-p');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Colour;
 use App\Models\Colour_tr;
+use App\Models\Location_tr;
 use App\Models\Tag;
 use App\Models\Tag_tr;
 use Illuminate\Http\Request;
@@ -24,6 +25,14 @@ class ApiController extends Controller
     public function colour($id = 1) {
         $colour = Colour_tr::select('name', 'language_code')->where('colour_id', $id)->get();
         return $colour;
+    }
+
+    /**
+     * Devuelve los datos de de una localización dado el id
+     */
+    public function location($id = 1) {
+        $location = Location_tr::select('name', 'language_code')->where('location_id', $id)->get();
+        return $location;
     }
 
 

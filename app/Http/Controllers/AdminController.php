@@ -6,6 +6,7 @@ use App\Exceptions\CreateProductException;
 use App\Models\Colour;
 use App\Models\Colour_tr;
 use App\Models\Location;
+use App\Models\Location_tr;
 use App\Models\Product;
 use App\Models\Product_tr;
 use App\Models\Tag;
@@ -555,6 +556,96 @@ class AdminController extends Controller {
         $product->delete(); //Hemos configurado softdelete
         //TODO: Faltaría borrar/modificar las asociaciones que tuviese es producto
         return back()->with('message', 'Product deleted!');
+    }
+
+
+        /**
+     * Carga la página con el formulario para la creación de una nueva localización
+     */
+    public function createLocation() {
+        return view('admin.create-location');
+    }
+
+    /**
+     * Inserta la nueva localización en la tabla de color y sus traducciones
+     */
+    public function createLocationP(Request $request) {
+        
+        $validated = $request->validate([
+            'location_en' => 'required'
+        ]);
+
+        DB::beginTransaction();
+
+        $location = new Location(); //Generamos una nueva etiqueta para obtener su id
+        $location->save();
+
+        $locationId = $location->id;
+
+        $locationEn = new Location_tr();
+        $locationEn->language_code = "en";
+        $locationEn->location_id = $locationId;
+        $locationEn->name = $request->location_en;
+        $locationEn->save();
+
+        if (isset($request->location_es)) {
+            $locationEn = new Location_tr();
+            $locationEn->language_code = "es";
+            $locationEn->location_id = $locationId;
+            $locationEn->name = $request->location_es;
+            $locationEn->save();
+        }
+
+        if (isset($request->location_no)) {
+            $locationNo = new Location_tr();
+            $locationNo->language_code = "no";
+            $locationNo->location_id = $locationId;
+            $locationNo->name = $request->location_no;
+            $locationNo->save();
+        }
+
+        DB::commit();
+
+        return back()->with('message', 'Location ' . $request->location_en . " added!");
+
+    }
+
+    public function editLocation() {
+        $locations = Location::all();
+        return view('admin.edit-location', compact('locations'));
+    }
+
+    public function editLocationP(Request $request) {
+        //El valor en inglés es obligatorio. El id es obligatorio
+        $validated = $request->validate([
+            'location_en' => 'required',
+            'location_id' => 'required'
+        ]);
+
+        //Recuperamos los valores de la tabla de la traducción
+        $locationEn = Location_tr::where('location_id', $request->location_id)->where('language_code', 'en');
+        $locationEn->update([
+            'name' => $request->location_en
+        ]);
+
+
+        if(isset($request->location_es)) {
+
+            $locationEs = Location_tr::where('location_id', $request->location_id)->where('language_code', 'es');
+            $locationEs->update([
+                'name' => $request->location_es
+            ]);
+        }
+
+        if(isset($request->location_no)) {
+            $locationNo = Location_tr::where('location_id', $request->location_id)->where('language_code', 'no');
+            $locationNo->update([
+                'name' => $request->location_no
+            ]);
+        }
+        
+        return back()->with('message', 'Location ' . $request->colour_en . ' updated!');
+
     }
     
 }

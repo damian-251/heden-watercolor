@@ -13,11 +13,28 @@
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav me-auto">
                 <li class="nav-item"> <a class="nav-link" href="#">{{ __('Home') }}</a> </li>
-                <li class="nav-item"> <a class="nav-link" href="#">{{ __('Portfolio') }}</a> </li>
-                <li class="nav-item"> <a class="nav-link" href="{{ route('test.shop') }}">{{ __('Shop') }}</a> </li>
-                <li class="nav-item"> <a class="nav-link" href="#">{{ __('Exhibitions') }}</a> </li>
-                <li class="nav-item"> <a class="nav-link" href="#">{{ __('Contact') }}</a> </li>
-                <li class="nav-item"> <a class="nav-link" href="{{route('cart.shop')}}">{{ __('Shopping Cart') }}</a> </li>
+                <li class="nav-item dropdown">
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        {{__('Create') }}
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{route('create-tag')}}">{{__('Tag')}}</a>
+                        <a class="dropdown-item" href="{{route('create-colour')}}">{{__('Colour')}}</a>
+                        <a class="dropdown-item" href="{{route('create-location')}}">{{__('Location')}}</a>
+                        <a class="dropdown-item" href="{{route('create-product')}}">{{__('Product')}}</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        {{__('Edit') }}
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{route('edit-tag')}}">{{__('Tag')}}</a>
+                        <a class="dropdown-item" href="{{route('edit-colour')}}">{{__('Colour')}}</a>
+                        <a class="dropdown-item" href="{{route('edit-location')}}">{{__('Location')}}</a>
+                        <a class="dropdown-item" href="{{route('product-list')}}">{{__('Product')}}</a>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>
