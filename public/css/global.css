@@ -1,2 +1,116 @@
 /* Archivo de configuración CSS global, después cada página tendrá su archivo
 específico si así se requiere */
+
+@font-face {
+    font-family: Alegreya Sans;
+    src: url(../assets/fonts/Alegreya_Sans/AlegreyaSans-Regular.ttf);
+}
+
+@font-face {
+    font-family: Cinzel Decorative;
+    src: url(../assets/fonts/Cinzel_Decorative/CinzelDecorative-Regular.ttf);
+}
+
+* {
+    font-family: 'Alegraya Sans', sans-serif;
+}
+
+body {
+    background-color: rgb(209, 184, 248);
+}
+
+#app{
+    border: 2px solid black;
+    background-color: rgb(237, 225, 255);
+    width: 85%;
+    margin: 0 auto;
+}
+
+.navbar {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+.navbar * {
+    font-family: 'Cinzel Decorative', sans-serif !important;
+    background-color: rgb(237, 225, 255);
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: black;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.hw-logo {
+    font-family: 'Cinzel Decorative', sans-serif;
+    font-size: 4.5vw;
+    width: fit-content;
+    margin: 1rem auto;
+}
+
+.hw-topmenu {
+    width: fit-content;
+    margin-left: auto;
+    margin-bottom: 2.7rem;
+
+}
+
+.hw-div-mainmenu {
+    margin: 0 auto;
+}
+
+.hw-ul-itemlist {
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.hw-ul-itemlist li:hover {
+    border-bottom: 1px solid black !important;
+}
+
+.hw-ul-itemlist li a:hover {
+    color:  #8224e3 !important;
+}
+
+.navbar-toggle{
+    display: block;
+    margin-top: 50px
+} 
+
+
+
+
+/* Versión para móviles */
+@media (max-width: 780px) {
+
+    #app {
+        border: none;
+        width: 100%;
+    }
+
+    .hw-logo {
+        font-size: 6vw;
+
+    }
+
+    .hw-topmenu .navbar-nav{
+        flex-direction: row;
+    }
+
+    .hw-topmenu li{
+        padding: 0 1rem;
+    }
+    .hw-div-mainmenu {
+        width: 100%;
+    }
+
+    .hw-ul-itemlist {
+        width: 100%;
+    }
+
+    .hw-ul-itemlist {
+        text-align: center;
+        display: flex;
+    }
+
+}

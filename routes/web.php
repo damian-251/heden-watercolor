@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PagesController;
 use App\Http\Controllers\TestDbController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -62,8 +63,22 @@ Route::get('translation2', function () {
 
 //Vistas
 Route::get('dbtest', [TestDbController::class, 'index'])->name('test.db');
-Route::get('shop', [TestDbController::class, 'shop'])->name('test.shop');
+Route::get('shop-test', [TestDbController::class, 'shop'])->name('test.shop');
 Route::get('cart', [TestDbController::class, 'cart'])->name('cart.shop');
+
+//Vista de portfolio
+Route::get('portfolio/{type?}/{parameter?}', [PagesController::class, 'vistaPortfolio'])->name('portfolio');
+
+//Búsqueda en portfolio
+Route::post('portfolio/search', [PagesController::class, 'vistaPortfolio'])->name('portfolioP');
+
+//Detalle de la obra
+Route::get('details/{id?}', [PagesController::class, 'vistaDetalles'])->name('product-details');
+
+//Tienda
+Route::get('shop', [PagesController::class, 'vistaTienda'])->name('shop');
+
+
 
 //Procesos
 Route::post('add-to-cart', [TestDbController::class, 'addToCart'])->name('cart.add');

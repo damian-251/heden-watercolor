@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>@yield("title")</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -24,89 +24,75 @@
 
 </head>
 <body>
+    <nav class="navbar navbar-expand-md navbar-light shadow-sm hw-topmenu">
+        <div class="navbar-collapse collpase">
+            <ul class="navbar-nav ms-auto">
+                <!-- Authentication Links -->
+                @guest
+                    @if (Route::has('login'))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        </li>
+                    @endif
+            
+                    @if (Route::has('register'))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                        </li>
+                    @endif
+                @else
+                    <li class="nav-item dropdown">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            {{ Auth::user()->name }}
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                               onclick="event.preventDefault();
+                                             document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
+                                
+                            <a class="dropdown-item" href="#">  {{ __('User settings') }} </a>
+            
+                            @if (Auth::user()->is_admin) {{--Mostramos el panel de administración a los administradores --}}
+                                <a class="dropdown-item" href="{{ route('admin-cp') }}">  {{ __('Administration Panel') }} </a>
+                            @endif
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            </form>
+                        </div>
+                    </li>
+                @endguest
+                <li class="nav-item dropdown">
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        {{__('Language') }}
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        @foreach(config('app.available_locales') as $locale_name => $available_locale)
+                         <a class="dropdown-item" href="language/{{ $available_locale }}">{{ $locale_name }}</a>
+                        @endforeach
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <div class="hw-logo">
+            HEDEN WATERCOLOR
+        </div>
+        <nav class="navbar navbar-expand-md navbar-light">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
+                <div class="hw-div-mainmenu" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto hw-ul-itemlist">
                         <li class="nav-item"> <a class="nav-link" href="#">{{ __('Home') }}</a> </li>
-                        <li class="nav-item"> <a class="nav-link" href="#">{{ __('Portfolio') }}</a> </li>
-                        <li class="nav-item"> <a class="nav-link" href="{{ route('test.shop') }}">{{ __('Shop') }}</a> </li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('portfolio') }}">{{ __('Portfolio') }}</a> </li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('shop') }}">{{ __('Shop') }}</a> </li>
                         <li class="nav-item"> <a class="nav-link" href="#">{{ __('Exhibitions') }}</a> </li>
                         <li class="nav-item"> <a class="nav-link" href="#">{{ __('Contact') }}</a> </li>
                         <li class="nav-item"> <a class="nav-link" href="{{route('cart.shop')}}">{{ __('Shopping Cart') }}</a> </li>
                     </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                </li>
-                            @endif
-
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-                                        
-                                    <a class="dropdown-item" href="#">  {{ __('User settings') }} </a>
-
-                                    @if (Auth::user()->is_admin) {{--Mostramos el panel de administración a los administradores --}}
-                                        <a class="dropdown-item" href="{{ route('admin-cp') }}">  {{ __('Administration Panel') }} </a>
-                                    @endif
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none"></form>
-
-                                </div>
-                            </li>
-                        @endguest
-                        <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{__('Language') }}
-                            </a>
-
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                @foreach(config('app.available_locales') as $locale_name => $available_locale)
-                                {{-- @if($available_locale === Config::get('app.locale'))
-                                    <span class="ml-2 mr-2 text-gray-700">{{ $locale_name }}</span>
-                                @else
-                                    <a class="ml-1 underline ml-2 mr-2" href="language/{{ $available_locale }}">
-                                        <span>{{ $locale_name }}</span>
-                                    </a>
-                                @endif --}}
-                                 <a class="dropdown-item" href="language/{{ $available_locale }}">{{ $locale_name }}</a>
-                                @endforeach
-                            </div>
-                        </li>
-
-                    </ul>
                 </div>
             </div>
         </nav>
-
         <main class="py-4">
             @yield('content')
         </main>
