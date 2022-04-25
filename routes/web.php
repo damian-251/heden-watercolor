@@ -7,6 +7,9 @@ use App\Http\Controllers\TestDbController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Models\Payment;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 /*
 |--------------------------------------------------------------------------
@@ -133,3 +136,31 @@ Route::post('admin/create-location-p', [AdminController::class, 'createLocationP
 //Edición de localizaciones
 Route::get('admin/edit-location', [AdminController::class, 'editLocation'])->name('edit-location');
 Route::put('admin/edit-location-p', [AdminController::class, 'editLocationP'])->name('edit-location-p');
+
+
+//Test checkout
+Route::get('checkout-test', function () {
+    return view('testing.stripe');
+});
+
+//Escuchar los eventos de Stripe. Si el pago ha sido realizdo con éxito lo añadimos a la tabla
+Route::post('webhook', function(Request $request) {
+    Log::channel('custom')->debug("Logger stripe --> " . $request);
+    if ($request->type === 'charge.succeeded') {
+        try {
+
+            $payment = new Payment();
+            $payment->stripe_id = $request->data['object']['id'];
+            $payment->amount = $request->data['object']['amount'];
+            $payment->email = $request->data['object']['billing_details']['email'];
+            $payment->name = $request->data['object']['billing_details']['name'];
+            $payment->currency = $request->data['object']['currency'];
+            $payment->save();
+
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    //TODO Habría que realizar los cambios correspondientes de los productos, que ya no estén disponibles...
+});
