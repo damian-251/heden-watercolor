@@ -192,6 +192,8 @@ class AdminController extends Controller {
             $colourNo->save();
         }
 
+        DB::commit();
+
         return back()->with('message', 'Colour ' . $request->colour_en . " added!");
 
     }

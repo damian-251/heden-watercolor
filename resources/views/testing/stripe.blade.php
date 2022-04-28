@@ -14,6 +14,9 @@ $session = \Stripe\Checkout\Session::create([
     'mode' => 'payment',
     'success_url' => 'https://example.com/success',
     'cancel_url' => 'https://example.com/cancel',
+    'payment_intent_data' => [
+      'metadata' => ['gatos' =>'Lulú y Wanda', 'pokemon' => 'Mew']
+    ]
   ]);
 
 ?>

@@ -1,0 +1,49 @@
+img {
+    width: 100%;
+    padding: 1rem;
+}
+
+h1{
+    margin-bottom: 2rem;
+}
+
+.btn-outline-success{
+    color: #8224e3;
+    border-color: #8224e3;
+}
+
+.btn-primary {
+    background-color: #8224e3;
+    border-color: #8224e3;
+}
+
+.btn-primary:hover {
+    background-color: #8424e3dc;
+    border-color: #8424e3dc;
+}
+
+.row {
+    margin: 1.5rem 2rem;
+}
+
+.hw-product-price, .hw-total-price {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+/* Versión para móviles */
+@media (max-width: 780px) {
+
+    .row {
+        
+        margin: 1.5rem .5rem;
+    }
+
+    .hw-delete-button {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+
+
+ }

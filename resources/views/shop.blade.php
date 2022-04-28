@@ -10,6 +10,8 @@
 
 @section('content')
 
+@include('partials.messages')
+
 <div class="hw-product-container">
     @foreach ($products as $product)
     <div class="hw-product-box">
@@ -30,7 +32,9 @@
                     {{$product->price_eur}} €
                 @endif
                 </span>
-            <form action="">
+            <form action="{{ route('add-to-cart')}}" method="POST">
+                @csrf
+                <input type="hidden" name="product_id" value="{{$product->id}}">
                 <button class="btn btn-primary" type="submit">{{__('Add to cart')}}</button>
             </form>
         </div>

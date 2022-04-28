@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PagesController;
+use App\Http\Controllers\ShoppingController;
 use App\Http\Controllers\TestDbController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -164,3 +165,18 @@ Route::post('webhook', function(Request $request) {
 
     //TODO Habría que realizar los cambios correspondientes de los productos, que ya no estén disponibles...
 });
+
+// -- PROCESO DE COMPRA --
+//Rutas y procesos relacionados con el proceso de compra
+
+//Añadir al carrito
+Route::post('add-to-cart', [ShoppingController::class, 'addToCart'])->name('add-to-cart');
+
+//Vista del carrito
+Route::get('shopping-cart', [ShoppingController::class, 'cartView'])->name('shopping-cart');
+//Eliminar productos del carrito
+Route::post('delete-product-p', [ShoppingController::class, 'deleteProductP'])->name('delete-product-p');
+
+//Introducir datos de dirección y precio de gastos de envío
+Route::post('shipping-data-p', [ShoppingController::class, 'shippingDataP'])->name('shipping-data-p');
+Route::get('shipping-data', [ShoppingController::class, 'shippingData'])->name('shipping-data');

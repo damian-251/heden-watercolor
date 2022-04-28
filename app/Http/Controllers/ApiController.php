@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Colour;
 use App\Models\Colour_tr;
 use App\Models\Location_tr;
+use App\Models\Shipping;
 use App\Models\Tag;
 use App\Models\Tag_tr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ApiController extends Controller
 {
@@ -33,6 +35,18 @@ class ApiController extends Controller
     public function location($id = 1) {
         $location = Location_tr::select('name', 'language_code')->where('location_id', $id)->get();
         return $location;
+    }
+
+    public function shipping($id) {
+
+        $price = [];
+
+            $shipping = Shipping::findOrFail($id);
+            $price['eur'] = $shipping->price_eur;
+            $price['nok'] = $shipping->price_nok;
+            
+        
+        return $price;
     }
 
 
