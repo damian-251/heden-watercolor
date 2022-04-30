@@ -21,7 +21,7 @@ $session = \Stripe\Checkout\Session::create([
       'quantity' => 1,
     ]],
     'mode' => 'payment',
-    'success_url' => 'https://example.com/success',
+    'success_url' => 'https://example.com/success', /* TODO Hay que poner URL propias de la página */
     'cancel_url' => 'https://example.com/cancel',
     'payment_intent_data' => [
       'metadata' => ['user_id' => $userId,
@@ -55,7 +55,7 @@ $session = \Stripe\Checkout\Session::create([
           </div>
       
           <div class="col-md-6">
-            <button id="checkout-button" type="button" class="btn btn-primary btn-lg">Checkout Test</button>
+            <button id="checkout-button" type="button" class="btn btn-primary btn-lg">{{__('Pay order')}}</button>
           </div>
       
         </div>
