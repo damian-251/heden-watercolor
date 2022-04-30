@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use App\Models\Cart;
 use App\Models\Shipping;
 use Illuminate\Http\Request;
@@ -122,7 +123,134 @@ class ShoppingController extends Controller
     }
 
 
-    public function shippingDataP() {
-        return view('shopping.shipping-data');
+    public function shippingDataP(Request $request) {
+
+        $locale = app()->getLocale();
+
+        $countries = Shipping::all();
+
+        if ($locale == "no") {
+            $currency = "kr";
+        }else {
+            $currency = "€";
+        }
+
+        if (Auth::check()) {
+            $adresses = Address::where('user_id', Auth::user()->id)->get();
+            $cart = Cart::where('user_id', auth()->user()->id)->with('products')->first();
+        }else {
+            $adresses = null;
+            $cart = Cart::where('session_id', session()->getId())->with('products')->first();
+        }
+
+        $totalPrice = 0;
+
+        foreach ($cart->products as $product) {
+
+            if ($locale == "no") {
+                $totalPrice += $product->price_nok;
+            }else {
+                $totalPrice += $product->price_eur;
+            }
+            
+        }
+
+        return view('shopping.shipping-data' , compact('adresses', 'cart', 'totalPrice', 'currency', 'countries'));
     }
+
+    public function orderReviewP(Request $request) {
+        $locale = app()->getLocale();
+        //TODO: Hay que realizar un flitrado de datos, según se seleccione la dirección o se rellenen los campos
+        Log::channel('custom')->debug($request);
+
+        //Estos casos indican que el usuario registrado ha introducido una nueva dirección o un usuario no registrado
+        //ha introducido su dirección
+        if (!isset($request->existing_address) || $request->existing_address == null) {
+
+            //Validamos los campos que sean requeridos y una vez hecho los insertamos en la base de datos
+            Log::channel('custom')->debug("El usuario ha puesto su propia dirección");
+            $request->validate([
+                'fullName' => 'required',
+                'telephone' => 'required',
+                'address1' => 'required',
+                'address2' => 'required',
+                'postalCode' => 'required',
+                'province' => 'required',
+                'city' => 'required',
+                'country' => 'required',
+            ]);
+
+            //Esta nueva dirección se añade a la base de datos
+
+            DB::beginTransaction();
+
+            $address = new Address();
+            $address->full_name = $request->fullName;
+            $address->phone = $request->telephone;
+            $address->line1 = $request->address1;
+            $address->line2 = $request->address2;
+            $address->postal_code = $request->postalCode;
+            $address->province = $request->province;
+            $address->shipping_id = $request->country;
+            $address->city = $request->city;
+
+            if (Auth::check()) {
+                $address->user_id = auth()->user()->id;
+            }else {
+                $address->session_id = session()->getId();
+            }
+
+            $address->save();
+
+            DB::commit();
+
+            Log::channel('custom')->debug($address);
+            Log::channel('custom')->debug($address->id);
+
+            $addressId = $address->id;
+            $country = Shipping::findOrFail($request->country);
+
+        }else {
+
+            $addressId = $request->existing_address;
+            $country = Shipping::findOrFail($request->existing_address->shipping_id);
+
+        }
+
+        if (Auth::check()) {
+            $cart = Cart::where('user_id', auth()->user()->id)->with('products')->first();
+        }else {
+            $cart = Cart::where('session_id', session()->getId())->with('products')->first();
+        }
+
+        Log::channel('custom')->debug('Carrito de la compra' . $cart);
+
+        if ($locale == "no") {
+            $shippingPrice = $country->price_nok;
+            $currencyStripe = 'nok';
+            $currency = "kr";
+        }else {
+            $shippingPrice = $country->price_eur;
+            $currencyStripe = 'eur';
+            $currency = "€";
+        }
+        
+        $totalPrice = 0;
+
+        foreach ($cart->products as $product) {
+            if ($locale == "no") {
+                $totalPrice += $product->price_nok;
+            }else {
+                $totalPrice += $product->price_eur;
+            }
+
+            $finalPrice = $totalPrice + $shippingPrice;     
+        }
+
+        //TODO: Comprobar disponibilidad el producto antes de retornar esta lista
+
+        return view('shopping.review-order', compact('locale', 'shippingPrice', 'currency', 'totalPrice', 'finalPrice', 'currencyStripe', 'addressId'));
+        
+    }
+
 }

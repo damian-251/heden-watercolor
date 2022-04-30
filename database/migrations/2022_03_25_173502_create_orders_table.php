@@ -16,12 +16,11 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('status'); //Pagado, completado...
-            $table->float('sub_total');
-            $table->float('total_price');
+            $table->float('subtotal_price');
             $table->float('shipping_price');
-            $table->string('payment_method');
-            $table->boolean('finished')->default(false); //indica si se ha acabado la orden
+            $table->bigInteger('payment_id'); //Datos que genera al finalizar el pago en la api de Stripe
+            //Ahí tendremos el precio total, la divisa y otros datos
+            $table->boolean('sent')->default(false); //Indica si el pedido está enviado, el admin lo cambiará cuando lo envíe
             $table->bigInteger('address_id'); //fk tabla address
         });
     }

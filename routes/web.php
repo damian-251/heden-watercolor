@@ -5,11 +5,14 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\ShoppingController;
 use App\Http\Controllers\TestDbController;
+use App\Models\Cart;
+use App\Models\Order;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Models\Payment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 /*
@@ -145,10 +148,16 @@ Route::get('checkout-test', function () {
 });
 
 //Escuchar los eventos de Stripe. Si el pago ha sido realizdo con éxito lo añadimos a la tabla
+
 Route::post('webhook', function(Request $request) {
-    Log::channel('custom')->debug("Logger stripe --> " . $request);
-    if ($request->type === 'charge.succeeded') {
+    //Log::channel('custom')->debug("Logger stripe --> " . $request);
+    if ($request->type == 'charge.succeeded') {
+        Log::channel('custom')->debug("El pago ha sido completado con éxito");
+        Log::channel('custom')->debug("Subtotal " . $request->data['object']['metadata']['subtotal'] );
+        Log::channel('custom')->debug("id de la dirección " . $request->data['object']['metadata']['address_id'] );
+
         try {
+            DB::beginTransaction();
 
             $payment = new Payment();
             $payment->stripe_id = $request->data['object']['id'];
@@ -158,8 +167,51 @@ Route::post('webhook', function(Request $request) {
             $payment->currency = $request->data['object']['currency'];
             $payment->save();
 
+            Log::channel('custom')->debug("Payment " . $payment );
+
+            $order = new Order();
+            $order->subtotal_price = $request->data['object']['metadata']['subtotal'];
+            $order->address_id = $request->data['object']['metadata']['address_id'];
+            $order->payment_id = $payment->id;
+            $order->shipping_price = $request->data['object']['metadata']['shipping_price'];
+            $order->sent = false;
+            $order->save();
+            Log::channel('custom')->debug("Order " . $order);
+            //Mediante la tabla address podemos saber el id del usuario
+            //TODO: Hay que poner los productos como que ya no están disponibles
+
+            //Recogemos los productos que había en el carrito
+            if (Auth::check()) {
+                $cart = Cart::where('user_id', $request->data['object']['metadata']['user_id'])->first(); 
+            }else {
+                $cart = Cart::where('session_id', $request->data['object']['metadata']['session_id'])->first();
+            }
+            
+            Log::channel('custom')->debug("Cart " . $cart );
+            Log::channel('custom')->debug("Cart products" . $cart->products()->allRelatedIds());
+            //Los insertamos en order
+            $order->products()->attach($cart->products()->allRelatedIds());
+            Log::channel('custom')->debug("Order products " . $order->products );
+
+            //Ponemos que ya no están disponibles para que aparezcan el el portfolio pero no en la tienda
+            foreach ($cart->products as $product) {
+                $product->available = false;
+                $product->save();
+                Log::channel('custom')->debug("Product " . $product );
+            }
+
+            //Eliminamos el carrito y sus relaciones
+            $cart->products()->detach();
+            $cart->delete();
+
+            DB::commit();
+            Log::channel('custom')->debug("Todo correcto :)" );
+
+
         } catch (\Exception $e) {
             return $e->getMessage();
+            Log::channel('custom')->critical($e->getMessage());
+
         }
     }
 
@@ -179,4 +231,6 @@ Route::post('delete-product-p', [ShoppingController::class, 'deleteProductP'])->
 
 //Introducir datos de dirección y precio de gastos de envío
 Route::post('shipping-data-p', [ShoppingController::class, 'shippingDataP'])->name('shipping-data-p');
-Route::get('shipping-data', [ShoppingController::class, 'shippingData'])->name('shipping-data');
+
+//Confirmación de los datos y pago
+Route::post('order-review-p', [ShoppingController::class, 'orderReviewP'])->name('order-review-p');

@@ -20,8 +20,9 @@ return new class extends Migration
             $table->string('line2')->nullable(); //Línea 2 opcional
             $table->string('postal_code');
             $table->string('city');
-            $table->string('country');
+            $table->string('province');
             $table->bigInteger('user_id')->nullable(); //Fk
+            $table->bigInteger('shipping_id'); //Indica el país, tiene asociado los gastos de envío
             $table->string('session_id')->nullable(); //Por si un usuario hace la compra sin cuenta
             $table->string('full_name');
             $table->string('email')->nullable(); //Para poder conectar con los visitantes que han realizado pedido
