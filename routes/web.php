@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\ShoppingController;
 use App\Http\Controllers\TestDbController;
+use App\Http\Controllers\UserCPController;
 use App\Models\Cart;
 use App\Models\Order;
 use Illuminate\Support\Facades\App;
@@ -234,3 +235,13 @@ Route::post('shipping-data-p', [ShoppingController::class, 'shippingDataP'])->na
 
 //Confirmación de los datos y pago
 Route::post('order-review-p', [ShoppingController::class, 'orderReviewP'])->name('order-review-p');
+
+
+// ----- PANEL DE CONTROL DEL USUARIO ------ //
+//Panel de control del usuario
+Route::get('user/control-panel', [UserCPController::class, 'controlPanel'])->name('user-control-panel');
+
+//Ver los datos del usuario
+Route::get('user/data', [UserCPController::class, 'myData'])->name('user-data');
+Route::get('user/addresses', [UserCPController::class, 'myAddresses'])->name('user-addresses');
+Route::get('user/orders', [UserCPController::class, 'myOrders'])->name('user-orders');

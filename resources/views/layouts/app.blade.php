@@ -52,7 +52,7 @@
                                 {{ __('Logout') }}
                             </a>
                                 
-                            <a class="dropdown-item" href="#">  {{ __('User settings') }} </a>
+                            <a class="dropdown-item" href="{{ route('user-control-panel') }}">  {{ __('User settings') }} </a>
             
                             @if (Auth::user()->is_admin) {{--Mostramos el panel de administración a los administradores --}}
                                 <a class="dropdown-item" href="{{ route('admin-cp') }}">  {{ __('Administration Panel') }} </a>
