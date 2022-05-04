@@ -81,4 +81,8 @@ class PagesController extends Controller
         return view('shop', compact('products'));
 
     }
+
+    public function requestPaintingView() {
+        return view ('request-painting');
+    }
 }

@@ -89,6 +89,7 @@
                         <li class="nav-item"> <a class="nav-link" href="#">{{ __('Exhibitions') }}</a> </li>
                         <li class="nav-item"> <a class="nav-link" href="#">{{ __('Contact') }}</a> </li>
                         <li class="nav-item"> <a class="nav-link" href="{{route('shopping-cart')}}">{{ __('Shopping Cart') }}</a> </li>
+                        <li class="nav-item"> <a class="nav-link" href="{{route('request-painting')}}">{{ __('Request painting') }}</a> </li>
                     </ul>
                 </div>
             </div>

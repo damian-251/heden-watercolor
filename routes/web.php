@@ -250,3 +250,6 @@ Route::get('user/orders', [UserCPController::class, 'myOrders'])->name('user-ord
 Route::post('user/address/edit', [UserCPController::class, 'editAddress'])->name('user-address-edit');
 Route::delete('user/address/delete', [UserCPController::class, 'deleteAddress'])->name('user-address-delete');
 Route::put('user/address/edit-p', [UserCPController::class, 'editAddressP'])->name('user-address-edit-p');
+
+//Vista solucitud de obra
+Route::get('request-painting', [PagesController::class, 'requestPaintingView'])->name('request-painting');
