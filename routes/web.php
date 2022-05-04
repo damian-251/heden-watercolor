@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\ShoppingController;
 use App\Http\Controllers\TestDbController;
 use App\Http\Controllers\UserCPController;
+use App\Mail\RequestPaintingMail;
 use App\Models\Cart;
 use App\Models\Order;
 use Illuminate\Support\Facades\App;
@@ -15,6 +17,7 @@ use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -253,3 +256,9 @@ Route::put('user/address/edit-p', [UserCPController::class, 'editAddressP'])->na
 
 //Vista solucitud de obra
 Route::get('request-painting', [PagesController::class, 'requestPaintingView'])->name('request-painting');
+
+
+//Email
+Route::post('request-email-p', [MailController::class, 'requestEmailP'])->name('request-email-p');
+
+

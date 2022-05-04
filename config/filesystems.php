@@ -36,6 +36,12 @@ return [
             'throw' => false,
         ],
 
+        'paintingRequest' => [
+            'driver' => 'local',
+            'root' => storage_path('app/paint-request'),
+            'throw' => false,
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

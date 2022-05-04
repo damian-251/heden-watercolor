@@ -8,7 +8,7 @@
 @endsection
 
 @section('content')
-
+@include('partials.messages')
 
 <div class="container">
     <div class="row ">
@@ -22,24 +22,25 @@
       </div>
   
       <div class="col-md-6 p-4">
-        <form action="" method="PUT">
+        <form action="{{ route('request-email-p') }}" method="POST" enctype="multipart/form-data">
+            @csrf
             <div class="mb-3">
                 <label for="email" class="form-label">{{__('Email')}}</label>
-                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                <input name="email" type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
             </div>
             <div class="mb-3">
                 <label for="exampleFormControlTextarea1" class="form-label">{{__('Write more details about your request')}}</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                <textarea name="details" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
             </div>
             <div class="mb-3">
                 <label for="formFile" class="form-label">{{__('Upload an image')}} max 900KB</label>
-                <input class="form-control" type="file" id="formFile"  accept="image/png, image/jpeg, image/webp">
+                <input name="file" class="form-control" type="file" id="formFile"  accept="image/png, image/jpeg, image/webp">
             </div>
-        </form>
+        
         <div class="d-flex justify-content-center my-5">
-    
             <button class="btn btn-primary" type="submit">{{__('Request painting')}}</button>
         </div>
+    </form>
       </div>
   
     </div>
