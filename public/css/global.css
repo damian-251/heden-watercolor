@@ -16,12 +16,12 @@ específico si así se requiere */
 }
 
 body {
-    background-color: rgb(209, 184, 248);
+    background-color: rgb(234, 225, 248);
 }
 
 #app{
     border: 2px solid black;
-    background-color: rgb(237, 225, 255);
+    background-color: rgb(252, 252, 252);
     width: 85%;
     margin: 0 auto;
 }
@@ -32,7 +32,7 @@ body {
 }
 .navbar * {
     font-family: 'Cinzel Decorative', sans-serif !important;
-    background-color: rgb(237, 225, 255);
+    background-color: rgb(252, 252, 252);
 }
 
 .navbar-light .navbar-nav .nav-link {

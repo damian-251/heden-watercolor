@@ -245,3 +245,8 @@ Route::get('user/control-panel', [UserCPController::class, 'controlPanel'])->nam
 Route::get('user/data', [UserCPController::class, 'myData'])->name('user-data');
 Route::get('user/addresses', [UserCPController::class, 'myAddresses'])->name('user-addresses');
 Route::get('user/orders', [UserCPController::class, 'myOrders'])->name('user-orders');
+
+//Editar y eliminar direcciones
+Route::post('user/address/edit', [UserCPController::class, 'editAddress'])->name('user-address-edit');
+Route::delete('user/address/delete', [UserCPController::class, 'deleteAddress'])->name('user-address-delete');
+Route::put('user/address/edit-p', [UserCPController::class, 'editAddressP'])->name('user-address-edit-p');

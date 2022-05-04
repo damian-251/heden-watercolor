@@ -29,7 +29,8 @@ $session = \Stripe\Checkout\Session::create([
                      'address_id' => $addressId, 
                      'shipping_price' => $shippingPrice,
                      'subtotal' => $totalPrice,
-                     'final_price' => $finalPrice]
+                     'final_price' => $finalPrice ,
+                     'full_address' => $address]
     ]
   ]);
 

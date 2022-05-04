@@ -213,14 +213,16 @@ class ShoppingController extends Controller
         }else {
 
             $addressId = $request->existing_address;
-            $country = Shipping::findOrFail($request->existing_address->shipping_id);
+            $country = Shipping::findOrFail(Address::findOrFail($request->existing_address)->shipping_id);
 
         }
 
         if (Auth::check()) {
             $cart = Cart::where('user_id', auth()->user()->id)->with('products')->first();
+            $address = Address::where('user_id', Auth::user()->id)->where('id',  $addressId)->first();
         }else {
             $cart = Cart::where('session_id', session()->getId())->with('products')->first();
+            $address = Address::where('session_id', session()->getId())->where('id',  $addressId)->first();
         }
 
         Log::channel('custom')->debug('Carrito de la compra' . $cart);
@@ -249,7 +251,7 @@ class ShoppingController extends Controller
 
         //TODO: Comprobar disponibilidad el producto antes de retornar esta lista
 
-        return view('shopping.review-order', compact('locale', 'shippingPrice', 'currency', 'totalPrice', 'finalPrice', 'currencyStripe', 'addressId'));
+        return view('shopping.review-order', compact('locale', 'address', 'shippingPrice', 'currency', 'totalPrice', 'finalPrice', 'currencyStripe', 'addressId'));
         
     }
 
