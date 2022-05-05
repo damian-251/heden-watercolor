@@ -12,6 +12,8 @@ class RequestPaintingMail extends Mailable
     use Queueable, SerializesModels;
 
     //Datos del formulario
+    public $name;
+    public $phone;
     public $subject;
     public $email;
     public $details;
@@ -33,6 +35,7 @@ class RequestPaintingMail extends Mailable
      */
     public function build()
     {
+        $this->subject = $this->name . " ha realizado una petición de obra";
         $path = storage_path('app/paint-request/');
         $path .= $this->imagePath;
         return $this->view('email.request-painting')->attach($path);

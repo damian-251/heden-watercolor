@@ -14,23 +14,27 @@ class MailController extends Controller
 
         $request->validate([
             'email' => 'required',
+            'name' => 'required',
             'details' => 'required',
-            'file' => 'required|max:900',
+            'file' => 'required|mimes:jpeg,png,webp|max:900',
         ]);
 
         
 
         //Ponemos la imagen en un directorio privado
         $path = $request->file->store('', 'paintingRequest');
-        Log::channel('custom')->debug("Path " . $path);
+        //Log::channel('custom')->debug("Path " . $path);
 
 
+        //Recogemos los datos para que aparezcan en el correo electrónico
         $correo = new RequestPaintingMail;
-        $correo->subject = "Hola chavaless, a toda mecha";
         $correo->imagePath = $path;
+        $correo->name = $request->name;
+        $correo->email = $request->email;
         $correo->details = $request->details;
+        $correo->phone = $request->phone;
 
-        Mail::to('halogeno@outlook.es')->send($correo);
+        Mail::to(env('EMAIL_REQUEST'))->send($correo);
     
         return back()->with('message', 'The request has been submitted');
     }

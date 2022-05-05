@@ -25,16 +25,29 @@
         <form action="{{ route('request-email-p') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
-                <label for="email" class="form-label">{{__('Email')}}</label>
-                <input name="email" type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+              <label for="name" class="form-label">{{__('Name')}}*</label>
+              <input name="name" type="text" class="form-control" id="exampleFormControlInput1" placeholder="{{__('Write your name')}}" required>
             </div>
             <div class="mb-3">
-                <label for="exampleFormControlTextarea1" class="form-label">{{__('Write more details about your request')}}</label>
-                <textarea name="details" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+              <label for="email" class="form-label">{{__('Phone number')}}</label>
+              <input name="email" type="text" class="form-control" id="exampleFormControlInput1" placeholder="eg +4799999999">
+          </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">{{__('Email')}}*</label>
+                <input name="email" type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" required>
             </div>
             <div class="mb-3">
-                <label for="formFile" class="form-label">{{__('Upload an image')}} max 900KB</label>
-                <input name="file" class="form-control" type="file" id="formFile"  accept="image/png, image/jpeg, image/webp">
+                <label for="exampleFormControlTextarea1" class="form-label">{{__('Write more details about your request')}}*</label>
+                <textarea name="details" class="form-control" id="exampleFormControlTextarea1" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="formFile" class="form-label">{{__('Upload an image')}} max. 900KB*</label>
+                <input name="file" class="form-control" type="file" id="formFile"  accept="image/png, image/jpeg, image/webp" required>
+            </div>
+            * {{__('Required fields')}}
+            <div>
+
+              {{__('Once sent the request, the author will contact you to settle on the details and set the final price')}}.
             </div>
         
         <div class="d-flex justify-content-center my-5">
