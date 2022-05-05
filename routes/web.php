@@ -31,8 +31,8 @@ use Illuminate\Support\Facades\Mail;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('start');
+})->name('start');
 
 
 //Estas rutas se generan al poner los comandos para que esté la autenticación

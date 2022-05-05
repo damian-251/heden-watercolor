@@ -83,7 +83,7 @@
             <div class="container">
                 <div class="hw-div-mainmenu" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto hw-ul-itemlist">
-                        <li class="nav-item"> <a class="nav-link" href="#">{{ __('Home') }}</a> </li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('start') }}">{{ __('Home') }}</a> </li>
                         <li class="nav-item"> <a class="nav-link" href="{{ route('portfolio') }}">{{ __('Portfolio') }}</a> </li>
                         <li class="nav-item"> <a class="nav-link" href="{{ route('shop') }}">{{ __('Shop') }}</a> </li>
                         <li class="nav-item"> <a class="nav-link" href="#">{{ __('Exhibitions') }}</a> </li>
