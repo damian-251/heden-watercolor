@@ -29,11 +29,20 @@ use Illuminate\Support\Facades\Mail;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+//Página de inicio
 Route::get('/', function () {
     return view('start');
 })->name('start');
 
+// //Exposiciones
+// Route::get('exhibitions', function () {
+//     return view('start');
+// })->name('exhibitions');
+
+// //Contacto
+// Route::get('contact', function () {
+//     return view('contact');
+// })->name('contact');
 
 //Estas rutas se generan al poner los comandos para que esté la autenticación
 Auth::routes();

@@ -24,6 +24,7 @@
 
 </head>
 <body>
+
     <nav class="navbar navbar-expand-md navbar-light shadow-sm hw-topmenu">
         <div class="navbar-collapse collpase">
             <ul class="navbar-nav ms-auto">
@@ -76,6 +77,9 @@
         </div>
     </nav>
     <div id="app">
+        <div class="alert alert-warning fs-3 text-center" role="alert">
+            {{__('This site is deployed only for testing purposes and is under construction, the site is not functional')}}
+          </div>
         <div class="hw-logo">
             HEDEN WATERCOLOR
         </div>
