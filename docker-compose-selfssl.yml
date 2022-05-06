@@ -33,18 +33,11 @@ services:
     volumes:
       - ./:/var/www
       - ./nginx/conf.d/:/etc/nginx/conf.d/
-      #Certificados autofirmados
-   #   - ./nginx/snippets/:/etc/nginx/snippets/
-   #   - ./ssl/:/etc/ssl/
-      - ./certbot/www:/var/www/certbot/
-      - ./certbot/conf/:/etc/nginx/ssl/:ro
+      #Certificados
+      - ./nginx/snippets/:/etc/nginx/snippets/
+      - ./ssl/:/etc/ssl/
     networks:
       - frontend
-  certbot:
-     image: certbot/certbot:latest
-     volumes:
-       - ./certbot/www/:/var/www/certbot/
-       - ./certbot/conf/:/etc/letsencrypt/:rw
 
   #MySQL Service
   db:
