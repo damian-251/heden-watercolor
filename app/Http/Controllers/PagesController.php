@@ -85,4 +85,18 @@ class PagesController extends Controller
     public function requestPaintingView() {
         return view ('request-painting');
     }
+
+    /**
+     * Vista de la página About Heden
+     */
+    public function aboutHeden() {
+        return view('about-heden');
+    }
+
+    /**
+     * Vista de exposiciones
+     */
+    public function exhibitions() {
+        return view('exhibitions');
+    }
 }

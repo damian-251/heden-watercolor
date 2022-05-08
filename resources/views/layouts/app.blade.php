@@ -9,6 +9,11 @@
 
     <title>@yield("title")</title>
 
+    <!-- Favicon -->
+
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+
+
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
@@ -90,11 +95,11 @@
                         <li class="nav-item"> <a class="nav-link" href="{{ route('start') }}">{{ __('Home') }}</a> </li>
                         <li class="nav-item"> <a class="nav-link" href="{{ route('portfolio') }}">{{ __('Portfolio') }}</a> </li>
                         <li class="nav-item"> <a class="nav-link" href="{{ route('shop') }}">{{ __('Shop') }}</a> </li>
-                        <li class="nav-item"> <a class="nav-link" href="#">{{ __('Exhibitions') }}</a> </li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('exhibitions') }}">{{ __('Exhibitions') }}</a> </li>
                         <li class="nav-item"> <a class="nav-link" href="#">{{ __('Contact') }}</a> </li>
                         <li class="nav-item"> <a class="nav-link" href="{{route('request-painting')}}">{{ __('Request painting') }}</a> </li>
-                        <li class="nav-item"> <a class="nav-link" href="{{route('shopping-cart')}}">{{ __('Shopping Cart') }}</a> </li>
-                        <li class="nav-item"> <a class="nav-link" href="#">{{ __('About Heden') }}</a> </li>
+                        <li class="nav-item"> <a class="nav-link" href="{{route('shopping-cart')}}">{{ __('Shopping Cart') }} </a> </li>
+                        <li class="nav-item"> <a class="nav-link" href="{{route('about-heden')}}">{{ __('About Heden') }}</a> </li>
                     </ul>
                 </div>
             </div>

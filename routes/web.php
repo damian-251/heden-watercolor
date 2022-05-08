@@ -266,6 +266,11 @@ Route::put('user/address/edit-p', [UserCPController::class, 'editAddressP'])->na
 //Vista solucitud de obra
 Route::get('request-painting', [PagesController::class, 'requestPaintingView'])->name('request-painting');
 
+//Vista acerca del autor
+Route::get('about-heden', [PagesController::class, 'aboutHeden'])->name('about-heden');
+
+//Vista de exposiciones
+Route::get('exhibitions', [PagesController::class, 'exhibitions'])->name('exhibitions');
 
 //Email
 Route::post('request-email-p', [MailController::class, 'requestEmailP'])->name('request-email-p');
