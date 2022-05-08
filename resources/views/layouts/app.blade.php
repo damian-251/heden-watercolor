@@ -92,8 +92,9 @@
                         <li class="nav-item"> <a class="nav-link" href="{{ route('shop') }}">{{ __('Shop') }}</a> </li>
                         <li class="nav-item"> <a class="nav-link" href="#">{{ __('Exhibitions') }}</a> </li>
                         <li class="nav-item"> <a class="nav-link" href="#">{{ __('Contact') }}</a> </li>
-                        <li class="nav-item"> <a class="nav-link" href="{{route('shopping-cart')}}">{{ __('Shopping Cart') }}</a> </li>
                         <li class="nav-item"> <a class="nav-link" href="{{route('request-painting')}}">{{ __('Request painting') }}</a> </li>
+                        <li class="nav-item"> <a class="nav-link" href="{{route('shopping-cart')}}">{{ __('Shopping Cart') }}</a> </li>
+                        <li class="nav-item"> <a class="nav-link" href="#">{{ __('About Heden') }}</a> </li>
                     </ul>
                 </div>
             </div>
@@ -101,6 +102,11 @@
         <main class="py-4">
             @yield('content')
         </main>
+        <footer class="d-flex justify-content-center p-5 bg-light">
+            <div>
+                Heden Watercolor
+            </div>
+        </footer>
     </div>
 </body>
 </html>
