@@ -29,7 +29,7 @@
 
 </head>
 <body>
-
+    @include('cookie-consent::index')
     <nav class="navbar navbar-expand-md navbar-light shadow-sm hw-topmenu">
         <div class="navbar-collapse collpase">
             <ul class="navbar-nav ms-auto">
@@ -112,5 +112,17 @@
             </div>
         </footer>
     </div>
+    <script>
+        //Modificamos el botón de cookies por uno tipo bootstrap
+        let botonCookies = document.getElementsByClassName("js-cookie-consent-agree")[0];
+        //Aumentamos el tamaño del texto
+        let textoCookies = document.getElementsByClassName("cookie-consent__message")[0];
+
+
+        botonCookies.classList.add("btn");
+        botonCookies.classList.add("btn-dark");
+        textoCookies.classList.add("fs-4");
+        textoCookies.classList.add("text-center");
+    </script>
 </body>
 </html>

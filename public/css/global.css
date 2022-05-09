@@ -11,6 +11,24 @@ específico si así se requiere */
     src: url(../assets/fonts/Cinzel_Decorative/CinzelDecorative-Regular.ttf);
 }
 
+/* Aviso uso de cookies */
+
+.js-cookie-consent {
+    background-color: #fff3cd;
+}
+
+.js-cookie-consent>div>div>div>p {
+    text-align: center;
+}
+
+.js-cookie-consent>div>div>div>div {
+    display: flex;
+    justify-content: center;
+}
+
+
+
+
 * {
     font-family: 'Alegraya Sans', sans-serif;
 }
