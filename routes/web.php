@@ -274,5 +274,7 @@ Route::get('exhibitions', [PagesController::class, 'exhibitions'])->name('exhibi
 
 //Email
 Route::post('request-email-p', [MailController::class, 'requestEmailP'])->name('request-email-p');
+Route::post('contact-email-p', [MailController::class, 'contactEmailP'])->name('contact-email-p');
+
 
 

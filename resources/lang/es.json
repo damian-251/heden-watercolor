@@ -9,5 +9,20 @@
     "Product" : "Producto",
     "Shopping Cart" : "Carrito de la compra",
     "Checkout" : "Tramitar pedido",
-    "Before proceeding, please check your email for a verification link." : "Antes de continuar, verifique su correo electrónico para obtener un enlace de verificación."
+    "Before proceeding, please check your email for a verification link." : "Antes de continuar, verifique su correo electrónico para obtener un enlace de verificación.",
+    "About Heden" : "Sobre Heden",
+    "Request painting" : "Encargar obra",
+    "Register" : "Registrarse",
+    "Login" : "Iniciar sesión",
+    "Previous exhibitions" : "Anteriores exposiciones",
+    "Contact with me" : "Contacta conmigo",
+    "Send message" : "Enviar mensaje",
+    "Required fields" : "Campos obligatorios",
+    "Name" : "Nombre",
+    "Email" : "Correo electrónico",
+    "Message" : "Mensaje",
+    "Email Address" : "Correo electrónico",
+    "Password" : "Contraseña",
+    "Forgot Your Password?" : "¿Has olvidado la contraseña?"
+
   }

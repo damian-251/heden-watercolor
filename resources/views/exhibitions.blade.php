@@ -8,7 +8,7 @@
 @endsection
 
 @section('content')
-<h2 class="text-center mb-3">{{__('Exhibitions')}}</h2>
+<h1 class="text-center mb-3">{{__('Exhibitions')}}</h1>
 <div class="d-flex justify-content-center">
     <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=2&bgcolor=%23eae1f8&ctz=Europe%2FMadrid&showNav=1&title=Heden%20Watercolor%20-%20Exhibitions&mode=MONTH&src=cG9tY2E1cGU5cm5hM2llcmIwaXMzbWhoNGdAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&color=%23F09300" style="border:solid 1px #777" width="800" height="600" frameborder="0" scrolling="no"></iframe>
 </div>

@@ -48,13 +48,14 @@ class PagesController extends Controller
                 $query->where('name', 'like', '%' . $search . '%');})->get();
 
         }else {
-            $products = Product::all();
+            //Más recientes primeros
+            $products = Product::orderBy('creation_date', 'desc')->get();
 
         }
 
         
-        Log::channel('custom')->debug("Productos con las etiquetas correspondientes");
-        Log::channel('custom')->debug($products);
+        // Log::channel('custom')->debug("Productos con las etiquetas correspondientes");
+        // Log::channel('custom')->debug($products);
 
 
 
@@ -68,6 +69,10 @@ class PagesController extends Controller
     public function vistaDetalles($id=1) {
         $product = Product::find($id);
         $productTr = Product_tr::where('product_id', $id)->where('language_code', app()->getLocale())->first();
+        //Si no está lo ponemos en inglés que es el obligatorio
+        if ($productTr == null) {
+            $productTr = Product_tr::where('product_id', $id)->where('language_code', "en")->first();
+        }
         return view('product-details', compact('product', 'productTr'));
     }
 

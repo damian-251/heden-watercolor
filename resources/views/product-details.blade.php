@@ -9,14 +9,14 @@
 @endsection
 
 @section('content')
-<div class="container">
+<div class="container p-5">
     <div class="row justify-content-center">
   
       <div class="col-md-6">
-        <picture>
+        <picture class="mb-3">
             <source srcset="{{ asset($product->img_path_webp) }}" type="image/webp">
             <source srcset="{{ asset($product->img_path_jpg) }}" type="image/jpeg"> 
-            <img src="{{ asset($product->img_path_jpg) }}" alt="Product image">
+            <img class="mb-5" src="{{ asset($product->img_path_jpg) }}" alt="Product image">
         </picture>
         <div class="hw-product-tags">
             @foreach ($product->tags as $tag)
@@ -49,22 +49,24 @@
   
       <div class="col-md-6">
         <h2>{{$productTr->name}}</h2>
-        <p>{{$productTr->description}}</p>
+        <p class="h-50">{{$productTr->description}}</p>
 
         @if ($product->available == true)
             {{-- Si está disponible mostramos las opciones de compra --}}
 
             {{-- Si está en idioma noruego mostramos el precio en coronas, si no en € --}}
-            <span class="hw-price">
+            <div class="hw-price d-flex justify-content-center mb-3 fs-3">
             @if (app()->getLocale() == "no")
                 {{$product->price_nok}} NOK
             @else
                 {{$product->price_eur}} €
             @endif
-            </span>
+            </div>
 
-            <form action="">
-                <button class="btn btn-primary" type="submit">{{__('Add to cart')}}</button>
+            <form action="{{ route('add-to-cart')}}" method="POST" class="d-flex justify-content-center align-items-end">
+                @csrf
+                <input type="hidden" name="product_id" value="{{$product->id}}">
+                <button class="btn btn-primary mr-0" type="submit">{{__('Add to cart')}}</button>
             </form>
 
 

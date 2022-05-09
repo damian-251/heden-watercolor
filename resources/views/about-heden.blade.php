@@ -8,6 +8,8 @@
 @endsection
 
 @section('content')
+@include('partials.messages')
+<h1 class="text-center mb-4">{{__('About Heden')}}</h1>
 <div class="container my-3">
     <div class="row">
   
@@ -65,7 +67,7 @@
       </div>
       <div class="col-lg-6 mx-auto">
           <h2 class="text-center my-5">{{__('Contact with me')}}</h2>
-          <form action="" method="POST" enctype="multipart/form-data">
+          <form action="{{ route('contact-email-p') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
               <label for="name" class="form-label">{{__('Name')}}*</label>
@@ -76,8 +78,8 @@
                 <input name="email" type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" required>
             </div>
             <div class="mb-3">
-                <label for="exampleFormControlTextarea1" class="form-label">{{__('Message')}}*</label>
-                <textarea name="details" class="form-control" id="exampleFormControlTextarea1" rows="3" required></textarea>
+                <label for="mensaje" class="form-label">{{__('Message')}}*</label>
+                <textarea name="mensaje" class="form-control" id="mensaje" rows="3" required></textarea>
             </div>
             * {{__('Required fields')}}
         <div class="d-flex justify-content-center my-5">

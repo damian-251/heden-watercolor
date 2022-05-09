@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactMail;
 use App\Mail\RequestPaintingMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -37,5 +38,26 @@ class MailController extends Controller
         Mail::to(env('EMAIL_REQUEST'))->send($correo);
     
         return back()->with('message', 'The request has been submitted');
+    }
+
+    /**
+     * Recibimos el formulario de contacto de la web
+     */
+    public function contactEmailP(Request $request) {
+
+        $request->validate([
+            'email' => 'required',
+            'name' => 'required',
+            'mensaje' => 'required',
+        ]);
+
+        $correo = new ContactMail;
+        $correo->name = $request->name;
+        $correo->email = $request->email;
+        $correo->mensaje = $request->mensaje;
+
+        Mail::to(env('EMAIL_REQUEST'))->send($correo);
+
+        return back()->with('message', 'The contact form has been submitted');
     }
 }

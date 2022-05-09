@@ -21,8 +21,8 @@ return new class extends Migration
             $table->date('creation_date'); //Fecha en la que se pintó la obra
             $table->integer('width')->nullable();
             $table->integer('height')->nullable();
-            $table->string('img_path_jpg'); //Ruta de la imagen en jpg
-            $table->string('img_path_webp'); //Ruta de la imagen en webp (formato prioritario para la carga)
+            $table->string('img_path_jpg'); //Ruta de la imagen en jpg. Obligatorio por mayor compatibilidad que webp
+            $table->string('img_path_webp')->nullable(); //Ruta de la imagen en webp (formato prioritario para la carga)
             $table->bigInteger('location_id')->nullable(); //Id de la tabla de localización (en qué lugar se encuentra la obra ambientada)
             $table->timestamps();
             $table->softDeletes();
