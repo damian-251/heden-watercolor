@@ -63,5 +63,27 @@
         </div>
     
       </div>
+      <div class="col-lg-6 mx-auto">
+          <h2 class="text-center my-5">{{__('Contact with me')}}</h2>
+          <form action="" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="mb-3">
+              <label for="name" class="form-label">{{__('Name')}}*</label>
+              <input name="name" type="text" class="form-control" id="exampleFormControlInput1" placeholder="{{__('Write your name')}}" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">{{__('Email')}}*</label>
+                <input name="email" type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" required>
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label">{{__('Message')}}*</label>
+                <textarea name="details" class="form-control" id="exampleFormControlTextarea1" rows="3" required></textarea>
+            </div>
+            * {{__('Required fields')}}
+        <div class="d-flex justify-content-center my-5">
+            <button class="btn btn-primary" type="submit">{{__('Send message')}}</button>
+        </div>
+    </form>
+      </div>
   </div>
 @endsection
