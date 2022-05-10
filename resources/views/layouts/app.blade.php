@@ -108,7 +108,14 @@
         </main>
         <footer class="d-flex justify-content-center p-5 bg-light">
             <div>
-                Heden Watercolor
+                <div>
+                    Heden Watercolor
+                </div>
+                <div class="d-flex justify-content-center">
+                    <a href="https://www.instagram.com/heden.watercolor/"  target="_blank"><img  src="{{ asset('assets/images/icons/instagram.png') }}" alt="{{__('Link to Instagram account')}}"></a>
+                    
+
+                </div>
             </div>
         </footer>
     </div>

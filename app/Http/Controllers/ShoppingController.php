@@ -69,6 +69,7 @@ class ShoppingController extends Controller
 
     public function cartView() {
 
+
         $locale = app()->getLocale();
 
         //Significa que hay usuario registrado, nos basamos en su id
@@ -89,6 +90,8 @@ class ShoppingController extends Controller
             }
         }
 
+
+
         $totalPrice = 0;
 
         //Aquí calculamos el precio total
@@ -100,6 +103,7 @@ class ShoppingController extends Controller
             }
             
         }
+
 
         return view('shopping.cart', compact('cart', 'totalPrice', 'locale'));
     }
@@ -251,7 +255,7 @@ class ShoppingController extends Controller
 
         //TODO: Comprobar disponibilidad el producto antes de retornar esta lista
 
-        return view('shopping.review-order', compact('locale', 'address', 'shippingPrice', 'currency', 'totalPrice', 'finalPrice', 'currencyStripe', 'addressId'));
+        return view('shopping.review-order', compact('locale', 'address', 'shippingPrice', 'currency', 'totalPrice', 'finalPrice', 'currencyStripe', 'addressId', 'currency'));
         
     }
 

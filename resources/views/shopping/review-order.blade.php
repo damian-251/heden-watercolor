@@ -51,12 +51,16 @@ $session = \Stripe\Checkout\Session::create([
     <div class="container">
         <div class="row ">
       
-          <div class="col-md-6">
-             {{$finalPrice}}
+          <div class="col-12 fs-2 text-center">
+             {{$finalPrice . " " . $currency}} 
           </div>
       
-          <div class="col-md-6">
+          <div class="d-flex justify-content-center my-5">
             <button id="checkout-button" type="button" class="btn btn-primary btn-lg">{{__('Pay order')}}</button>
+          </div>
+          <div class="text-center">
+            {{__('The payment will be processed through the secure payment platform Stripe. This website does not store any payment information')}}.
+
           </div>
       
         </div>

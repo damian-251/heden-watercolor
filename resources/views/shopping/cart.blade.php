@@ -9,9 +9,11 @@
 @endsection
 
 @section('content')
+
     <h1 class="text-center">{{__('Shopping cart')}}</h1>
-    @foreach ($cart->products as $product)
+    
     <div class="container ">
+    @foreach ($cart->products as $product)
         <div class="row shadow">
           <div class="col-lg-3 col-md-6">
             <picture>
@@ -35,18 +37,17 @@
             @else
             <div>{{$product->price_eur}} €</div>
             @endif
-      
           </div>
+
           <div class="col-lg-3 col-md-6 d-flex align-items-center justify-content-center">
             <form action="{{ route('delete-product-p')}}" method="POST">
               @csrf
               <input type="hidden" name="product_id" value="{{$product->id}}" >
             <button class="btn btn-danger hw-delete-button" type="submit">{{__('Delete')}}</button>
             </form>
-            </div>
         </div>
-    </div>
-    @endforeach
+      </div>
+        @endforeach
         <div class="row">
           <div class="col-lg-3 col-md-6">
       
@@ -87,7 +88,5 @@
           </div>
         </div>
     </div>
-
-        
 
 @endsection

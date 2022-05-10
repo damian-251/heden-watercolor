@@ -220,6 +220,12 @@ Route::post('webhook', function(Request $request) {
             DB::commit();
             Log::channel('custom')->debug("Todo correcto :)" );
 
+            //Aquí enviamos el correo electrónico al usuario con su pedido y una copia al administrador
+            //(Se supone que Stripe envía un correo al usuario pero en la versión de desarrollo parece que no)
+            //Obtenemos el email que ha puesto en Stripe
+            $clientEmail = $request->data['object']['email'];
+            //TODO: Envío de email al administrador y al cliente
+
 
         } catch (\Exception $e) {
             return $e->getMessage();

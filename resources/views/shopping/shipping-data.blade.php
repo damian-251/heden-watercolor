@@ -45,19 +45,42 @@
           </div>
       
           <div class="col-md-6">
-            <h2>{{__('Order Summary')}}</h2>
-            <div>
-              Subtotal: <span id="subtotal">{{$totalPrice }}</span> {{$currency}}
-            </div>
-            <div>
-              Shipping: <span id="shipping_price"></span> {{$currency}}
-            </div>
-            <div>
-              Total: <span id="total_price">{{$totalPrice}}</span> {{$currency}}
+            <h2 class="text-center mb-5">{{__('Order Summary')}}</h2>
+            <div class="container shadow w-75 p-4 mx-auto">
+              <div class="row">
+                <div class="col-md-6 fs-2">
+                  {{__('Subtotal')}}
+                </div>
+                <div class="col-md-6 fs-2">
+                  <span id="subtotal">{{$totalPrice }}</span> {{$currency}}
+                </div>
+              </div>
+              <div class="row ">
+            
+                <div class="col-md-6 fs-2">
+                  {{__('Shipping')}}
+                </div>
+            
+                <div class="col-md-6 fs-2">
+                  <span id="shipping_price"></span> {{$currency}}
+                </div>
+          
+              </div>
+              <div class="row ">
+            
+                <div class="col-md-6 fs-2">
+                  {{__('Total')}}
+                </div>
+            
+                <div class="col-md-6 fs-2">
+                  <span id="total_price">{{$totalPrice}}</span> {{$currency}}
+                </div>
+      
+              </div>
             </div>
           </div>
-          <div class="d-flex justify-content-end">
-               <button class="btn btn-primary me-3" type="submit">{{__('Review data and pay')}}</button>
+          <div class="d-flex justify-content-center">
+               <button class="btn btn-primary me-3 mt-4" type="submit">{{__('Review data and pay')}}</button>
        </div>
           </div>
       
