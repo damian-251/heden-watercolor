@@ -8,6 +8,7 @@ use App\Http\Controllers\ShoppingController;
 use App\Http\Controllers\TestDbController;
 use App\Http\Controllers\UserCPController;
 use App\Mail\RequestPaintingMail;
+use App\Mail\ShippingMail;
 use App\Models\Cart;
 use App\Models\Order;
 use Illuminate\Support\Facades\App;
@@ -194,7 +195,7 @@ Route::post('webhook', function(Request $request) {
             //TODO: Hay que poner los productos como que ya no están disponibles
 
             //Recogemos los productos que había en el carrito
-            if (Auth::check()) {
+            if (isset($request->data['object']['metadata']['user_id'])) {
                 $cart = Cart::where('user_id', $request->data['object']['metadata']['user_id'])->first(); 
             }else {
                 $cart = Cart::where('session_id', $request->data['object']['metadata']['session_id'])->first();
@@ -205,6 +206,9 @@ Route::post('webhook', function(Request $request) {
             //Los insertamos en order
             $order->products()->attach($cart->products()->allRelatedIds());
             Log::channel('custom')->debug("Order products " . $order->products );
+
+            //Guardamos los productos para mostrarlos en el email antes de borrar el carrito
+            $proudctsEmail = $cart->products;
 
             //Ponemos que ya no están disponibles para que aparezcan el el portfolio pero no en la tienda
             foreach ($cart->products as $product) {
@@ -223,8 +227,18 @@ Route::post('webhook', function(Request $request) {
             //Aquí enviamos el correo electrónico al usuario con su pedido y una copia al administrador
             //(Se supone que Stripe envía un correo al usuario pero en la versión de desarrollo parece que no)
             //Obtenemos el email que ha puesto en Stripe
-            $clientEmail = $request->data['object']['email'];
-            //TODO: Envío de email al administrador y al cliente
+                $clientEmail = $request->data['object']['billing_details']['email'];
+
+                $correo = new ShippingMail;
+                $correo->address = $request->data['object']['metadata']['full_address'];
+                $correo->products = $proudctsEmail;
+                $correo->currency = $request->data['object']['currency'];
+                $correo->shipping_price = $order->shipping_price;
+                $correo->totalPrice = floatval($request->data['object']['amount'])/100;
+
+                //Copia para el administrador y el cliente
+                Mail::to(env('EMAIL_REQUEST'))->send($correo);
+                Mail::to($clientEmail)->send($correo);
 
 
         } catch (\Exception $e) {
