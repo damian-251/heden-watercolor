@@ -213,4 +213,3 @@ return [
 
 ];
 
-//Se accede de esta forma: config('available_locales);

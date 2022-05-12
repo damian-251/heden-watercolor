@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Cart;
+use App\Models\Tag;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -30,6 +31,23 @@ class AppServiceProvider extends ServiceProvider
             $view->with('current_locale', app()->getLocale());
             $view->with('available_locales', config('app.available_locales'));
         });
+
+        //La sección temporal
+
+        $specialTag = Tag::where('active', true)->with(['tag_translation' => function ($query) {
+            $query->where('language_code', app()->getLocale())->first();
+        }])->first();
+
+        if ($specialTag != null) {
+
+            $tagName = $specialTag['tag_translation'][0]['name'];
+            
+        }else {
+            $tagName = false;
+        }
+
+        View::share('tagName', $tagName);
+
 
         // //Cargamos el carrito para que parpadee si tiene algún producto
         // if (Auth::check()) {

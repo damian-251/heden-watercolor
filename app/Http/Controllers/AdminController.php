@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Psr\Http\Message\RequestInterface;
 
 class AdminController extends Controller {
 
@@ -647,6 +648,35 @@ class AdminController extends Controller {
         }
         
         return back()->with('message', 'Location ' . $request->colour_en . ' updated!');
+
+    }
+
+    public function modifySpecial() {
+
+        //Cargamos las etiquetas que sean especiales
+        $specialTags = Tag::where('isSpecial', true)->with(['tag_translation' => function ($query) {
+            $query->where('language_code', app()->getLocale())->first();
+        }])->get();
+        
+        return view('admin.modify-special', compact('specialTags'));
+    }
+
+    /**
+     * Modificamos la sección especial
+     */
+    public function modifySpecialP(Request $request) {
+
+        //Pasamos al archivo de configuración la nueva etiqueta
+        DB::beginTransaction();
+        //Primero borramos si hubiese alguna con el valor activo a 1
+        Tag::all()->update(['active' => false]);
+        $newSpecial = Tag::find($request->specialTag);
+        $newSpecial->active = true;
+        $newSpecial->save();
+        DB::commit();
+
+        return back()->with('message', 'Temporary section changed');
+
 
     }
     

@@ -32,6 +32,7 @@
                         <a class="dropdown-item" href="{{route('product-list')}}">{{__('Product')}}</a>
                     </div>
                 </li>
+                <li class="nav-item"> <a class="nav-link" href="#">{{ __('Modify special section') }}</a> </li>
             </ul>
         </div>
     </div>

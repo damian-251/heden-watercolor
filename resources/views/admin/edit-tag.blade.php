@@ -1,10 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-
+@include('partials.admin-cp-menu')
 @include('partials.messages') {{-- Aquí incluimos los mensajes de éxito y de error --}}
 
-<select name="tag" id="selectTag">
+<h1 class="text-center my-4">{{__("Edit tag")}}</h1>
+
+<select class="w-75 mx-auto mb-4 form-select" name="tag" id="selectTag">
     @foreach ($tags as $tag)
         @foreach ($tag->tag_translation as $tagTr)
             {{-- Mostramos solo el nombre en inglés que es el obligatorio--}}
@@ -17,13 +19,15 @@
 
 {{-- Mostramos los datos de la opción que seleccionemos --}}
 
-<form action="{{ route('edit-tag-p')}}" method="POST">
+<form class="w-75 mx-auto" action="{{ route('edit-tag-p')}}" method="POST">
     @csrf
-    <input type="text" name="tag_en" id="tag_en" value="" placeholder="English" required>
-    <input type="text" name="tag_es" id="tag_es" value="" placeholder="Español">
-    <input type="text" name="tag_no" id="tag_no" value="" placeholder="Norge">
-    <input type="hidden" name="tag_id" id="input_tag" value="" required>
-    <input type="submit" value="{{__('Update tag')}}">
+    <input class="form-control  mb-4" type="text" name="tag_en" id="tag_en" value="" placeholder="English" required>
+    <input class="form-control  mb-4" type="text" name="tag_es" id="tag_es" value="" placeholder="Español">
+    <input class="form-control  mb-4" type="text" name="tag_no" id="tag_no" value="" placeholder="Norge">
+    <input class="form-control  mb-4" type="hidden" name="tag_id" id="input_tag" value="" required>
+    <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-primary btn">{{__('Update tag')}}</button>
+    </div>
 </form>
 
 <script>

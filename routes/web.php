@@ -138,6 +138,10 @@ Route::post('admin/edit-colour-p', [AdminController::class, 'editColourP'])->nam
 Route::get('admin/create-product', [AdminController::class, 'createProduct'])->name('create-product');
 Route::post('admin/create-product-p', [AdminController::class, 'createProductP'])->name('create-product-p');
 
+//Modificar la sección especial
+Route::get('admin/modify-special', [AdminController::class, 'modifySpecial'])->name('modify-special');
+
+
 
 //Vista de todos los productos para su edición
 Route::get('admin/product-list', [AdminController::class, 'productList'])->name('product-list');

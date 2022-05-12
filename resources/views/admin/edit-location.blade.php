@@ -1,10 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-
+@include('partials.admin-cp-menu')
 @include('partials.messages') {{-- Aquí incluimos los mensajes de éxito y de error --}}
 
-<select name="location" id="selectLocation">
+<h1 class="text-center my-4">{{__("Edit location")}}</h1>
+
+
+<select class="w-75 mx-auto mb-4 form-select" name="location" id="selectLocation">
     @foreach ($locations as $location)
         @foreach ($location->location_translation as $LocationTr)
             {{-- Mostramos solo el nombre en inglés que es el obligatorio--}}
@@ -17,14 +20,16 @@
 
 {{-- Mostramos los datos de la opción que seleccionemos --}}
 
-<form action="{{ route('edit-location-p')}}" method="POST">
+<form class="w-75 mx-auto" action="{{ route('edit-location-p')}}" method="POST">
     @method('PUT')
     @csrf
-    <input type="text" name="location_en" id="location_en" value="" placeholder="English" required>
-    <input type="text" name="location_es" id="location_es" value="" placeholder="Español">
-    <input type="text" name="location_no" id="location_no" value="" placeholder="Norge">
-    <input type="hidden" name="location_id" id="input_location" value="" required>
-    <input type="submit" value="{{__('Update location')}}">
+    <input class="form-control  mb-4" type="text" name="location_en" id="location_en" value="" placeholder="English" required>
+    <input class="form-control  mb-4" type="text" name="location_es" id="location_es" value="" placeholder="Español">
+    <input class="form-control  mb-4" type="text" name="location_no" id="location_no" value="" placeholder="Norge">
+    <input class="form-control  mb-4" type="hidden" name="location_id" id="input_location" value="" required>
+    <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-primary btn">{{__('Update location')}}</button>
+    </div>
 </form>
 
 <script>

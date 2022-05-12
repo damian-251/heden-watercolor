@@ -16,7 +16,9 @@ return new class extends Migration
         Schema::create('tags', function (Blueprint $table) {
             $table->id();
             $table->boolean('isSpecial')->default(false); //Indica si es una etiqueta para tener en cuenta en la categoría especial
+            $table->boolean('active')->default(false); //Indica si la etiqueta está en el menú principal
             $table->timestamps();
+            
         });
     }
 

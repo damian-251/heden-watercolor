@@ -101,6 +101,10 @@
                         <li class="nav-item"> <a class="nav-link" href="{{ route('exhibitions') }}">{{ __('Exhibitions') }}</a> </li>
                         <li class="nav-item"> <a class="nav-link" href="{{route('request-painting')}}">{{ __('Request painting') }}</a> </li>
                         <li class="nav-item"> <a class="nav-link" href="{{route('shopping-cart')}}">{{ __('Shopping Cart') }} </a> </li>
+                        @if ($tagName)
+                        <li class="nav-item"> <a class="nav-link" href="#">{{$tagName}} </a> </li>
+                        @endif
+                        
                         <li class="nav-item"> <a class="nav-link" href="{{route('about-heden')}}">{{ __('About Heden') }}</a> </li>
                     </ul>
                 </div>
