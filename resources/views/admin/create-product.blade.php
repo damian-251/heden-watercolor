@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+
+@include('partials.admin-cp-menu')
+
     <h1 class="text-center m-4">{{__("Create new product")}}</h1>
 
     {{-- Mensajes de error o de éxito que puedan haber en el proceso --}}

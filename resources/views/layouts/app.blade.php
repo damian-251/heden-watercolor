@@ -82,9 +82,12 @@
         </div>
     </nav>
     <div id="app">
+        @if (env('APP_ENV') != "production")
         <div class="alert alert-warning fs-3 text-center" role="alert">
             {{__('This site is deployed only for testing purposes and is under construction, the site is not functional')}}
           </div>
+            
+        @endif
         <div class="hw-logo">
             HEDEN WATERCOLOR
         </div>
