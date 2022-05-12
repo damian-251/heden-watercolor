@@ -69,7 +69,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => env('APP_TIMEZONE', 'GMT'),
 
     /*
     |--------------------------------------------------------------------------
@@ -212,3 +212,5 @@ return [
   ],
 
 ];
+
+//Se accede de esta forma: config('available_locales);

@@ -1,14 +1,20 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Order confirmation</title>
     <style>
+        
         img {
-            margin: 0 auto;
-            width: 30%;
+
+        width:30%;
+        margin-left: 2rem
+
+        } 
+        table { 
+        margin: 3rem;
         }
     </style>
 </head>
@@ -49,8 +55,17 @@
 
     {{-- //TODO Falta poner la direacción de envío --}}
 
+    <p>{{__('The order will be shipped to the following address:')}}</p>
+
+    {{__('Address Line 1')}}: {{$address->line1}} <br>
+    {{__('Address Line 2')}}: {{$address->line2}} <br>
+    {{__('Postal Code')}}: {{$address->postal_code}} <br>
+    {{__('Province')}}: {{$address->province}} <br>
+    {{__('City')}}: {{$address->city}} <br>
+    {{__('Country')}}: {{$country}} <br>
+
     <p>
-        {{__('If you detect any problem or error in the data displayed, contact' ) . " " . env('ADMIN_EMAIL')}}
+        {{__('If you detect any problem or error in the data displayed, please contact with ' ) . " " . env('ADMIN_EMAIL')}}
     </p>
 
 </body>

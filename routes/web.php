@@ -9,12 +9,14 @@ use App\Http\Controllers\TestDbController;
 use App\Http\Controllers\UserCPController;
 use App\Mail\RequestPaintingMail;
 use App\Mail\ShippingMail;
+use App\Models\Address;
 use App\Models\Cart;
 use App\Models\Order;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Models\Payment;
+use App\Models\Shipping;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -230,7 +232,8 @@ Route::post('webhook', function(Request $request) {
                 $clientEmail = $request->data['object']['billing_details']['email'];
 
                 $correo = new ShippingMail;
-                $correo->address = $request->data['object']['metadata']['full_address'];
+                $correo->address = Address::find($request->data['object']['metadata']['address_id']);
+                $correo->country = Shipping::find($correo->address->shipping_id)->country;
                 $correo->products = $proudctsEmail;
                 $correo->currency = $request->data['object']['currency'];
                 $correo->shipping_price = $order->shipping_price;

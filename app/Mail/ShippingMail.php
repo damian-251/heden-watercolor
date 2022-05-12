@@ -14,6 +14,7 @@ class ShippingMail extends Mailable
 
     public $products; //Productos del pedido
     public $address; //Dirección del pedido
+    public $country; //País de envio
     public $currency; //Divisa empleada
     public $shipping_price; //Gastos de envío
     public $totalPrice; //Precio total
