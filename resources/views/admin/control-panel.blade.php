@@ -41,5 +41,5 @@
 </nav>
 
 
-    <h1>{{__('Administration Control Panel')}}</h1>
+    <h1 class="text-center m-5">{{__('Administration Control Panel')}}</h1>
 @endsection
