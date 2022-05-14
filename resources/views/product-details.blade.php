@@ -51,7 +51,7 @@
         <h2>{{$productTr->name}}</h2>
         <p class="h-50">{{$productTr->description}}</p>
 
-        @if ($product->available == true)
+        @if ($product->stock > 0)
             {{-- Si está disponible mostramos las opciones de compra --}}
 
             {{-- Si está en idioma noruego mostramos el precio en coronas, si no en € --}}

@@ -2,12 +2,18 @@
 
 let inputAddress = document.getElementsByClassName('input_address');
 let selectAddress = document.getElementById('address');
+let inputAddressB = document.getElementsByClassName('input_addressB');
+
+console.log(inputAddressB);
 
 let subtotal = document.getElementById('subtotal');
 let shipping = document.getElementById('shipping_price');
 let total = document.getElementById('total_price');
 
 let country = document.getElementById('country');
+
+let billingform = document.getElementById('billing-address');
+let checkBill = document.getElementById('billingCheck');
 
 function updatePrice(idCountry) {
     fetch(window.location.origin + "/api/shipping/" + idCountry)
@@ -65,3 +71,23 @@ selectAddress.addEventListener("change", function(event) {
     updatePrice(this.options[this.selectedIndex].getAttribute("data-country"));
 });
 
+//Al marcar el checkbox mostramos como visible que el usuario introduzca la dirección de facturación
+
+
+checkBill.addEventListener('change', function(e) {
+
+    if (this.checked) {
+        billingform.style.display = "block";
+        for (let element of inputAddressB) {
+            element.setAttribute('required', 'true');   
+            console.log(element);
+        }
+    }else {
+        billingform.style.display = "none";
+        for (let element of inputAddressB) {
+            element.removeAttribute('required');
+            
+        }
+    }
+
+});

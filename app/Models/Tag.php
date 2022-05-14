@@ -12,4 +12,8 @@ class Tag extends Model
     public function tag_translation() {
         return $this->hasMany(Tag_tr::class);
     }
+
+    public function getTranslation() {
+        
+    }
 }

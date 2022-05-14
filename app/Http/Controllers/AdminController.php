@@ -656,10 +656,19 @@ class AdminController extends Controller {
         //Cargamos las etiquetas que sean especiales
         $specialTags = Tag::where('isSpecial', true)->with(['tag_translation' => function ($query) {
             $query->where('language_code', app()->getLocale())->first();
-        }])->get();
+            //Si no obtenemos resultado usamos el idioma por defecto
+        }])->first();
+
+        if ($specialTags == null) {
+            $specialTags = Tag::where('isSpecial', true)->with(['tag_translation' => function ($query) {
+                $query->where('language_code', config('app.default_locale'))->first();
+                //Si no obtenemos resultado usamos el idioma por defecto
+            }])->first();
+        }
         
         return view('admin.modify-special', compact('specialTags'));
     }
+    
 
     /**
      * Modificamos la sección especial

@@ -194,6 +194,9 @@ return [
         // ...
     ])->toArray(),
 
+    //Definimos el idioma por defecto
+    'default_locale' => "en",
+
 
     /*
 |--------------------------------------------------------------------------

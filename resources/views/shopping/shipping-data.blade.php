@@ -79,10 +79,35 @@
               </div>
             </div>
           </div>
+          <div class="form-check  m-3">
+            <input class="form-check-input" type="checkbox" value="" id="billingCheck" />
+            <label class="form-check-label" for="billingCheck">{{__('Use a different billing address')}}</label>
+          </div>
+
+          <div class="col-md-6 " style="display:none;" id="billing-address">
+            <input type="text" name="fullNameB" class="form-control mb-2 input_addressB" id="fullNameB" placeholder="Full name">
+            <input type="tel" name="telephoneB" class="form-control mb-2 input_addressB" id="telephoneB" placeholder="Telephone number eg. +4722222222 ">
+            <input type="text" name="identificationNumber" class="form-control mb-2 input_address" id="identificationNumber" placeholder="Identification number">
+            <input type="text" name="address1B"class="form-control mb-2 input_addressB" id="firstLineB" placeholder="First line">
+            <input type="text" name="address2B" class="form-control mb-2 input_addressB" id="secondLineB" placeholder="Second line">
+            <input type="text" name="postalCodeB" class="form-control mb-2 input_addressB" id="postalCodeB" placeholder="Postal Code">
+            <input type="text" name="provinceB" class="form-control mb-2 input_addressB" id="provinceB" placeholder="Province">
+            <input type="text" name="cityB" class="form-control mb-2 input_addressB" id="cityB" placeholder="City">
+            <select class="form-select input_addressB" id="country" aria-label="Country selection" name="countryB">
+                <option disabled selected value="">{{__('Select your country')}}</option>
+                @foreach ($countries as $country)
+                <option value="{{$country->id}}">{{$country->country}}</option>
+                @endforeach
+            </select>
+          </div>
+          
+
           <div class="d-flex justify-content-center">
                <button class="btn btn-primary me-3 mt-4" type="submit">{{__('Review data and pay')}}</button>
-       </div>
           </div>
+          </div>
+
+          
       
   
       </form>

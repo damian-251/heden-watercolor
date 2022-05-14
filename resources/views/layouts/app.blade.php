@@ -82,12 +82,12 @@
         </div>
     </nav>
     <div id="app">
-        @if (env('APP_ENV') != "production")
+        {{-- @if (env('APP_ENV') != "production")
         <div class="alert alert-warning fs-3 text-center" role="alert">
             {{__('This site is deployed only for testing purposes and is under construction, the site is not functional')}}
           </div>
             
-        @endif
+        @endif --}}
         <div class="hw-logo">
             HEDEN WATERCOLOR
         </div>
@@ -101,9 +101,9 @@
                         <li class="nav-item"> <a class="nav-link" href="{{ route('exhibitions') }}">{{ __('Exhibitions') }}</a> </li>
                         <li class="nav-item"> <a class="nav-link" href="{{route('request-painting')}}">{{ __('Request painting') }}</a> </li>
                         <li class="nav-item"> <a class="nav-link" href="{{route('shopping-cart')}}">{{ __('Shopping Cart') }} </a> </li>
-                        @if ($tagName)
+                        {{-- @if ($tagName)
                         <li class="nav-item"> <a class="nav-link" href="#">{{$tagName}} </a> </li>
-                        @endif
+                        @endif --}}
                         
                         <li class="nav-item"> <a class="nav-link" href="{{route('about-heden')}}">{{ __('About Heden') }}</a> </li>
                     </ul>

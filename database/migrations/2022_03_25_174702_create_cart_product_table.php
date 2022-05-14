@@ -15,9 +15,11 @@ return new class extends Migration
     {
         Schema::create('cart_product', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
             $table->bigInteger('cart_id');
             $table->bigInteger('product_id');
+            $table->integer('units')->default(0); //Unidades del producto que hay en el carrito
+            $table->integer('stock')->default(0);
+            $table->timestamps();
         });
     }
 

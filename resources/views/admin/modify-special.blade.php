@@ -10,9 +10,11 @@
 
     <select class="w-75 mx-auto mb-4 form-select" name="speciaTag" id="selectTag">
         @foreach ($specialTags as $specialTag)
-            <option value="{{$specialTag->id}}">{{$specialTag['tag_translation'][0]['name']}}</option>
+            <option ></option>
         @endforeach
     </select>
+
+    {{$specialTag}}
 
     <div class="form-check d-flex justify-content-center">
         <input class="form-check-input" type="checkbox" value="" id="disableSpecial" />

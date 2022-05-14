@@ -34,19 +34,19 @@ class AppServiceProvider extends ServiceProvider
 
         //La sección temporal
 
-        $specialTag = Tag::where('active', true)->with(['tag_translation' => function ($query) {
-            $query->where('language_code', app()->getLocale())->first();
-        }])->first();
+        // $specialTag = Tag::where('active', true)->with(['tag_translation' => function ($query) {
+        //     $query->where('language_code', app()->getLocale())->first();
+        // }])->first();
 
-        if ($specialTag != null) {
+        // if ($specialTag != null) {
 
-            $tagName = $specialTag['tag_translation'][0]['name'];
+        //     $tagName = $specialTag['tag_translation'][0]['name'];
             
-        }else {
-            $tagName = false;
-        }
+        // }else {
+        //     $tagName = false;
+        // }
 
-        View::share('tagName', $tagName);
+        // View::share('tagName', $tagName);
 
 
         // //Cargamos el carrito para que parpadee si tiene algún producto

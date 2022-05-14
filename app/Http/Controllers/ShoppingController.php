@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Address;
 use App\Models\Cart;
+use App\Models\Product;
 use App\Models\Shipping;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -45,21 +46,43 @@ class ShoppingController extends Controller
             }
         }
 
-        //Solo puede haber un producto de cada tipo por lo que, si ya se ha añadido no lo dejamos añadir más
-        $productId = $request->product_id;
 
-        $alreadyAdded = Cart::whereHas('products', function($query) use ($productId) {
-            $query->where('product_id', $productId);})->first();
-        //Si no es nulo significa que el producto ya está en el carrito
-        if ($alreadyAdded != null) {
-            return back()->with('message', 'The product is already in your cart');
+
+        //TODO: Sistema de reserva pendiente
+
+        // $alreadyAdded = Cart::whereHas('products', function($query) use ($productId) {
+        //     $query->where('product_id', $productId);})->first();
+        // //Si no es nulo significa que el producto ya está en el carrito
+        // if ($alreadyAdded != null) {
+        //     return back()->with('message', 'The product is already in your cart');
+        // }
+
+        //Comprobamos si el mismo tipo de producto ya existe en la cesta
+
+        $pivot = $cart->products()->where('product_id', $request->product_id)->first();
+
+        if ($pivot != null) {
+            //Obtenemos las unidades actuales del producto que tenemos
+            $currentUnits = $cart->products()->where('product_id', $request->product_id)->firstOrFail()->pivot->units;
+            //Si las unidades que tenemos es igual al stock del producto no podemos añadir más unidades
+            if ($currentUnits == Product::find($request->product_id)->stock) {
+                return back()->with('message', 'There is not more units availabe');
+            }else {
+                //Si todo ok incrementamos en una unidad la cantidad del producto
+                $cart->products()->sync([$request->product_id => [ 'units' => $currentUnits +1] ], false);
+            }
+        }else {
+            //Si aún no está el producto en la cesta insertamos el registro
+            $cart->products()->attach($request->product_id, ['units' => 1]);
         }
 
-        //Introducimos el producto en la tabla del Carrito
-        $product_id = $request->product_id;
-        Log::channel('custom')->debug($cart);
-        Log::channel('custom')->debug("Id de producto añadido: " . $product_id);
-        $cart->products()->attach($product_id); //Sería la tabla cart_product
+
+        
+        // //Introducimos el producto en la tabla del Carrito
+        // $product_id = $request->product_id;
+        // Log::channel('custom')->debug($cart);
+        // Log::channel('custom')->debug("Id de producto añadido: " . $product_id);
+        // $cart->products()->attach($product_id); //Sería la tabla cart_product
 
         DB::commit();
 

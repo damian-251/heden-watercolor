@@ -15,13 +15,14 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
             $table->float('subtotal_price');
             $table->float('shipping_price');
             $table->bigInteger('payment_id'); //Datos que genera al finalizar el pago en la api de Stripe
             //Ahí tendremos el precio total, la divisa y otros datos
             $table->boolean('sent')->default(false); //Indica si el pedido está enviado, el admin lo cambiará cuando lo envíe
             $table->bigInteger('address_id'); //fk tabla address
+            $table->bigInteger('address_f_id'); //Dirección de facturación
+            $table->timestamps();
         });
     }
 

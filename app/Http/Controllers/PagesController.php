@@ -21,8 +21,6 @@ class PagesController extends Controller
         $tagNames = Tag_tr::select('name')->where('language_code', app()->getLocale())->get();
         $locationNames = Location_tr::select('name')->where('language_code', app()->getLocale())->get();
 
-        Log::channel('custom')->debug("Tipo "  . $type . " -- Parámetro " . $parameter );
-
         //Si hay algún parámetro los filtramos
         if ($type !=null) {
             if ($type == "tag") {
@@ -31,14 +29,13 @@ class PagesController extends Controller
                 $products = Product::whereHas('tags', function($query) use ($tagId) {
                 $query->where('tag_id', $tagId);})->get();
             }else if ($type == "location") {
-                Log::channel('custom')->debug("DATOS DE LA LOCALIZACIÓN");
+
                 $locationId = Location_tr::where('name', $parameter)->first()->location_id;
-                Log::channel('custom')->debug("locationid "  . $locationId);
                 $location = Location::find($locationId);
-                Log::channel('custom')->debug("location "  . $location);
+
                 $products = Product::whereHas('location', function($query) use ($locationId) {
                 $query->where('location_id', $locationId);})->get();
-                Log::channel('custom')->debug("products "  . $products);
+
             }
 
         }else if (isset($request->search)) {
@@ -53,13 +50,6 @@ class PagesController extends Controller
 
         }
 
-        
-        // Log::channel('custom')->debug("Productos con las etiquetas correspondientes");
-        // Log::channel('custom')->debug($products);
-
-
-
-
         return view('portfolio', compact('products', 'tagNames', 'locationNames'));
     }
 
@@ -69,9 +59,10 @@ class PagesController extends Controller
     public function vistaDetalles($id=1) {
         $product = Product::find($id);
         $productTr = Product_tr::where('product_id', $id)->where('language_code', app()->getLocale())->first();
-        //Si no está lo ponemos en inglés que es el obligatorio
+
+        //Si no está lo ponemos en el idioma por defecto
         if ($productTr == null) {
-            $productTr = Product_tr::where('product_id', $id)->where('language_code', "en")->first();
+            $productTr = Product_tr::where('product_id', $id)->where('language_code', config('app.default_locale'))->first();
         }
         return view('product-details', compact('product', 'productTr'));
     }
@@ -81,10 +72,9 @@ class PagesController extends Controller
      */
     public function vistaTienda() {
 
-        $products = Product::where('available', true)->get();
+        $products = Product::where('stock', '>', 0)->get();
 
         return view('shop', compact('products'));
-
     }
 
     public function requestPaintingView() {

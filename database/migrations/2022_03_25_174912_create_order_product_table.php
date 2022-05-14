@@ -15,9 +15,13 @@ return new class extends Migration
     {
         Schema::create('order_product', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
             $table->bigInteger('order_id');
             $table->bigInteger('product_id');
+            $table->string('sku'); //Identificador único del producto
+            $table->float('price'); //Precio de cada producto en la factura (unitario)
+            $table->text('description'); //Qué tipo de producto es
+            $table->integer('units'); //Cantidad de unidades de ese producto
+            $table->timestamps();
         });
     }
 

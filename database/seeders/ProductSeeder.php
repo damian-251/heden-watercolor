@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Product_tr;
 use App\Models\Tag;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 use Faker\Factory;
 
@@ -27,9 +28,10 @@ class ProductSeeder extends Seeder
 
             $faker = Factory::create();
             $product = new Product();
+            $product->sku = Str::random(10);
             $product->price_eur = $faker->randomFloat(15, 0, 70);
             $product->price_nok = $faker->randomFloat(15, 0, 70);
-            $product->available = true;
+            $product->stock = 1;
             $product->creation_date = $faker->dateTimeThisDecade(); //Fecha de creación de la acuarela
             $product->img_path_jpg = "test";
             $product->img_path_webp = "test";
@@ -37,11 +39,21 @@ class ProductSeeder extends Seeder
     
             //Añadimos la imagen del producto
             $image_name = $product->id . "-watercolor.jpg";
-            $path = public_path() . '/assets/images';
-            $image = $faker->image($path, 500, 500, 'watercolor');
-            rename($image, public_path() . '/assets/images/' . $image_name);
+            //$path = public_path() . '/assets/images';
+            // $image = $faker->image($path, 500, 500, 'watercolor');
+            // rename($image, public_path() . '/assets/images/' . $image_name);
+            // $product->img_path_jpg = 'assets/images/' . $image_name;
+            // $product->img_path_webp = 'assets/images/' . $image_name;
+            // $product->save();
+            //El proveedor de imágenes de faker ha dejado de funcionar (la página no carga) así que he cambiado el método
+
+            $path = public_path() . '/assets/images' . '/' . $image_name;
+            $contents = file_get_contents('http://placekitten.com/g/500/500');
+            file_put_contents($path, $contents);
             $product->img_path_jpg = 'assets/images/' . $image_name;
             $product->img_path_webp = 'assets/images/' . $image_name;
+
+
             $product->save();
 
             //Añadimos etiquetas

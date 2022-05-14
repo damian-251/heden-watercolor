@@ -10,7 +10,7 @@ class Cart extends Model
     use HasFactory;
 
     public function products() {
-        return $this->belongsToMany(Product::class, 'cart_product');
+        return $this->belongsToMany(Product::class, 'cart_product')->withPivot('stock', 'units');
     }
 
     public function attachProducts($products) {
