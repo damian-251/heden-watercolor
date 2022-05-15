@@ -27,10 +27,12 @@ $session = \Stripe\Checkout\Session::create([
       'metadata' => ['user_id' => $userId,
                     'session_id' => $sessionId,
                      'address_id' => $addressId, 
+                     'addressB_id' => $addressIdB,
                      'shipping_price' => $shippingPrice,
                      'subtotal' => $totalPrice,
-                     'final_price' => $finalPrice ,
-                     'full_address' => $address]
+                     'final_price' => $finalPrice,
+                     'full_address' => $address,
+                     'billing_address' => $addressB]
     ]
   ]);
 

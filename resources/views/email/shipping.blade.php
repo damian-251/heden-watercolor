@@ -53,16 +53,28 @@
 
     </table>
 
-    {{-- //TODO Falta poner la direacción de envío --}}
-
     <p>{{__('The order will be shipped to the following address:')}}</p>
 
+    <h2>{{__('Shipping Address')}}</h2>
+    
+    {{__('Full name')}}: {{$address->full_name}} <br>
     {{__('Address Line 1')}}: {{$address->line1}} <br>
     {{__('Address Line 2')}}: {{$address->line2}} <br>
     {{__('Postal Code')}}: {{$address->postal_code}} <br>
     {{__('Province')}}: {{$address->province}} <br>
     {{__('City')}}: {{$address->city}} <br>
     {{__('Country')}}: {{$country}} <br>
+
+    <h2>{{__('Shipping Address')}}</h2>
+
+    {{__('Full name')}}: {{$billingAddress->full_name}} <br>
+    {{__('Address Line 1')}}: {{$billingAddress->line1}} <br>
+    {{__('Address Line 2')}}: {{$billingAddress->line2}} <br>
+    {{__('Postal Code')}}: {{$billingAddress->postal_code}} <br>
+    {{__('Province')}}: {{$billingAddress->province}} <br>
+    {{__('City')}}: {{$billingAddress->city}} <br>
+    {{__('Country')}}: {{$billingCountry}} <br>
+
 
     <p>
         {{__('If you detect any problem or error in the data displayed, please contact with ' ) . " " . env('ADMIN_EMAIL')}}

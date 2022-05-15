@@ -22,6 +22,7 @@ return new class extends Migration
             $table->boolean('sent')->default(false); //Indica si el pedido está enviado, el admin lo cambiará cuando lo envíe
             $table->bigInteger('address_id'); //fk tabla address
             $table->bigInteger('address_f_id'); //Dirección de facturación
+            $table->float('taxes')->nullable(); //Guardamos los impuestos en la orden por si se cambian en el futuro
             $table->timestamps();
         });
     }

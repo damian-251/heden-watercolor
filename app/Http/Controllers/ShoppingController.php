@@ -207,6 +207,12 @@ class ShoppingController extends Controller
                 'country' => 'required',
             ]);
 
+            if (!Auth::check()) {
+                $request->validate([
+                    'identificationNumber' => 'required',
+                ]);
+            }
+
             //Esta nueva dirección se añade a la base de datos
 
             DB::beginTransaction();
@@ -225,11 +231,12 @@ class ShoppingController extends Controller
                 $address->user_id = auth()->user()->id;
             }else {
                 $address->session_id = session()->getId();
+                $address->identification = $request->identificationNumber;
             }
 
             $address->save();
 
-            DB::commit();
+            
 
             Log::channel('custom')->debug($address);
             Log::channel('custom')->debug($address->id);
@@ -244,13 +251,65 @@ class ShoppingController extends Controller
 
         }
 
+
+        //Filtramos la dirección de facturación si la hemos marcado como distinta
+
+        if ($request->billingCheck == "on") {
+
+            $request->validate([
+                'fullNameB' => 'required',
+                'telephoneB' => 'required',
+                'address1B' => 'required',
+                'address2B' => 'required',
+                'postalCodeB' => 'required',
+                'provinceB' => 'required',
+                'cityB' => 'required',
+                'countryB' => 'required',
+            ]);
+
+            //Si no estamos registrados deberemos meter un documento de identificación
+            if (!Auth::check()) {
+                $request->validate([
+                    'identificationNumberB' => 'required',
+                ]);
+            }
+
+            //Añadimos la dirección de facturación a la base de datos
+            $addressB = new Address();
+            $addressB->full_name = $request->fullNameB;
+            $addressB->phone = $request->telephoneB;
+            $addressB->line1 = $request->address1B;
+            $addressB->line2 = $request->address2B;
+            $addressB->postal_code = $request->postalCodeB;
+            $addressB->province = $request->provinceB;
+            $addressB->shipping_id = $request->countryB;
+            $addressB->city = $request->cityB;
+
+            if (Auth::check()) {
+                $addressB->user_id = auth()->user()->id;
+            }else {
+                $addressB->session_id = session()->getId();
+                $addressB->identification = $request->identificationNumberB;
+            }
+
+            $addressB->save();
+
+            $addressIdB = $addressB->id;
+            $countryB = Shipping::findOrFail($request->countryB);
+
+        }else {
+            //Si no está marcada la dirección de facturación será la de envío
+            $addressB = $address;
+            $addressIdB = $address->id;
+        }
+
+        DB::commit();
+
         if (Auth::check()) {
             $cart = Cart::where('user_id', auth()->user()->id)->with('products')->first();
-            $address = Address::where('user_id', Auth::user()->id)->where('id',  $addressId)->first();
         }else {
             $cart = Cart::where('session_id', session()->getId())->with('products')->first();
-            $address = Address::where('session_id', session()->getId())->where('id',  $addressId)->first();
-        }
+        }      
 
         Log::channel('custom')->debug('Carrito de la compra' . $cart);
 
@@ -278,7 +337,7 @@ class ShoppingController extends Controller
 
         //TODO: Comprobar disponibilidad el producto antes de retornar esta lista
 
-        return view('shopping.review-order', compact('locale', 'address', 'shippingPrice', 'currency', 'totalPrice', 'finalPrice', 'currencyStripe', 'addressId', 'currency'));
+        return view('shopping.review-order', compact('locale', 'address', 'addressB','shippingPrice', 'currency', 'totalPrice', 'finalPrice', 'currencyStripe', 'addressId', 'currency', 'addressIdB'));
         
     }
 

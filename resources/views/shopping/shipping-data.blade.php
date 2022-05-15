@@ -31,6 +31,10 @@
             
             <input type="text" name="fullName" class="form-control mb-2 input_address" id="fullName" placeholder="Full name" required>
             <input type="tel" name="telephone" class="form-control mb-2 input_address" id="telephone" placeholder="Telephone number eg. +4722222222 " required>
+            {{-- Si no está registrado pedimos algún documento de identificación --}}
+            @if (!auth()->check())
+            <input type="text" name="identificationNumber" class="form-control mb-2 input_address" id="identificationNumber" placeholder="Identification number">                
+            @endif
             <input type="text" name="address1"class="form-control mb-2 input_address" id="firstLine" placeholder="First line" required>
             <input type="text" name="address2" class="form-control mb-2 input_address" id="secondLine" placeholder="Second line" required>
             <input type="text" name="postalCode" class="form-control mb-2 input_address" id="postalCode" placeholder="Postal Code" required>
@@ -80,14 +84,17 @@
             </div>
           </div>
           <div class="form-check  m-3">
-            <input class="form-check-input" type="checkbox" value="" id="billingCheck" />
+            <input class="form-check-input" type="checkbox" id="billingCheck"  name="billingCheck">
             <label class="form-check-label" for="billingCheck">{{__('Use a different billing address')}}</label>
           </div>
 
           <div class="col-md-6 " style="display:none;" id="billing-address">
             <input type="text" name="fullNameB" class="form-control mb-2 input_addressB" id="fullNameB" placeholder="Full name">
             <input type="tel" name="telephoneB" class="form-control mb-2 input_addressB" id="telephoneB" placeholder="Telephone number eg. +4722222222 ">
-            <input type="text" name="identificationNumber" class="form-control mb-2 input_address" id="identificationNumber" placeholder="Identification number">
+            @if (!auth()->check())
+            <input type="text" name="identificationNumberB" class="form-control mb-2 input_address" id="identificationNumberB" placeholder="Identification number">
+                
+            @endif
             <input type="text" name="address1B"class="form-control mb-2 input_addressB" id="firstLineB" placeholder="First line">
             <input type="text" name="address2B" class="form-control mb-2 input_addressB" id="secondLineB" placeholder="Second line">
             <input type="text" name="postalCodeB" class="form-control mb-2 input_addressB" id="postalCodeB" placeholder="Postal Code">

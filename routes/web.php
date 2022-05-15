@@ -172,9 +172,9 @@ Route::get('checkout-test', function () {
 Route::post('webhook', function(Request $request) {
     //Log::channel('custom')->debug("Logger stripe --> " . $request);
     if ($request->type == 'charge.succeeded') {
-        Log::channel('custom')->debug("El pago ha sido completado con éxito");
-        Log::channel('custom')->debug("Subtotal " . $request->data['object']['metadata']['subtotal'] );
-        Log::channel('custom')->debug("id de la dirección " . $request->data['object']['metadata']['address_id'] );
+        // Log::channel('custom')->debug("El pago ha sido completado con éxito");
+        // Log::channel('custom')->debug("Subtotal " . $request->data['object']['metadata']['subtotal'] );
+        // Log::channel('custom')->debug("id de la dirección " . $request->data['object']['metadata']['address_id'] );
 
         try {
             DB::beginTransaction();
@@ -189,55 +189,80 @@ Route::post('webhook', function(Request $request) {
 
             Log::channel('custom')->debug("Payment " . $payment );
 
-            $order = new Order();
-            $order->subtotal_price = $request->data['object']['metadata']['subtotal'];
-            $order->address_id = $request->data['object']['metadata']['address_id'];
-            $order->payment_id = $payment->id;
-            $order->shipping_price = $request->data['object']['metadata']['shipping_price'];
-            $order->sent = false;
-            $order->save();
-            Log::channel('custom')->debug("Order " . $order);
-            //Mediante la tabla address podemos saber el id del usuario
-            //TODO: Hay que poner los productos como que ya no están disponibles
-
             //Recogemos los productos que había en el carrito
             if (isset($request->data['object']['metadata']['user_id'])) {
                 $cart = Cart::where('user_id', $request->data['object']['metadata']['user_id'])->first(); 
             }else {
                 $cart = Cart::where('session_id', $request->data['object']['metadata']['session_id'])->first();
             }
+
+            $order = new Order();
+            $order->subtotal_price = $request->data['object']['metadata']['subtotal'];
+            $order->address_id = $request->data['object']['metadata']['address_id'];
+            $order->address_f_id = $request->data['object']['metadata']['addressB_id'];
+            $order->payment_id = $payment->id;
+            $order->shipping_price = $request->data['object']['metadata']['shipping_price'];
+            $order->sent = false;
+            $order->taxes = null; //De momento no tenemos en cuenta los impuestos, genraremos una factura a petición del cliente
+            $order->save();
+            Log::channel('custom')->debug("Order " . $order);
+            //Mediante la tabla address podemos saber el id del usuario
+            //TODO: Hay que poner los productos como que ya no están disponibles
+
+            //Recorremos los productos del carrito para rellenar las tablas pivote de order
+            foreach ($cart->products as $product) {
+
+                //Filtramos la descripción del producto
+                $description = $product->product_translation->where('language_code', app()->getLocale())->first()->description;
+                if ($description == null) {
+                    $description =$product->product_translation->where('language_code', config('app.default_locale'))->first()->description;
+                }
+
+                if ($request->data['object']['currency'] == "eur") {
+                    $price = $product->price_eur;
+                }else {
+                    $price = $product->price_nok;
+                }
+
+                //Modificamos el stock del producto
+                $product->stock -=$product->pivot->units;
+                $product->save();
+
+
+                //Insertamos en la orden los pedidos
+                $order->products()->attach($product->id, ['units' => $product->pivot->units, 'price' => $price, 
+                'sku' => $product->sku, 'description' => $description ]);               
+            }
+
             
-            Log::channel('custom')->debug("Cart " . $cart );
-            Log::channel('custom')->debug("Cart products" . $cart->products()->allRelatedIds());
-            //Los insertamos en order
-            $order->products()->attach($cart->products()->allRelatedIds());
-            Log::channel('custom')->debug("Order products " . $order->products );
+            
+            // Log::channel('custom')->debug("Cart " . $cart );
+            // Log::channel('custom')->debug("Cart products" . $cart->products()->allRelatedIds());
+            // //Los insertamos en order
+            // //$order->products()->attach($cart->products()->allRelatedIds());
+            // Log::channel('custom')->debug("Order products " . $order->products );
 
             //Guardamos los productos para mostrarlos en el email antes de borrar el carrito
             $proudctsEmail = $cart->products;
-
-            //Ponemos que ya no están disponibles para que aparezcan el el portfolio pero no en la tienda
-            foreach ($cart->products as $product) {
-                $product->available = false;
-                $product->save();
-                Log::channel('custom')->debug("Product " . $product );
-            }
 
             //Eliminamos el carrito y sus relaciones
             $cart->products()->detach();
             $cart->delete();
 
             DB::commit();
-            Log::channel('custom')->debug("Todo correcto :)" );
+            Log::channel('custom')->debug("Todo correcto :')" );
 
             //Aquí enviamos el correo electrónico al usuario con su pedido y una copia al administrador
             //(Se supone que Stripe envía un correo al usuario pero en la versión de desarrollo parece que no)
             //Obtenemos el email que ha puesto en Stripe
                 $clientEmail = $request->data['object']['billing_details']['email'];
 
+                //TODO: Añadir la dirección de facturación
                 $correo = new ShippingMail;
                 $correo->address = Address::find($request->data['object']['metadata']['address_id']);
+                $correo->billingAddress = Address::find($request->data['object']['metadata']['addressB_id']);
                 $correo->country = Shipping::find($correo->address->shipping_id)->country;
+                $correo->billingCountry = Shipping::find($correo->billingAddress->shipping_id)->country;
                 $correo->products = $proudctsEmail;
                 $correo->currency = $request->data['object']['currency'];
                 $correo->shipping_price = $order->shipping_price;

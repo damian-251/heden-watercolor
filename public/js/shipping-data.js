@@ -66,10 +66,13 @@ country.addEventListener("change", function(event) {
     updatePrice(this.value);
 });
 
-//Al cambiar la dirección se extrae su país y se actualizan los gastos de envío
-selectAddress.addEventListener("change", function(event) {
-    updatePrice(this.options[this.selectedIndex].getAttribute("data-country"));
-});
+if (selectAddress != null) {
+    //Al cambiar la dirección se extrae su país y se actualizan los gastos de envío
+    selectAddress.addEventListener("change", function(event) {
+        updatePrice(this.options[this.selectedIndex].getAttribute("data-country"));
+    });
+
+}
 
 //Al marcar el checkbox mostramos como visible que el usuario introduzca la dirección de facturación
 
