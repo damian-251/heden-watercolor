@@ -138,6 +138,10 @@
         <input type="number" class="form-control  mb-4" name="price_eur" id="price_eur" step=".01" placeholder="Price in €" min="0" required>
         <input type="number" class="form-control mb-4" name="price_nok" id="price_nok" placeholder="Price en NOK" min="0" required>
 
+
+        <h2 class="text-center m-4">{{__('Stock')}}</h2>
+        <input type="number" class="form-control mb-4" name="stock" id="stock" placeholder="{{__('Units in stock')}}" min="0" required>
+
         <h2 class="text-center m-4">{{__('Dimensions')}}</h2>
         <input class="form-control mb-4" type="number" name="width" id="width" placeholder="Width in cm" required>
         <input class="form-control mb-4" type="number" name="height" id="height"  placeholder="Height in cm" required>

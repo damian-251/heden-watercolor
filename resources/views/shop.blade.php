@@ -25,14 +25,14 @@
             </div>
         </a>
         <div class="hw-data-container">
-            <span class="hw-price">
+            <span class="hw-price fs-3 d-flex justify-content-center">
                 @if (app()->getLocale() == "no")
                     {{$product->price_nok}} NOK
                 @else
                     {{$product->price_eur}} €
                 @endif
                 </span>
-            <form action="{{ route('add-to-cart')}}" method="POST">
+            <form class="my-3 d-flex justify-content-center" action="{{ route('add-to-cart')}}" method="POST">
                 @csrf
                 <input type="hidden" name="product_id" value="{{$product->id}}">
                 <button class="btn btn-primary" type="submit">{{__('Add to cart')}}</button>

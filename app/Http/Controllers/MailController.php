@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Mail\ContactMail;
 use App\Mail\RequestPaintingMail;
+use App\Models\RequestPainting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -36,7 +38,16 @@ class MailController extends Controller
         $correo->phone = $request->phone;
 
         Mail::to(env('EMAIL_REQUEST'))->send($correo);
-    
+
+        DB::beginTransaction();
+        //También añadimos los datos a la base de datos por si el correo se pierde
+        $requestTable = new RequestPainting();
+        $requestTable->name = $request->name;
+        $requestTable->email = $request->email;
+        $requestTable->description = $request->details;
+        $requestTable->img_path = $path;
+        $requestTable->save();
+        DB::commit();
         return back()->with('message', 'The request has been submitted');
     }
 

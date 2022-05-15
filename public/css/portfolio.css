@@ -55,6 +55,28 @@ img {
     margin: .7rem;
 }
 
+.hw-product-link {
+    position: relative;
+}
+
+
+.hw-product-text {
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: black;
+    background-color: #D4EDDA;
+    padding: .5rem 1rem;
+    border-radius: 10px;
+
+}
+
+.hw-div-product img:hover {
+    opacity: .7;
+}
+
+
 /* Versión para móviles */
 @media (max-width: 780px) {
     .hw-product-container {

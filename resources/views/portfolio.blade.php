@@ -44,16 +44,24 @@
 
 <div class="hw-product-container">
     @foreach ($products as $product)
-    <a href="{{ route('product-details', ['id'=>$product->id]) }}">
-        <div class="hw-div-product">
-            <picture>
-            <source srcset="{{ asset($product->img_path_webp) }}" type="image/webp">
-            <source srcset="{{ asset($product->img_path_jpg) }}" type="image/jpeg"> 
-            <img src="{{ asset($product->img_path_jpg) }}" alt="Product image">
-            </picture>
-        </div>
-    </a>
-    @endforeach
+       <a href="{{ route('product-details', ['id'=>$product->id]) }}" class="hw-product-link">
+            <div class="hw-div-product">
+                <picture>
+                <source srcset="{{ asset($product->img_path_webp) }}" type="image/webp">
+                <source srcset="{{ asset($product->img_path_jpg) }}" type="image/jpeg"> 
+                <img src="{{ asset($product->img_path_jpg) }}" alt="Product image">
+                </picture>
+                {{-- Si hay stock del producto mostramos el mensaje de disponible al pasar el ratón --}}
+                
+                <div class="hw-product-text fs-3 shadow-lg" style="display: none;@if ($product->stock==0) 
+                    border-radius: 0px; padding: 0;
+                    @endif">@if ($product->stock>0) 
+                    {{__('Available')}} 
+                    @endif</div>
+                    
+            </div>
+        </a>
+        @endforeach
 </div>
 
 <script src={{ asset('js/portfolio.js')}}></script>

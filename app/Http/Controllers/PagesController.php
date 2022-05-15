@@ -42,7 +42,7 @@ class PagesController extends Controller
             $search = $request->search;
             //Hemos introducido término para buscar por título
             $products = Product::whereHas('product_translation', function($query) use ($search) {
-                $query->where('name', 'like', '%' . $search . '%');})->get();
+                $query->where('name', 'like', '%' . $search . '%');})->orderBy('creation_date', 'desc')->get();
 
         }else {
             //Más recientes primeros
@@ -72,7 +72,7 @@ class PagesController extends Controller
      */
     public function vistaTienda() {
 
-        $products = Product::where('stock', '>', 0)->get();
+        $products = Product::where('stock', '>', 0)->orderBy('creation_date', 'desc')->get();
 
         return view('shop', compact('products'));
     }

@@ -23,6 +23,7 @@
     "Message" : "Mensaje",
     "Email Address" : "Correo electrónico",
     "Password" : "Contraseña",
-    "Forgot Your Password?" : "¿Has olvidado la contraseña?"
+    "Forgot Your Password?" : "¿Has olvidado la contraseña?",
+    "Available" : "Disponible"
 
   }

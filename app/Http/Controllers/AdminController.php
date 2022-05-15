@@ -254,12 +254,16 @@ class AdminController extends Controller {
             'description_en' => 'required',
             'width' => 'required',
             'height' => 'required',
+            'stock' => 'required',
             'image_jpg' => 'required|mimes:jpeg|max:200',
             'image_webp' => 'mimes:webp|max:100'
         ]);
 
+        DB::beginTransaction();
+
         //Creamos el nuevo producto
         $product = new Product();
+        $product->sku = Str::random(10);
         //Primero agregamos los datos propios de la tabla producto.
 
         // ---- PRECIO ----
@@ -268,18 +272,19 @@ class AdminController extends Controller {
 
             if (isset($request->price_nok) && $request->price_nok > 0) {
                 $product->price_nok = $request->price_nok;
-                $product->available = true;
+                $product->stock = $request->stock;
             }else {
                 //Si no tiene precio o es 0 significa que no está a la venta
-                $product->available = false;
+                $product->stock = 0;
             }
     
             if (isset($request->price_eur) && $request->price_eur > 0) {
                 $product->price_eur = $request->price_eur;
-                $product->available = true;
+                //Indicamos el stock
+                $product->stock = $request->stock;
             }else {
                 //Si no tiene precio o es 0 significa que no está a la venta
-                $product->available = false;
+                $product->stock = 0;
             }
         }else {
             throw new CreateProductException('You have to specify both eur and nok');
