@@ -101,10 +101,13 @@
                         <li class="nav-item"> <a class="nav-link" href="{{ route('exhibitions') }}">{{ __('Exhibitions') }}</a> </li>
                         <li class="nav-item"> <a class="nav-link" href="{{route('request-painting')}}">{{ __('Request painting') }}</a> </li>
                         <li class="nav-item"> <a class="nav-link" href="{{route('shopping-cart')}}">{{ __('Shopping Cart') }} </a> </li>
-                        {{-- @if ($tagName)
-                        <li class="nav-item"> <a class="nav-link" href="#">{{$tagName}} </a> </li>
-                        @endif --}}
-                        
+                        @if ($specialTagStart != null)    
+                            @foreach ($specialTagStart->tag_translation as $translation)
+                                @if ($translation->language_code == app()->getLocale())
+                                    <li class="nav-item"> <a class="nav-link" href="{{route('special-section')}}">{{$translation->name}} </a> </li>
+                                @endif                               
+                            @endforeach  
+                        @endif                       
                         <li class="nav-item"> <a class="nav-link" href="{{route('about-heden')}}">{{ __('About Heden') }}</a> </li>
                     </ul>
                 </div>

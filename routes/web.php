@@ -140,8 +140,14 @@ Route::post('admin/create-product-p', [AdminController::class, 'createProductP']
 
 //Modificar la sección especial
 Route::get('admin/modify-special', [AdminController::class, 'modifySpecial'])->name('modify-special');
+Route::post('admin/modify-special-p', [AdminController::class, 'modifySpecialP'])->name('modify-special-p');
 
+//Marcar pedido como enviado
+Route::get('admin/order-sent', [AdminController::class, 'orderSent'])->name('order-sent');
+Route::post('admin/order-sent-p', [AdminController::class, 'orderSentP'])->name('order-sent-p');
 
+//Ruta a la sección espeical
+Route::get('admin/special-section', [PagesController::class, 'specialSection'])->name('special-section');
 
 //Vista de todos los productos para su edición
 Route::get('admin/product-list', [AdminController::class, 'productList'])->name('product-list');
@@ -257,7 +263,6 @@ Route::post('webhook', function(Request $request) {
             //Obtenemos el email que ha puesto en Stripe
                 $clientEmail = $request->data['object']['billing_details']['email'];
 
-                //TODO: Añadir la dirección de facturación
                 $correo = new ShippingMail;
                 $correo->address = Address::find($request->data['object']['metadata']['address_id']);
                 $correo->billingAddress = Address::find($request->data['object']['metadata']['addressB_id']);

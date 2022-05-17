@@ -32,7 +32,8 @@
                         <a class="dropdown-item" href="{{route('product-list')}}">{{__('Product')}}</a>
                     </div>
                 </li>
-                <li class="nav-item"> <a class="nav-link" href="#">{{ __('Modify special section') }}</a> </li>
+                <li class="nav-item"> <a class="nav-link" href="{{route('modify-special')}}">{{ __('Modify special section') }}</a> </li>
+                <li class="nav-item"> <a class="nav-link" href="{{route('order-sent')}}">{{ __('Mark order as sent') }}</a> </li>
             </ul>
         </div>
     </div>

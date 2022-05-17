@@ -94,4 +94,16 @@ class PagesController extends Controller
     public function exhibitions() {
         return view('exhibitions');
     }
+
+    /**
+     * Recogemos las obras que tienen como etiqueta la sección espeical
+     */
+    public function specialSection() {
+
+        $products = Product::whereHas('tags', function($query) {
+            $query->where('active', true); }
+            )->get();
+
+        return view('special', compact('products'));
+    }
 }

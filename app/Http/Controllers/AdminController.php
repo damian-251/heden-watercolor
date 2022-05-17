@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\CreateProductException;
+use App\Mail\OrderShippedMail;
 use App\Models\Colour;
 use App\Models\Colour_tr;
 use App\Models\Location;
 use App\Models\Location_tr;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\Product_tr;
 use App\Models\Tag;
@@ -15,20 +17,25 @@ use Faker\Core\Color;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Psr\Http\Message\RequestInterface;
 
-class AdminController extends Controller {
+class AdminController extends Controller
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('admin'); // Controlador solo para los administradores del sitio
     }
 
-    public function index() {
+    public function index()
+    {
         return view('admin.control-panel');
     }
 
-    public function createTag() {
+    public function createTag()
+    {
         return view('admin.create-tag');
     }
 
@@ -36,7 +43,8 @@ class AdminController extends Controller {
      * Está función recibirá los datos del formulario de nueva etiqueta y la 
      * insertará en la base de datos
      */
-    public function createTagP(Request $request) {
+    public function createTagP(Request $request)
+    {
 
         //Solo será obligatoria la etiqueta en inglés, que es el idioma por defecto.
         $validated = $request->validate([
@@ -45,7 +53,7 @@ class AdminController extends Controller {
 
         $tag = new Tag(); //Generamos una nueva etiqueta para obtener su id
         //Comprobamos si es una etiqueta especial (para luego poder aplicarse en la sección temporal)
-        if($request->isSpecial == 'true') {
+        if ($request->isSpecial == 'true') {
             $tag->isSpecial = true;
             Log::channel('custom')->debug('La etiqueta tiene un valor isSpecial de ' . $tag->isSpecial);
         }
@@ -90,15 +98,16 @@ class AdminController extends Controller {
      * Recuperará el nombre de las etiquetas de la base de datos para poder seleccionarlas 
      * y editarlas
      */
-    public function editTag() {
+    public function editTag()
+    {
 
         $tags = Tag::all();
-        
-        return view('admin.edit-tag', compact('tags'));
 
+        return view('admin.edit-tag', compact('tags'));
     }
 
-    public function editTagP(Request $request) {
+    public function editTagP(Request $request)
+    {
         //El valor en inglés es obligatorio. El id es obligatorio
         $validated = $request->validate([
             'tag_en' => 'required',
@@ -116,7 +125,7 @@ class AdminController extends Controller {
         ]);
 
 
-        if(isset($request->tag_es)) {
+        if (isset($request->tag_es)) {
             Log::channel('custom')->debug("Hay etiqueta en castellano");
             $tagEs = Tag_tr::where('tag_id', $request->tag_id)->where('language_code', 'es');
             //$tagEs->update('name', $request->tag_es);
@@ -126,10 +135,9 @@ class AdminController extends Controller {
             $tagEs->update([
                 'name' => $request->tag_es
             ]);
-
         }
 
-        if(isset($request->tag_no)) {
+        if (isset($request->tag_no)) {
             Log::channel('custom')->debug("Hay etiqueta en noruego");
             $tagNo = Tag_tr::where('tag_id', $request->tag_id)->where('language_code', 'no');
             //$tagNo->update('name', $request->tag_no);
@@ -140,23 +148,24 @@ class AdminController extends Controller {
                 'name' => $request->tag_no
             ]);
         }
-       
-        return back()->with('message', 'Tag ' . $request->tag_en . ' updated!');
 
+        return back()->with('message', 'Tag ' . $request->tag_en . ' updated!');
     }
 
     /**
      * Carga la página con el formulario para la creación de un nuevo color
      */
-    public function createColour() {
+    public function createColour()
+    {
         return view('admin.create-colour');
     }
 
     /**
      * Inserta el nuevo color en la tabla de color y sus traducciones
      */
-    public function createColourP(Request $request) {
-        
+    public function createColourP(Request $request)
+    {
+
         //Obligatorio el color en inglés
         $validated = $request->validate([
             'colour_en' => 'required'
@@ -196,15 +205,16 @@ class AdminController extends Controller {
         DB::commit();
 
         return back()->with('message', 'Colour ' . $request->colour_en . " added!");
-
     }
 
-    public function editColour() {
+    public function editColour()
+    {
         $colours = Colour::all();
         return view('admin.edit-colour', compact('colours'));
     }
 
-    public function editColourP(Request $request) {
+    public function editColourP(Request $request)
+    {
         //El valor en inglés es obligatorio. El id es obligatorio
         $validated = $request->validate([
             'colour_en' => 'required',
@@ -218,7 +228,7 @@ class AdminController extends Controller {
         ]);
 
 
-        if(isset($request->colour_es)) {
+        if (isset($request->colour_es)) {
 
             $colourEs = Colour_tr::where('colour_id', $request->colour_id)->where('language_code', 'es');
             $colourEs->update([
@@ -226,18 +236,18 @@ class AdminController extends Controller {
             ]);
         }
 
-        if(isset($request->colour_no)) {
+        if (isset($request->colour_no)) {
             $tagNo = Colour_tr::where('colour_id', $request->colour_id)->where('language_code', 'no');
             $tagNo->update([
                 'name' => $request->colour_no
             ]);
         }
-        
-        return back()->with('message', 'Colour ' . $request->colour_en . ' updated!');
 
+        return back()->with('message', 'Colour ' . $request->colour_en . ' updated!');
     }
 
-    public function createProduct(){
+    public function createProduct()
+    {
         //Para crear el producto necesitamos recuperar la lista de  nombres colores, de localizaciones y de etiquetas
 
         $colours = Colour::all();
@@ -247,7 +257,8 @@ class AdminController extends Controller {
         return view('admin.create-product', compact('colours', 'locations', 'tags', 'specialTags'));
     }
 
-    public function createProductP(Request $request) {
+    public function createProductP(Request $request)
+    {
 
         $validated = $request->validate([
             'title_en' => 'required',
@@ -273,20 +284,20 @@ class AdminController extends Controller {
             if (isset($request->price_nok) && $request->price_nok > 0) {
                 $product->price_nok = $request->price_nok;
                 $product->stock = $request->stock;
-            }else {
+            } else {
                 //Si no tiene precio o es 0 significa que no está a la venta
                 $product->stock = 0;
             }
-    
+
             if (isset($request->price_eur) && $request->price_eur > 0) {
                 $product->price_eur = $request->price_eur;
                 //Indicamos el stock
                 $product->stock = $request->stock;
-            }else {
+            } else {
                 //Si no tiene precio o es 0 significa que no está a la venta
                 $product->stock = 0;
             }
-        }else {
+        } else {
             throw new CreateProductException('You have to specify both eur and nok');
         }
 
@@ -308,7 +319,7 @@ class AdminController extends Controller {
 
         $product->height = $request->height;
         $product->width = $request->width;
-        
+
 
         // --- IMÁGENES DEL PRODUCTO ----
 
@@ -317,16 +328,16 @@ class AdminController extends Controller {
         //jpg
         $image_jpg_name = $nombre . "_jpg.jpg";
         $path = base_path() . '/public/assets/images/jpg';
-        $request->file('image_jpg')->move($path,$image_jpg_name);  
-        $product->img_path_jpg = 'assets/images/jpg/' .$image_jpg_name;
+        $request->file('image_jpg')->move($path, $image_jpg_name);
+        $product->img_path_jpg = 'assets/images/jpg/' . $image_jpg_name;
         Log::channel('custom')->debug("Imagen jpg");
 
         //webp
         if (isset($request->image_webp)) {
             $image_webp_name = $nombre . "_webp.webp";
             $path = base_path() . '/public/assets/images/webp';
-            $request->file('image_webp')->move($path,$image_webp_name);  
-            $product->img_path_webp = 'assets/images/webp/' .$image_webp_name;
+            $request->file('image_webp')->move($path, $image_webp_name);
+            $product->img_path_webp = 'assets/images/webp/' . $image_webp_name;
             Log::channel('custom')->debug("Imagen webp");
         }
 
@@ -340,7 +351,7 @@ class AdminController extends Controller {
         //Colores
         $product->colours()->attach($request->tags);
 
-        
+
 
         //Ahora rellenamos los datos correspondientes en la tabla de traducciones
 
@@ -385,7 +396,8 @@ class AdminController extends Controller {
     /**
      * Función que editar un producto seleccionado
      */
-    public function editProduct($id) {
+    public function editProduct($id)
+    {
         //Producto que queremos editar
         $product = Product::findOrFail($id);
         $productEn = Product_tr::where('product_id', $id)->where('language_code', 'en')->first();
@@ -398,26 +410,35 @@ class AdminController extends Controller {
         $specialTags = Tag::where('isSpecial', true)->get();
         $locations = Location::all();
         //TODO: Completar función 
-        return view('admin.edit-product', compact('product', 'productEn', 'productEs', 
-        'productNo', 'colours','tags','locations', 'specialTags'));
+        return view('admin.edit-product', compact(
+            'product',
+            'productEn',
+            'productEs',
+            'productNo',
+            'colours',
+            'tags',
+            'locations',
+            'specialTags'
+        ));
     }
 
     /**
      * Muestra una lista de productos con acciones de editar y borrar
      */
-    public function productList() {
+    public function productList()
+    {
 
         $products = Product::all();
 
         return view('admin.product-list', compact('products'));
-
     }
 
     /**
      * Proceso de edición de producto, recibimos los datos procedentes
      * del formulario de edición
      */
-    public function  editProductP(Request $request) {
+    public function  editProductP(Request $request)
+    {
         $validated = $request->validate([
             'title_en' => 'required',
             'description_en' => 'required',
@@ -438,19 +459,19 @@ class AdminController extends Controller {
             if (isset($request->price_nok) && $request->price_nok > 0) {
                 $product->price_nok = $request->price_nok;
                 $product->available = true;
-            }else {
+            } else {
                 //Si no tiene precio o es 0 significa que no está a la venta
                 $product->available = false;
             }
-    
+
             if (isset($request->price_eur) && $request->price_eur > 0) {
                 $product->price_eur = $request->price_eur;
                 $product->available = true;
-            }else {
+            } else {
                 //Si no tiene precio o es 0 significa que no está a la venta
                 $product->available = false;
             }
-        }else {
+        } else {
             throw new CreateProductException('You have to specify both eur and nok');
         }
 
@@ -472,30 +493,30 @@ class AdminController extends Controller {
 
         $product->height = $request->height;
         $product->width = $request->width;
-        
+
 
         // --- IMÁGENES DEL PRODUCTO ----
 
         $nombre = Str::random(20);
 
-        if(isset($request->image_jpg)) {
+        if (isset($request->image_jpg)) {
 
             //jpg
             $image_jpg_name = $nombre . "_jpg.jpg";
             $path = base_path() . '/public/assets/images/jpg';
-            $request->file('image_jpg')->move($path,$image_jpg_name);  
-            $product->img_path_jpg = 'assets/images/jpg/' .$image_jpg_name;
+            $request->file('image_jpg')->move($path, $image_jpg_name);
+            $product->img_path_jpg = 'assets/images/jpg/' . $image_jpg_name;
             Log::channel('custom')->debug("Imagen jpg");
         }
 
         if (isset($request->image_webp)) {
             $image_webp_name = $nombre . "_webp.webp";
             $path = base_path() . '/public/assets/images/webp';
-            $request->file('image_webp')->move($path,$image_webp_name);  
-            $product->img_path_webp = 'assets/images/webp/' .$image_webp_name;
+            $request->file('image_webp')->move($path, $image_webp_name);
+            $product->img_path_webp = 'assets/images/webp/' . $image_webp_name;
             Log::channel('custom')->debug("Imagen webp");
         }
-  
+
 
 
         //Ahora rellenamos los datos correspondientes en la tabla de traducciones
@@ -553,13 +574,13 @@ class AdminController extends Controller {
         DB::commit();
 
         return back()->with('message', 'Product updated!');
-
     }
 
     /**
      * Función que elimina un producto pasándole el id del mismo
      */
-    public function deleteProduct($id) {
+    public function deleteProduct($id)
+    {
         $product = Product::findOrFail($id);
         $product->delete(); //Hemos configurado softdelete
         //TODO: Faltaría borrar/modificar las asociaciones que tuviese es producto
@@ -567,18 +588,20 @@ class AdminController extends Controller {
     }
 
 
-        /**
+    /**
      * Carga la página con el formulario para la creación de una nueva localización
      */
-    public function createLocation() {
+    public function createLocation()
+    {
         return view('admin.create-location');
     }
 
     /**
      * Inserta la nueva localización en la tabla de color y sus traducciones
      */
-    public function createLocationP(Request $request) {
-        
+    public function createLocationP(Request $request)
+    {
+
         $validated = $request->validate([
             'location_en' => 'required'
         ]);
@@ -615,15 +638,16 @@ class AdminController extends Controller {
         DB::commit();
 
         return back()->with('message', 'Location ' . $request->location_en . " added!");
-
     }
 
-    public function editLocation() {
+    public function editLocation()
+    {
         $locations = Location::all();
         return view('admin.edit-location', compact('locations'));
     }
 
-    public function editLocationP(Request $request) {
+    public function editLocationP(Request $request)
+    {
         //El valor en inglés es obligatorio. El id es obligatorio
         $validated = $request->validate([
             'location_en' => 'required',
@@ -637,7 +661,7 @@ class AdminController extends Controller {
         ]);
 
 
-        if(isset($request->location_es)) {
+        if (isset($request->location_es)) {
 
             $locationEs = Location_tr::where('location_id', $request->location_id)->where('language_code', 'es');
             $locationEs->update([
@@ -645,53 +669,105 @@ class AdminController extends Controller {
             ]);
         }
 
-        if(isset($request->location_no)) {
+        if (isset($request->location_no)) {
             $locationNo = Location_tr::where('location_id', $request->location_id)->where('language_code', 'no');
             $locationNo->update([
                 'name' => $request->location_no
             ]);
         }
-        
-        return back()->with('message', 'Location ' . $request->colour_en . ' updated!');
 
+        return back()->with('message', 'Location ' . $request->colour_en . ' updated!');
     }
 
-    public function modifySpecial() {
+    public function modifySpecial()
+    {
 
         //Cargamos las etiquetas que sean especiales
-        $specialTags = Tag::where('isSpecial', true)->with(['tag_translation' => function ($query) {
-            $query->where('language_code', app()->getLocale())->first();
-            //Si no obtenemos resultado usamos el idioma por defecto
-        }])->first();
+        $specialTags = Tag::where('isSpecial', true)->with('tag_translation')->get();
 
-        if ($specialTags == null) {
-            $specialTags = Tag::where('isSpecial', true)->with(['tag_translation' => function ($query) {
-                $query->where('language_code', config('app.default_locale'))->first();
-                //Si no obtenemos resultado usamos el idioma por defecto
-            }])->first();
-        }
-        
         return view('admin.modify-special', compact('specialTags'));
     }
-    
+
 
     /**
      * Modificamos la sección especial
      */
-    public function modifySpecialP(Request $request) {
+    public function modifySpecialP(Request $request)
+    {
 
-        //Pasamos al archivo de configuración la nueva etiqueta
+        Log::channel('custom')->debug('Cambiar sección especial -> request ' . $request);
+
+
         DB::beginTransaction();
-        //Primero borramos si hubiese alguna con el valor activo a 1
-        Tag::all()->update(['active' => false]);
+
+        $tag = Tag::where('active', true)->first();
+        if ($tag != null) {
+            $tag->active = false;
+            $tag->save();
+        }
+
+        if ($request->disableSpecial == "on") {
+            DB::commit();
+            return back()->with('message', 'Temporary section disabled');
+        }
+
         $newSpecial = Tag::find($request->specialTag);
         $newSpecial->active = true;
         $newSpecial->save();
+
         DB::commit();
 
         return back()->with('message', 'Temporary section changed');
-
-
     }
-    
+
+
+    /**
+     * Vista para marcar como enviados los pedidos de los clientes
+     */
+    public function orderSent()
+    {
+
+        //Recuperamos los pedidos que no estén enviados
+        $orders = Order::where('sent', false)->with('products.product_translation', 'payment')->get();
+
+        return view('admin.order-sent', compact('orders'));
+    }
+
+    /**
+     * Se marca como enviado el pedido del cliente con alguna observación
+     * si la hubiese y se envía un correo electrónico al cliente
+     */
+    public function orderSentP(Request $request)
+    {
+        $request->validate([
+            'order_id' => 'required'
+        ]);
+
+        DB::beginTransaction();
+        //De la tabla pago obtenemos el correo electrónico
+        $order = Order::find($request->order_id);
+        $order->sent = true;
+        $order->save();
+
+        //Una vez marcado como enviado enviamos el mensaje al usuario
+
+        $clientEmail = $order->payment->email;
+
+        $correo = new OrderShippedMail;
+        $correo->address = $order->address;
+        $correo->country = $order->address->shipping->country;
+        if (isset($request->comment)) {
+            $correo->comment = $request->comment;
+        }else {
+            $correo->comment = null;
+        }
+
+        //Copia para el administrador y el cliente
+        Mail::to(env('EMAIL_REQUEST'))->send($correo);
+        Mail::to($clientEmail)->send($correo);
+
+        DB::commit();
+
+        return back()->with('message', 'Order marked as sent');
+    }
 }
