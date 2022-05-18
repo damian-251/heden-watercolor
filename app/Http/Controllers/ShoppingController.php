@@ -6,6 +6,7 @@ use App\Models\Address;
 use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Shipping;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -20,7 +21,8 @@ class ShoppingController extends Controller
     /**
      * Añade el producto a la cesta de la compra
      */
-    public function addToCart(Request $request) {
+    public function addToCart(Request $request)
+    {
 
         $request->validate([
             'product_id' => 'required'
@@ -36,8 +38,8 @@ class ShoppingController extends Controller
                 $cart->user_id = auth()->user()->id;
                 $cart->save();
             }
-        //Nos basamos en la sesión para crear un carrito de la compra
-        }else {
+            //Nos basamos en la sesión para crear un carrito de la compra
+        } else {
             $cart = Cart::where('session_id', session()->getId())->first();
             if ($cart == null) {
                 $cart = new Cart();
@@ -50,47 +52,85 @@ class ShoppingController extends Controller
 
         //TODO: Sistema de reserva pendiente
 
-        // $alreadyAdded = Cart::whereHas('products', function($query) use ($productId) {
-        //     $query->where('product_id', $productId);})->first();
-        // //Si no es nulo significa que el producto ya está en el carrito
-        // if ($alreadyAdded != null) {
-        //     return back()->with('message', 'The product is already in your cart');
-        // }
+        //Comparamos la fecha actual con la fecha de reserva
 
-        //Comprobamos si el mismo tipo de producto ya existe en la cesta
+        $product = Product::find($request->product_id);
+        $currentTime = Carbon::now();
+        //Usamos la misma zona horaria que la base de datos
+        $currentTime->setTimezone('UTC');
 
-        $pivot = $cart->products()->where('product_id', $request->product_id)->first();
+        //El sistema de reserva solo lo vamos a hacer si hay únicamente una unidad disponible
 
-        if ($pivot != null) {
-            //Obtenemos las unidades actuales del producto que tenemos
-            $currentUnits = $cart->products()->where('product_id', $request->product_id)->firstOrFail()->pivot->units;
-            //Si las unidades que tenemos es igual al stock del producto no podemos añadir más unidades
-            if ($currentUnits == Product::find($request->product_id)->stock) {
-                return back()->with('message', 'There is not more units availabe');
-            }else {
-                //Si todo ok incrementamos en una unidad la cantidad del producto
-                $cart->products()->sync([$request->product_id => [ 'units' => $currentUnits +1] ], false);
+        $reserved = true;
+        if ($product->stock == 1) {
+
+            if ($product->reserved == null) {
+                //Le añadimos el tiempo de reserva (media hora)
+                $reservationTime = Carbon::now()->setTimezone('UTC');
+                $reservationTime->addMinutes(5);
+                $product->reserved = $reservationTime->format('Y-m-d H:i:s');
+                $product->save();
+                $reserved = false;
+            } elseif (Carbon::parse($product->reserved)->lt($currentTime)) {
+                //En ese caso ya ha pasado el tiempo de reserva
+                //Lo eliminamos del carrito del que lo tenía
+                $productId = $product->id;
+                $cartProduct = Cart::whereHas('products', function ($q) use ($productId) {
+                    $q->where('products.id', $productId);
+                })->first();
+
+                if ($cartProduct != null) {
+
+                    $cartProduct->products()->detach($productId);
+                }
+
+                //Ya podemos seguir el proceso normal
+                $reservationTime = Carbon::now()->setTimezone('UTC');
+                $reservationTime->addMinutes(30);
+                $product->reserved = $reservationTime->format('Y-m-d H:i:s');
+                $product->save();
+
+                $reserved = false;
+            } elseif (Carbon::parse($product->reserved)->gt($currentTime)) {
+                //Significa que no ha pasado el tiempo de reserva
+                return back()->with('message', 'The product is reserved');
+            } else {
+                return back();
             }
-        }else {
-            //Si aún no está el producto en la cesta insertamos el registro
-            $cart->products()->attach($request->product_id, ['units' => 1]);
         }
 
 
-        
-        // //Introducimos el producto en la tabla del Carrito
-        // $product_id = $request->product_id;
-        // Log::channel('custom')->debug($cart);
-        // Log::channel('custom')->debug("Id de producto añadido: " . $product_id);
-        // $cart->products()->attach($product_id); //Sería la tabla cart_product
+        Log::channel('custom')->debug("Current time: " . $currentTime . " Reservation time: " . $reservationTime);
+
+
+        if ($reserved == false) {
+
+            $pivot = $cart->products()->where('product_id', $request->product_id)->first();
+
+            if ($pivot != null) {
+                //Obtenemos las unidades actuales del producto que tenemos
+                $currentUnits = $cart->products()->where('product_id', $request->product_id)->firstOrFail()->pivot->units;
+                //Si las unidades que tenemos es igual al stock del producto no podemos añadir más unidades
+                if ($currentUnits == Product::find($request->product_id)->stock) {
+                    return back()->with('message', 'There is not more units availabe');
+                } else {
+                    //Si todo ok incrementamos en una unidad la cantidad del producto
+                    $cart->products()->sync([$request->product_id => ['units' => $currentUnits + 1]], false);
+                }
+            } else {
+                //Si aún no está el producto en la cesta insertamos el registro
+                $cart->products()->attach($request->product_id, ['units' => 1]);
+            }
+        }
+
 
         DB::commit();
 
         return back()->with('message', 'Product added to cart');
-
     }
 
-    public function cartView() {
+    public function cartView()
+    {
 
 
         $locale = app()->getLocale();
@@ -103,8 +143,8 @@ class ShoppingController extends Controller
                 $cart->user_id = auth()->user()->id;
                 $cart->save();
             }
-        //Nos basamos en la sesión para crear un carrito de la compra
-        }else {
+            //Nos basamos en la sesión para crear un carrito de la compra
+        } else {
             $cart = Cart::where('session_id', session()->getId())->first();
             if ($cart == null) {
                 $cart = new Cart();
@@ -119,38 +159,37 @@ class ShoppingController extends Controller
 
         //Aquí calculamos el precio total
         foreach ($cart->products as $product) {
-            if($locale == "no") {
+            if ($locale == "no") {
                 $totalPrice += $product->price_nok;
-            }else {
+            } else {
                 $totalPrice += $product->price_eur;
             }
-            
         }
 
 
         return view('shopping.cart', compact('cart', 'totalPrice', 'locale'));
     }
 
-    public function deleteProductP(Request $request) {
+    public function deleteProductP(Request $request)
+    {
         $request->validate([
             'product_id' => 'required'
         ]);
 
         if (Auth::check()) {
             $cart = Cart::where('user_id', auth()->user()->id)->first();
-        }
-        else {
+        } else {
             $cart = Cart::where('session_id', session()->getId())->first();
         }
 
         $cart->products()->detach($request->product_id);
 
         return back();
-
     }
 
 
-    public function shippingDataP(Request $request) {
+    public function shippingDataP(Request $request)
+    {
 
         $locale = app()->getLocale();
 
@@ -158,14 +197,14 @@ class ShoppingController extends Controller
 
         if ($locale == "no") {
             $currency = "kr";
-        }else {
+        } else {
             $currency = "€";
         }
 
         if (Auth::check()) {
             $adresses = Address::where('user_id', Auth::user()->id)->get();
             $cart = Cart::where('user_id', auth()->user()->id)->with('products')->first();
-        }else {
+        } else {
             $adresses = null;
             $cart = Cart::where('session_id', session()->getId())->with('products')->first();
         }
@@ -176,16 +215,16 @@ class ShoppingController extends Controller
 
             if ($locale == "no") {
                 $totalPrice += $product->price_nok;
-            }else {
+            } else {
                 $totalPrice += $product->price_eur;
             }
-            
         }
 
-        return view('shopping.shipping-data' , compact('adresses', 'cart', 'totalPrice', 'currency', 'countries'));
+        return view('shopping.shipping-data', compact('adresses', 'cart', 'totalPrice', 'currency', 'countries'));
     }
 
-    public function orderReviewP(Request $request) {
+    public function orderReviewP(Request $request)
+    {
         $locale = app()->getLocale();
         //TODO: Hay que realizar un flitrado de datos, según se seleccione la dirección o se rellenen los campos
         Log::channel('custom')->debug($request);
@@ -229,26 +268,25 @@ class ShoppingController extends Controller
 
             if (Auth::check()) {
                 $address->user_id = auth()->user()->id;
-            }else {
+            } else {
                 $address->session_id = session()->getId();
                 $address->identification = $request->identificationNumber;
             }
 
             $address->save();
 
-            
+
 
             Log::channel('custom')->debug($address);
             Log::channel('custom')->debug($address->id);
 
             $addressId = $address->id;
             $country = Shipping::findOrFail($request->country);
-
-        }else {
+        } else {
 
             $addressId = $request->existing_address;
+            $address = Address::find($addressId);
             $country = Shipping::findOrFail(Address::findOrFail($request->existing_address)->shipping_id);
-
         }
 
 
@@ -287,7 +325,7 @@ class ShoppingController extends Controller
 
             if (Auth::check()) {
                 $addressB->user_id = auth()->user()->id;
-            }else {
+            } else {
                 $addressB->session_id = session()->getId();
                 $addressB->identification = $request->identificationNumberB;
             }
@@ -296,8 +334,7 @@ class ShoppingController extends Controller
 
             $addressIdB = $addressB->id;
             $countryB = Shipping::findOrFail($request->countryB);
-
-        }else {
+        } else {
             //Si no está marcada la dirección de facturación será la de envío
             $addressB = $address;
             $addressIdB = $address->id;
@@ -307,9 +344,9 @@ class ShoppingController extends Controller
 
         if (Auth::check()) {
             $cart = Cart::where('user_id', auth()->user()->id)->with('products')->first();
-        }else {
+        } else {
             $cart = Cart::where('session_id', session()->getId())->with('products')->first();
-        }      
+        }
 
         Log::channel('custom')->debug('Carrito de la compra' . $cart);
 
@@ -317,28 +354,26 @@ class ShoppingController extends Controller
             $shippingPrice = $country->price_nok;
             $currencyStripe = 'nok';
             $currency = "kr";
-        }else {
+        } else {
             $shippingPrice = $country->price_eur;
             $currencyStripe = 'eur';
             $currency = "€";
         }
-        
+
         $totalPrice = 0;
 
         foreach ($cart->products as $product) {
             if ($locale == "no") {
                 $totalPrice += $product->price_nok;
-            }else {
+            } else {
                 $totalPrice += $product->price_eur;
             }
 
-            $finalPrice = $totalPrice + $shippingPrice;     
+            $finalPrice = $totalPrice + $shippingPrice;
         }
 
         //TODO: Comprobar disponibilidad el producto antes de retornar esta lista
 
-        return view('shopping.review-order', compact('locale', 'address', 'addressB','shippingPrice', 'currency', 'totalPrice', 'finalPrice', 'currencyStripe', 'addressId', 'currency', 'addressIdB'));
-        
+        return view('shopping.review-order', compact('locale', 'address', 'addressB', 'shippingPrice', 'currency', 'totalPrice', 'finalPrice', 'currencyStripe', 'addressId', 'currency', 'addressIdB'));
     }
-
 }

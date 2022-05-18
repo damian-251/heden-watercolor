@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Product_tr;
 use App\Models\Tag;
 use App\Models\Tag_tr;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -64,7 +65,12 @@ class PagesController extends Controller
         if ($productTr == null) {
             $productTr = Product_tr::where('product_id', $id)->where('language_code', config('app.default_locale'))->first();
         }
-        return view('product-details', compact('product', 'productTr'));
+
+        $currentTime = Carbon::now();
+        //Usamos la misma zona horaria que la base de datos
+        $currentTime->setTimezone('UTC');
+
+        return view('product-details', compact('product', 'productTr', 'currentTime'));
     }
 
     /**
@@ -74,7 +80,10 @@ class PagesController extends Controller
 
         $products = Product::where('stock', '>', 0)->orderBy('creation_date', 'desc')->get();
 
-        return view('shop', compact('products'));
+        $currentTime = Carbon::now();
+            //Usamos la misma zona horaria que la base de datos
+            $currentTime->setTimezone('UTC');
+        return view('shop', compact('products', 'currentTime'));
     }
 
     public function requestPaintingView() {

@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('img_path_jpg'); //Ruta de la imagen en jpg. Obligatorio por mayor compatibilidad que webp
             $table->string('img_path_webp')->nullable(); //Ruta de la imagen en webp (formato prioritario para la carga)
             $table->bigInteger('location_id')->nullable(); //Id de la tabla de localización (en qué lugar se encuentra la obra ambientada)
-            $table->date('reserved')->nullable(); //Indica si un producto está reservado, nulo si no lo está
+            $table->dateTime('reserved')->nullable(); //Indica si un producto está reservado, nulo si no lo está
             $table->string('sku')->unique();
             $table->timestamps();
             $table->softDeletes();

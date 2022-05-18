@@ -76,6 +76,10 @@ img {
     opacity: .7;
 }
 
+.button {
+    cursor: not-allowed !important;
+}
+
 
 /* Versión para móviles */
 @media (max-width: 780px) {
