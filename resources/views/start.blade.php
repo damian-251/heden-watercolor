@@ -4,10 +4,12 @@
     Heden Watercolor - {{__('Homepage')}}
 @endsection
 
+
 @section('styles')
 @endsection
 
 @section('content')
+@include('partials.messages')
 <div id="carouselExampleControls" class="carousel slide px-5 mx-auto" data-bs-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">

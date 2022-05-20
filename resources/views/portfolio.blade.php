@@ -11,7 +11,7 @@
 @section('content')
 <div class="hw-filter-search">
     <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+        <button class="btn btn-secondary dropdown-toggle mx-3" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
           {{__('Filter')}}
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -37,7 +37,7 @@
     </div>
     <form class="d-flex" action="{{route('portfolioP')}}" method="POST">
         @csrf
-        <input class="form-control me-2" type="search" placeholder="{{__('Search by title')}}" aria-label="Search" name="search">
+        <input class="form-control me-2 " type="search" placeholder="{{__('Search by title')}}" aria-label="Search" name="search">
         <button class="btn btn-outline-success" type="submit">{{__('Search')}}</button>
     </form>
 </div>

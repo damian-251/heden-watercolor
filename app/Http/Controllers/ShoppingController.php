@@ -19,7 +19,9 @@ use Illuminate\Support\Facades\Log;
 class ShoppingController extends Controller
 {
     /**
-     * Añade el producto a la cesta de la compra
+     * Añade el producto a la cesta de la compra, aunque la base de datos está preparada
+     * el carrito aún no opera con unidades de productos, se haría si en el futuro se vendiesen
+     * productos que tengan más de una unidad
      */
     public function addToCart(Request $request)
     {
@@ -50,8 +52,6 @@ class ShoppingController extends Controller
 
 
 
-        //TODO: Sistema de reserva pendiente
-
         //Comparamos la fecha actual con la fecha de reserva
 
         $product = Product::find($request->product_id);
@@ -61,9 +61,9 @@ class ShoppingController extends Controller
 
         //El sistema de reserva solo lo vamos a hacer si hay únicamente una unidad disponible
 
-        $reserved = true;
+        $reserved = false;
         if ($product->stock == 1) {
-
+            $reserved = true;
             if ($product->reserved == null) {
                 //Le añadimos el tiempo de reserva (media hora)
                 $reservationTime = Carbon::now()->setTimezone('UTC');
@@ -72,12 +72,16 @@ class ShoppingController extends Controller
                 $product->save();
                 $reserved = false;
             } elseif (Carbon::parse($product->reserved)->lt($currentTime)) {
+
                 //En ese caso ya ha pasado el tiempo de reserva
                 //Lo eliminamos del carrito del que lo tenía
+                //De momento lo eliminamos del carrito más antiguo aunque se debería de eliminar
+                //Del carrito cuyo updated_at relacionado con el producto sea más antiguo
+              
                 $productId = $product->id;
                 $cartProduct = Cart::whereHas('products', function ($q) use ($productId) {
                     $q->where('products.id', $productId);
-                })->first();
+                })->orderBy('updated_at', 'asc')->first();
 
                 if ($cartProduct != null) {
 
@@ -100,7 +104,7 @@ class ShoppingController extends Controller
         }
 
 
-        Log::channel('custom')->debug("Current time: " . $currentTime . " Reservation time: " . $reservationTime);
+        // Log::channel('custom')->debug("Current time: " . $currentTime . " Reservation time: " . $reservationTime);
 
 
         if ($reserved == false) {
@@ -227,7 +231,9 @@ class ShoppingController extends Controller
     {
         $locale = app()->getLocale();
         //TODO: Hay que realizar un flitrado de datos, según se seleccione la dirección o se rellenen los campos
-        Log::channel('custom')->debug($request);
+        // Log::channel('custom')->debug($request);
+
+        //Tenemos que v 
 
         //Estos casos indican que el usuario registrado ha introducido una nueva dirección o un usuario no registrado
         //ha introducido su dirección
@@ -346,6 +352,17 @@ class ShoppingController extends Controller
             $cart = Cart::where('user_id', auth()->user()->id)->with('products')->first();
         } else {
             $cart = Cart::where('session_id', session()->getId())->with('products')->first();
+        }
+
+        //Por si acaso antes de llegar a este último paso comprobamos que los productos tengan stock
+        //Si alguno de ellos no tiene stock lo volvemos a la página del carrito
+        foreach ($cart->products as $product) {
+            Log::channel('custom')->debug("Stock:" . $product->stock);
+            if ($product->stock < 1) {
+                
+                return view('start')->with('message', __('Some products of your cart are out of stock, please check your cart'));
+
+            }
         }
 
         Log::channel('custom')->debug('Carrito de la compra' . $cart);

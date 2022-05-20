@@ -335,3 +335,4 @@ Route::post('contact-email-p', [MailController::class, 'contactEmailP'])->name('
 
 
 
+Route::get('testing', [AdminController::class, 'testing'])->name('testing');

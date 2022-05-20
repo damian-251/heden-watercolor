@@ -3,6 +3,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{__('Site about the watercolour artist Heden')}}"/>
+    <meta name="keywords" content="watercolour, watercolor, heden, hedenwatercolor, artist, shop">
+    <meta name="author" content="Heden Watercolor">
+    @yield('metainfo')
+    
+
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">

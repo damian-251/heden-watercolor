@@ -10,7 +10,7 @@
 
 @section('content')
     <div class="container p-5">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center shadow p-4">
 
             <div class="col-md-6">
                 <picture class="mb-3">

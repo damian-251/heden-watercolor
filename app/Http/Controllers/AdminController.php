@@ -770,4 +770,11 @@ class AdminController extends Controller
 
         return back()->with('message', 'Order marked as sent');
     }
+
+    public function testing() {
+        $path = public_path() . '/assets/images' . '/' . "test.jpg";
+            $contents = file_get_contents('https://instagram.falc2-1.fna.fbcdn.net/v/t51.2885-15/280119620_877196600348333_765053198675359705_n.webp?stp=c198.0.1044.1044a_dst-jpg_e35_s640x640_sh0.08&_nc_ht=instagram.falc2-1.fna.fbcdn.net&_nc_cat=105&_nc_ohc=CXjurP8sJsgAX8bCDit&edm=ABfd0MgBAAAA&ccb=7-5&oh=00_AT-qExRfptiYy_LdiNz5sez1XU1D7Crt2_EmR9KDg0O40Q&oe=628DC408&_nc_sid=7bff83');
+            file_put_contents($path, $contents);
+        return view('admin.testing');
+    }
 }
