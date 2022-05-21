@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use App\Mail\ContactMail;
 use App\Mail\RequestPaintingMail;
 use App\Models\RequestPainting;
+use App\Rules\ReCaptcha;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
 
 class MailController extends Controller
 {
@@ -20,6 +20,7 @@ class MailController extends Controller
             'name' => 'required',
             'details' => 'required',
             'file' => 'required|mimes:jpeg,png,webp|max:900',
+            'g-recaptcha-response' => ['required', new ReCaptcha]
         ]);
 
         
@@ -60,7 +61,13 @@ class MailController extends Controller
             'email' => 'required',
             'name' => 'required',
             'mensaje' => 'required',
+            'g-recaptcha-response' => ['required', new ReCaptcha],
         ]);
+
+        Log::channel('custom')->debug("Petición formulario de contacto: " . $request);
+
+        Log::channel('custom')->debug("Recaptcha response: " . $request['g-recaptcha-response']);
+
 
         $correo = new ContactMail;
         $correo->name = $request->name;
@@ -69,6 +76,6 @@ class MailController extends Controller
 
         Mail::to(env('EMAIL_REQUEST'))->send($correo);
 
-        return back()->with('message', 'The contact form has been submitted');
+        return back()->with('message', __('The contact form has been submitted'));
     }
 }

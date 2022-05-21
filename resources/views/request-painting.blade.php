@@ -44,7 +44,9 @@
                 <label for="formFile" class="form-label">{{__('Upload an image')}} max. 900KB*</label>
                 <input name="file" class="form-control" type="file" id="formFile"  accept="image/png, image/jpeg, image/webp" required>
             </div>
+            @include('partials.privacy-check')
             * {{__('Required fields')}}
+            @include('partials.recaptcha')
             <div>
 
               {{__('Once sent the request, the author will contact you to settle on the details and set the final price')}}.

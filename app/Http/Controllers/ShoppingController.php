@@ -6,6 +6,7 @@ use App\Models\Address;
 use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Shipping;
+use App\Rules\ReCaptcha;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -194,6 +195,10 @@ class ShoppingController extends Controller
 
     public function shippingDataP(Request $request)
     {
+
+        $request->validate([
+            'g-recaptcha-response' => ['required', new ReCaptcha],
+        ]);
 
         $locale = app()->getLocale();
 

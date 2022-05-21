@@ -22,6 +22,9 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    {{-- Recaptcha script --}}
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
