@@ -50,6 +50,7 @@
                                 </div>
                             </div>
                         </div>
+                        @include('partials.recaptcha')
 
                         <div class="row mb-0">
                             <div class="col-md-8 offset-md-4">
