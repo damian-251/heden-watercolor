@@ -288,6 +288,10 @@ Route::post('webhook', function(Request $request) {
     //TODO Habría que realizar los cambios correspondientes de los productos, que ya no estén disponibles...
 });
 
+//Redirecciones cuando el proceso de compra ha sido exitoso
+Route::get('payment-successful', [ShoppingController::class, 'paymentSuccessful'])->name('payment-successful');
+Route::get('payment-failed', [ShoppingController::class , 'paymentFailed'])->name('payment-failed');
+
 // -- PROCESO DE COMPRA --
 //Rutas y procesos relacionados con el proceso de compra
 

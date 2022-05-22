@@ -78,7 +78,7 @@ class ShoppingController extends Controller
                 //Lo eliminamos del carrito del que lo tenía
                 //De momento lo eliminamos del carrito más antiguo aunque se debería de eliminar
                 //Del carrito cuyo updated_at relacionado con el producto sea más antiguo
-              
+
                 $productId = $product->id;
                 $cartProduct = Cart::whereHas('products', function ($q) use ($productId) {
                     $q->where('products.id', $productId);
@@ -364,9 +364,8 @@ class ShoppingController extends Controller
         foreach ($cart->products as $product) {
             Log::channel('custom')->debug("Stock:" . $product->stock);
             if ($product->stock < 1) {
-                
-                return view('start')->with('message', __('Some products of your cart are out of stock, please check your cart'));
 
+                return view('start')->with('message', __('Some products of your cart are out of stock, please check your cart'));
             }
         }
 
@@ -394,8 +393,17 @@ class ShoppingController extends Controller
             $finalPrice = $totalPrice + $shippingPrice;
         }
 
-        //TODO: Comprobar disponibilidad el producto antes de retornar esta lista
-
         return view('shopping.review-order', compact('locale', 'address', 'addressB', 'shippingPrice', 'currency', 'totalPrice', 'finalPrice', 'currencyStripe', 'addressId', 'currency', 'addressIdB'));
+    }
+
+    public function paymentSuccessful()
+    {
+
+        return view('payment.successful');
+    }
+
+    public function paymentFailed()
+    {
+        return view('payment.failed');
     }
 }

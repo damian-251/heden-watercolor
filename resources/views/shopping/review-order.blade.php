@@ -21,8 +21,8 @@ $session = \Stripe\Checkout\Session::create([
       'quantity' => 1,
     ]],
     'mode' => 'payment',
-    'success_url' => 'https://example.com/success', /* TODO Hay que poner URL propias de la página */
-    'cancel_url' => 'https://example.com/cancel',
+    'success_url' => route('payment-successful'), /* TODO Hay que poner URL propias de la página */
+    'cancel_url' => route('payment-failed'),
     'payment_intent_data' => [
       'metadata' => ['user_id' => $userId,
                     'session_id' => $sessionId,
