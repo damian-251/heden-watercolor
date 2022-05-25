@@ -32,15 +32,7 @@ img {
     border-color: #8224e3;
 }
 
-.btn-primary {
-    background-color: #8224e3;
-    border-color: #8224e3;
-}
 
-.btn-primary:hover {
-    background-color: #8424e3dc;
-    border-color: #8424e3dc;
-}
 
 .btn-outline-success:hover {
     background-color: #8224e3;

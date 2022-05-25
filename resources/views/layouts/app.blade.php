@@ -49,6 +49,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/global.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/buttons.css') }}" rel="stylesheet">
     <!-- Aquí irán las hojas de estilo secundarias que se añadan -->
     @yield('styles')
 
@@ -157,7 +158,8 @@
         <main class="py-4">
             @yield('content')
         </main>
-        <footer class="d-flex justify-content-center p-5 bg-light">
+        <footer class="d-flex justify-content-between p-5 bg-light">
+            <div></div>
             <div>
                 <div>
                     Heden Watercolor
@@ -169,6 +171,11 @@
 
 
                 </div>
+            </div>
+            <div class="my-auto">
+                Privacy Policy <br>
+                Shipping
+
             </div>
         </footer>
     </div>

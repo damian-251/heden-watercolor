@@ -1,0 +1,18 @@
+.btn-primary {
+    background-color: #8224e3;
+    border-color: #8224e3;
+}
+
+.btn-primary:hover {
+    background-color: #8424e3dc;
+    border-color: #8424e3dc;
+}
+
+.btn-primary:active, .btn-primary.active {
+    background-color: #8424e3dc !important;
+    border-color: #8424e3dc;
+}
+
+.btn-success:focus {
+
+}

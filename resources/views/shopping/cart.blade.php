@@ -46,16 +46,28 @@
                             <button class="btn btn-danger hw-delete-button" type="submit">{{ __('Delete') }}</button>
                         </form>
                     </div>
+                    <div class="text-end mr-3 my-2">
+                        {{__('Reservation time')}}:
+                        @if ($product->reserved != null && \Carbon\Carbon::parse($product->reserved)->gt($currentTime))
+
+                            <span class="reservation-time">{{\Carbon\Carbon::parse($product->reserved)->diffInSeconds($currentTime)}}</span>
+                        @else
+                            <span class="no-reservation">{{__('Without reservation')}}</span>
+                        @endif
+                        
+                    </div>
+            
+                    
                 </div>
             @endforeach
             <div class="row">
-                <div class="col-lg-3 col-md-6">
-
+                <div class="col-lg-6 col-md-12">
+                    <p>{{__("If the product has no reservation and other user reserve it, the product will disappear from your cart.")}}
+                        {{__("Resevation only affects products with only 1 unit available like paintings.")}}<p>
+                    <p>{{__('If the reservation time has finished you can reserve it again by adding the product to your cart')}}</p>
+                    
                 </div>
 
-                <div class="col-lg-3 col-md-6">
-
-                </div>
                 <div class="col-lg-3 col-md-6">
 
                 </div>
@@ -93,5 +105,5 @@
                 {{ __('The cart is empty') }}
             </div>
     @endif
-
+    <script src={{ asset('js/cart.js')}}></script>
 @endsection

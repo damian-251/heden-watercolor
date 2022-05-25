@@ -24,6 +24,8 @@
     "Email Address" : "Correo electrónico",
     "Password" : "Contraseña",
     "Forgot Your Password?" : "¿Has olvidado la contraseña?",
-    "Available" : "Disponible"
+    "Available" : "Disponible",
+    "Reservation time" : "Tiempo de reserva",
+    "Without reservation" : "Sin reserva"
 
   }

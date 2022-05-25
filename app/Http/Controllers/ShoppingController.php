@@ -68,30 +68,29 @@ class ShoppingController extends Controller
             if ($product->reserved == null) {
                 //Le añadimos el tiempo de reserva (media hora)
                 $reservationTime = Carbon::now()->setTimezone('UTC');
-                $reservationTime->addMinutes(5);
+                $reservationTime->addMinutes(env('RESERVATION_TIME'));
                 $product->reserved = $reservationTime->format('Y-m-d H:i:s');
                 $product->save();
                 $reserved = false;
             } elseif (Carbon::parse($product->reserved)->lt($currentTime)) {
 
-                //En ese caso ya ha pasado el tiempo de reserva
-                //Lo eliminamos del carrito del que lo tenía
-                //De momento lo eliminamos del carrito más antiguo aunque se debería de eliminar
-                //Del carrito cuyo updated_at relacionado con el producto sea más antiguo
 
+                //Borramos el producto de todos los carritos que lo tenga ya que solo queda
+                //una unidad y esta ha sido reservada
                 $productId = $product->id;
-                $cartProduct = Cart::whereHas('products', function ($q) use ($productId) {
+                $cartProducts = Cart::whereHas('products', function ($q) use ($productId) {
                     $q->where('products.id', $productId);
-                })->orderBy('updated_at', 'asc')->first();
+                })->orderBy('updated_at', 'asc')->get();
 
-                if ($cartProduct != null) {
-
-                    $cartProduct->products()->detach($productId);
+                if ($cartProducts->count() > 0) {
+                    foreach ($cartProducts as $cartProduct) {
+                        $cartProduct->products()->detach($productId);
+                    }
                 }
 
                 //Ya podemos seguir el proceso normal
                 $reservationTime = Carbon::now()->setTimezone('UTC');
-                $reservationTime->addMinutes(30);
+                $reservationTime->addMinutes(env('RESERVATION_TIME'));
                 $product->reserved = $reservationTime->format('Y-m-d H:i:s');
                 $product->save();
 
@@ -171,8 +170,12 @@ class ShoppingController extends Controller
             }
         }
 
+        $currentTime = Carbon::now();
+            //Usamos la misma zona horaria que la base de datos
+            $currentTime->setTimezone('UTC');
 
-        return view('shopping.cart', compact('cart', 'totalPrice', 'locale'));
+
+        return view('shopping.cart', compact('cart', 'totalPrice', 'locale', 'currentTime'));
     }
 
     public function deleteProductP(Request $request)
