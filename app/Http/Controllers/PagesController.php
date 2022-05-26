@@ -78,7 +78,7 @@ class PagesController extends Controller
      */
     public function vistaTienda() {
 
-        $products = Product::where('stock', '>', 0)->orderBy('creation_date', 'desc')->get();
+        $products = Product::where('stock', '>', 0)->orderBy('creation_date', 'desc')->paginate(8);
 
         $currentTime = Carbon::now();
             //Usamos la misma zona horaria que la base de datos
@@ -114,5 +114,24 @@ class PagesController extends Controller
             )->get();
 
         return view('special', compact('products'));
+    }
+
+    //Aquí mostramos la vista de la política de privacidad
+    public function privacyView($lang = "en") {
+
+        switch ($lang) {
+            case 'en':
+                return view('privacy.privacy-en');
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+    }
+
+
+    public function shippingPrivacyView($lang = "en") {
+        return view('privacy.shipping-en');
     }
 }

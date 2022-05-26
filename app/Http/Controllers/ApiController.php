@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Colour;
 use App\Models\Colour_tr;
 use App\Models\Location_tr;
+use App\Models\Product;
 use App\Models\Shipping;
 use App\Models\Tag;
 use App\Models\Tag_tr;
@@ -47,6 +48,11 @@ class ApiController extends Controller
             
         
         return $price;
+    }
+
+    public function products () {
+        $products = Product::select('id', 'price_eur')->where('stock', '>' ,0)->orderBy('creation_date', 'desc')->paginate(10);
+        return $products;
     }
 
 

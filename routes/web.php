@@ -337,6 +337,10 @@ Route::get('exhibitions', [PagesController::class, 'exhibitions'])->name('exhibi
 Route::post('request-email-p', [MailController::class, 'requestEmailP'])->name('request-email-p');
 Route::post('contact-email-p', [MailController::class, 'contactEmailP'])->name('contact-email-p');
 
+//Políticas de privacidad
+Route::get('privacy/{lang?}', [PagesController::class, 'privacyView'])->name('privacy-view');
+Route::get('shipping-policy/{lang?}', [PagesController::class, 'shippingPrivacyView'])->name('shipping-policy-view');
 
 
+//Lienzo para realizar pruebas
 Route::get('testing', [AdminController::class, 'testing'])->name('testing');

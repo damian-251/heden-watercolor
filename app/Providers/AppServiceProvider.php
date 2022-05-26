@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Cart;
 use App\Models\Tag;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
@@ -40,6 +41,8 @@ class AppServiceProvider extends ServiceProvider
 
         View::share('specialTagStart', $specialTagStart);
 
+
+        Paginator::useBootstrapFive();
 
 
 

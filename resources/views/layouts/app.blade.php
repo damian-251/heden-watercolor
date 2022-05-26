@@ -46,6 +46,9 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
+    <!-- Font Awesome --->
+    <script src="https://kit.fontawesome.com/a065a99a3f.js" crossorigin="anonymous"></script>
+
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/global.css') }}" rel="stylesheet">
@@ -81,7 +84,7 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                                             document.getElementById('logout-form').submit();">
                                 {{ __('Logout') }}
                             </a>
 
@@ -121,12 +124,21 @@
           </div>
             
         @endif --}}
-        <div class="hw-logo">
+        <div class="hw-logo d-none d-lg-block">
             HEDEN WATERCOLOR
         </div>
-        <nav class="navbar navbar-expand-md navbar-light">
-            <div class="container">
-                <div class="hw-div-mainmenu" id="navbarSupportedContent">
+        <nav class="navbar navbar-expand-lg navbar-light">
+
+            <div class="container d-flex justify-content-between">
+                <div class="d-block d-lg-none fs-3 mx-4 my-3">
+                    {{ __('HEDEN WATERCOLOR') }}
+                </div>
+                <button class="navbar-toggler mx-3" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="hw-div-mainmenu collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto hw-ul-itemlist">
                         <li class="nav-item"> <a class="nav-link"
                                 href="{{ route('start') }}">{{ __('Home') }}</a> </li>
@@ -173,7 +185,7 @@
                 </div>
             </div>
             <div class="my-auto">
-                Privacy Policy <br>
+                <a href="{{ route('privacy-view', ['lang'=>app()->getLocale()])}}">{{__('Privacy policy')}}</a>
                 Shipping
 
             </div>

@@ -6,6 +6,7 @@
 
 @section('styles')
     <link href="{{ asset('css/portfolio.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/pagination.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -45,6 +46,10 @@
             </div>
         @endforeach
     </div>
+    <div class="d-flex justify-content-center">
+        {{ $products->links() }}
+    </div>
+    
 
     <script src={{ asset('js/portfolio.js') }}></script>
 @endsection

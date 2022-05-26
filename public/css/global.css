@@ -118,7 +118,7 @@ body {
 
 
 /* Versión para móviles */
-@media (max-width: 780px) {
+@media (max-width: 992px) {
 
     #app {
         border: none;
@@ -148,6 +148,14 @@ body {
     .hw-ul-itemlist {
         text-align: center;
         display: flex;
+    }
+
+    /* Carrusel sin margen para móviles */
+
+    .py-4 .px-5 {
+        padding-right: 0rem !important;
+        padding-left: 0rem !important;
+      
     }
 
 }
