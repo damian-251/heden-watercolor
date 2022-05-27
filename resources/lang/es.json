@@ -30,6 +30,11 @@
     "Menu" : "Menú",
     "Privacy policy" : "Política de privacidad",
     "Previous" : "Anterior",
-    "Next" : "Siguiente"
+    "Next" : "Siguiente",
+    "Search" : "Buscar",
+    "Filter" : "Filtro",
+    "Search by title" : "Buscar por título",
+    "Search options" : "Opciones de búsqueda"
+
 
   }

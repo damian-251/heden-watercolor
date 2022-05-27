@@ -84,7 +84,7 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                             document.getElementById('logout-form').submit();">
+                                                                     document.getElementById('logout-form').submit();">
                                 {{ __('Logout') }}
                             </a>
 
@@ -170,24 +170,32 @@
         <main class="py-4">
             @yield('content')
         </main>
-        <footer class="d-flex justify-content-between p-5 bg-light">
-            <div></div>
-            <div>
-                <div>
-                    Heden Watercolor
+        <footer class="bg-light">
+            <div class="container-fluid p-3">
+                <div class="row">
+                    <div class="col-lg-4 col-md-12">
+                        Lorem ipsum
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div>
+                            <div class="text-center">
+                                Heden Watercolor
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <a href="https://www.instagram.com/heden.watercolor/" target="_blank"><img
+                                        src="{{ asset('assets/images/icons/instagram.png') }}"
+                                        alt="{{ __('Link to Instagram account') }}"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="my-auto">
+                            <a
+                                href="{{ route('privacy-view', ['lang' => app()->getLocale()]) }}">{{ __('Privacy policy') }}</a>
+                            Shipping
+                        </div>
+                    </div>
                 </div>
-                <div class="d-flex justify-content-center">
-                    <a href="https://www.instagram.com/heden.watercolor/" target="_blank"><img
-                            src="{{ asset('assets/images/icons/instagram.png') }}"
-                            alt="{{ __('Link to Instagram account') }}"></a>
-
-
-                </div>
-            </div>
-            <div class="my-auto">
-                <a href="{{ route('privacy-view', ['lang'=>app()->getLocale()])}}">{{__('Privacy policy')}}</a>
-                Shipping
-
             </div>
         </footer>
     </div>
@@ -197,11 +205,13 @@
         //Aumentamos el tamaño del texto
         let textoCookies = document.getElementsByClassName("cookie-consent__message")[0];
 
+        if (botonCookies != null && textoCookies != null) {
 
-        botonCookies.classList.add("btn");
-        botonCookies.classList.add("btn-dark");
-        textoCookies.classList.add("fs-4");
-        textoCookies.classList.add("text-center");
+            botonCookies.classList.add("btn");
+            botonCookies.classList.add("btn-dark");
+            textoCookies.classList.add("fs-4");
+            textoCookies.classList.add("text-center");
+        }
     </script>
 </body>
 

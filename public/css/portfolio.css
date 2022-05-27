@@ -72,6 +72,10 @@ img {
     cursor: not-allowed !important;
 }
 
+#hw-search-options {
+    cursor: pointer;
+}
+
 
 /* Versión para móviles */
 @media (max-width: 780px) {

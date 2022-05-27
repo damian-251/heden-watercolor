@@ -274,7 +274,13 @@ class AdminController extends Controller
 
         //Creamos el nuevo producto
         $product = new Product();
-        $product->sku = Str::random(10);
+        
+        do {
+            $sku = Str::random(10);
+        }while (Product::where('sku', $sku)->get()->count() > 0);
+
+        
+        $product->sku = $sku;
         //Primero agregamos los datos propios de la tabla producto.
 
         // ---- PRECIO ----
@@ -298,7 +304,7 @@ class AdminController extends Controller
                 $product->stock = 0;
             }
         } else {
-            throw new CreateProductException('You have to specify both eur and nok');
+            return back()->with('message', 'You have to specify price in eur and nok');
         }
 
 
@@ -323,7 +329,7 @@ class AdminController extends Controller
 
         // --- IMÁGENES DEL PRODUCTO ----
 
-        $nombre = Str::random(20);
+        $nombre = $sku;
 
         //jpg
         $image_jpg_name = $nombre . "_jpg.jpg";
@@ -346,12 +352,13 @@ class AdminController extends Controller
 
 
         //Etiquetas
-        $product->tags()->attach($request->tags);
+            $product->tags()->attach($request->tags);
+            $product->tags()->attach($request->specialTags);
+        
+            //Colores
+            $product->colours()->attach($request->colours);
 
-        //Colores
-        $product->colours()->attach($request->tags);
-
-
+        
 
         //Ahora rellenamos los datos correspondientes en la tabla de traducciones
 

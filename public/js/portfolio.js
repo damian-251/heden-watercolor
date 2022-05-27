@@ -6,6 +6,9 @@ let linkImage = document.getElementsByClassName('hw-product-link');
 
 let index = 0;
 
+let opcionesBusqueda = document.getElementById("hw-search-options");
+let divOpcionesBusqueda = document.getElementById("hw-search-description");
+
 
 //Menú desplegable para los filtros de búsqueda
 dropdowns.forEach((dd)=>{
@@ -28,5 +31,14 @@ for (let index = 0; index < linkImage.length; index++) {
     });   
     
 }
+
+//Mostrar ocultar opciones de búsqueda
+
+opcionesBusqueda.addEventListener("click", function(event) {
+    if (divOpcionesBusqueda.style.display == "block")
+    divOpcionesBusqueda.style.display = "none";
+    else 
+    divOpcionesBusqueda.style.display = "block";
+});
 
 
