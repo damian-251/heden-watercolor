@@ -72,6 +72,10 @@ class PagesController extends Controller
                     ->orderBy('creation_date', 'desc')->get();
                     break;
                     
+                case '#height':
+                    $products = Product::where('height', '=', $searchQuery)
+                    ->orderBy('creation_date', 'desc')->get();
+                    break;
                 case '#location':
 
                     $products = Product::whereHas('location', function ($query) use ($searchQuery) {
@@ -81,12 +85,39 @@ class PagesController extends Controller
                     })->orderBy('creation_date', 'desc')->get();
                     break;
                 case '#tag':
-                    $products = Product::whereHas('tags', function ($query) use ($searchQuery) {
-                        $query->whereHas('tag_translation', function ($query) use ($searchQuery) {
-                            $query->where('name', 'like', '%' . $searchQuery . '%');
-                        });
+                    $tagWords = explode(" ", $searchQuery);
+                    $products = Product::whereHas('tags', function ($query) use ($tagWords) {
+                        foreach ($tagWords as $tagWord) {
+                        $query->whereHas('tag_translation', function ($query) use ($tagWord) {
+                            
+                                $query->where(function ($query) use ($tagWord) {
+                                    $query->where('name', '=', $tagWord);
+                                });
+                            });
+                        }
                     })->orderBy('creation_date', 'desc')->get();
                     break;
+                case '#description':
+
+                    $descriptionWords = explode(" ", $searchQuery);
+
+                    $products = Product::whereHas('product_translation', function ($query) use ($descriptionWords) {
+                        foreach ($descriptionWords as $descriptionWord) {
+                            $query->where('description', 'like', '%' . $descriptionWord . '%');
+                        }
+                    })->orderBy('creation_date', 'desc')->get();
+                    break;
+                case '#range':
+                    $datesString = explode(" ", $searchQuery);
+                    //Convertimos la fecha al formato de la base de datos
+                    for ($i=0; $i < count($datesString) ; $i++) { 
+                        $date[$i] = Carbon::createFromFormat('d-m-Y', $datesString[$i])->format('Y-m-d');
+                    }
+
+                    $products = Product::whereBetween('creation_date', [$date[0], $date[1]])
+                    ->orderBy('creation_date', 'desc')->get();
+                    break;
+
                 default:
                     $products = Product::whereHas('product_translation', function ($query) use ($search) {
                         $query->where('name', 'like', '%' . $search . '%');
@@ -106,7 +137,7 @@ class PagesController extends Controller
      */
     public function vistaDetalles($id = 1)
     {
-        $product = Product::find($id);
+        $product = Product::with('tags', 'product_translation', 'colours', 'location')->find($id);
         $productTr = Product_tr::where('product_id', $id)->where('language_code', app()->getLocale())->first();
 
         //Si no está lo ponemos en el idioma por defecto
@@ -118,7 +149,9 @@ class PagesController extends Controller
         //Usamos la misma zona horaria que la base de datos
         $currentTime->setTimezone('UTC');
 
-        return view('product-details', compact('product', 'productTr', 'currentTime'));
+        $productDate = Carbon::parse($product->creation_date)->format('d/m/Y');
+
+        return view('product-details', compact('product', 'productTr', 'currentTime', 'productDate'));
     }
 
     /**

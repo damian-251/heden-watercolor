@@ -40,21 +40,24 @@
         </div>
         <form class="d-flex" action="{{ route('portfolioP') }}" method="POST">
             @csrf
-            <input class="form-control me-2 " type="search" placeholder="{{ __('Search by title') }}" aria-label="Search"
+            <input class="form-control me-2 " id="hw-search-input" type="search" placeholder="{{ __('Search by title') }}" aria-label="Search"
                 name="search">
             <button class="btn btn-outline-success" type="submit">{{ __('Search') }}</button>
         </form>
 
     </div>
     <div>
-        <div class="text-center" id="hw-search-options">
+        <div class="d-flex justify-content-center" >
+        <div id="hw-search-options" class="p-2 mx-2">
+            <span id="hw-search-right">⮞</span><span id="hw-search-down" style="display:none">⮟</span>
             {{ __('Search options') }}
+        </div>
         </div>
         <div id="hw-search-description" style="display: none">
             <div class="container">
                 <div class="row text-center">
 
-                    <div class="col-md-6">
+                    <div class="col-md-6  hw-search-word">
                         #title
                     </div>
 
@@ -65,7 +68,7 @@
                 </div>
                 <div class="row text-center">
 
-                    <div class="col-md-6">
+                    <div class="col-md-6 hw-search-word">
                         #description
                     </div>
 
@@ -76,7 +79,7 @@
                 </div>
                 <div class="row text-center">
 
-                    <div class="col-md-6">
+                    <div class="col-md-6  hw-search-word">
                         #color
                     </div>
 
@@ -86,17 +89,17 @@
                 </div>
                 <div class="row text-center">
 
-                    <div class="col-md-6">
-                        #length
+                    <div class="col-md-6  hw-search-word">
+                        #width
                     </div>
 
                     <div class="col-md-6">
-                        {{ __('Search by length') }}
+                        {{ __('Search by width') }}
                     </div>
                 </div>
                 <div class="row text-center">
 
-                    <div class="col-md-6">
+                    <div class="col-md-6  hw-search-word">
                         #height
                     </div>
 
@@ -106,12 +109,32 @@
                 </div>
                 <div class="row text-center">
 
-                    <div class="col-md-6">
+                    <div class="col-md-6  hw-search-word">
                         #tag
                     </div>
 
                     <div class="col-md-6">
                         {{ __('Search by tag') }}
+                    </div>
+                </div>
+                <div class="row text-center">
+
+                    <div class="col-md-6  hw-search-word">
+                        #location
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ __('Search by location') }}
+                    </div>
+                </div>
+                <div class="row text-center">
+
+                    <div class="col-md-6  hw-search-word">
+                        #range
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ __('Search by date of creation range eg.') }} 12-12-2020 01-01-2022
                     </div>
                 </div>
             </div>

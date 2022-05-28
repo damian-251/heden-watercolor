@@ -465,18 +465,18 @@ class AdminController extends Controller
 
             if (isset($request->price_nok) && $request->price_nok > 0) {
                 $product->price_nok = $request->price_nok;
-                $product->available = true;
+                $product->stock = $request->stock;
             } else {
                 //Si no tiene precio o es 0 significa que no está a la venta
-                $product->available = false;
+                $product->stock = 0;
             }
 
             if (isset($request->price_eur) && $request->price_eur > 0) {
                 $product->price_eur = $request->price_eur;
-                $product->available = true;
+                $product->stock = $request->stock;
             } else {
                 //Si no tiene precio o es 0 significa que no está a la venta
-                $product->available = false;
+                $product->stock = 0;
             }
         } else {
             throw new CreateProductException('You have to specify both eur and nok');
@@ -504,12 +504,11 @@ class AdminController extends Controller
 
         // --- IMÁGENES DEL PRODUCTO ----
 
-        $nombre = Str::random(20);
 
         if (isset($request->image_jpg)) {
 
             //jpg
-            $image_jpg_name = $nombre . "_jpg.jpg";
+            $image_jpg_name = $product->sku . "_jpg.jpg";
             $path = base_path() . '/public/assets/images/jpg';
             $request->file('image_jpg')->move($path, $image_jpg_name);
             $product->img_path_jpg = 'assets/images/jpg/' . $image_jpg_name;
@@ -517,7 +516,7 @@ class AdminController extends Controller
         }
 
         if (isset($request->image_webp)) {
-            $image_webp_name = $nombre . "_webp.webp";
+            $image_webp_name =  $product->sku . "_webp.webp";
             $path = base_path() . '/public/assets/images/webp';
             $request->file('image_webp')->move($path, $image_webp_name);
             $product->img_path_webp = 'assets/images/webp/' . $image_webp_name;
@@ -570,6 +569,7 @@ class AdminController extends Controller
         //Etiquetas
         $product->tags()->detach();
         $product->tags()->attach($request->tags);
+        $product->tags()->attach($request->specialTags);
 
         //Colores
         $product->colours()->detach();

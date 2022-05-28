@@ -20,3 +20,63 @@ img {
     background-color: #8424e3dc;
     border-color: #8424e3dc;
 }
+
+
+
+.hw-tag-details, .hw-location-details, .hw-colour-details {
+    padding: .2rem 1.8rem;
+    background-color: rgb(234, 225, 248);
+    border-radius: 10px;
+}
+
+
+
+
+/* Versión para móviles */
+@media (max-width: 992px) {
+
+    footer {
+        margin-top: 3rem;
+    }
+    
+    .hw-product-container {
+        box-shadow: none !important;
+    }
+
+    .py-4>.container {
+        max-width: 100%;
+    }
+
+    
+    
+}
+
+@media (max-width: 760px) {
+    
+    .hw-product-container {
+        box-shadow: none !important;
+    }
+
+    .py-4>.container {
+        max-width: 100%;
+    }
+
+    .hw-product-info {
+        margin-bottom: 3rem;
+    }
+
+    .hw-price {
+        margin-top: 3rem;
+    }
+
+    form {
+        margin-bottom: 5rem;
+    }
+    
+}
+
+@media (max-width: 450px) {
+
+    
+}
+

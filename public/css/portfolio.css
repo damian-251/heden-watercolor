@@ -51,6 +51,10 @@ img {
     position: relative;
 }
 
+.hw-filter-search input {
+    width: 25rem;
+}
+
 
 .hw-product-text {
     position: absolute;
@@ -72,15 +76,25 @@ img {
     cursor: not-allowed !important;
 }
 
-#hw-search-options {
+#hw-search-options, .hw-search-word {
     cursor: pointer;
+    transition: .3s ease;
 }
+
+#hw-search-options:hover {
+    background-color: rgb(234, 225, 248);
+}
+
 
 
 /* Versión para móviles */
 @media (max-width: 780px) {
     .hw-product-container {
         margin: .5rem;
+    }
+
+    .hw-filter-search input {
+        width: 100%;
     }
 
     

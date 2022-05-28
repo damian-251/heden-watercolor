@@ -112,8 +112,9 @@
             @foreach ($locations as $location)
                 @foreach ($location->location_translation as $locationTr)
                     @if ($locationTr->language_code == "en")
-                    <label class="m-2" for="{{$location->id}}">
-                        <input 
+                    <label class="m-2 form-check-label" for="{{$location->id}}">
+                        <input
+                        class="form-check-input" 
                         type="radio" 
                         id="{{$location->id}}" 
                         name="location" 

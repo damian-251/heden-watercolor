@@ -130,7 +130,7 @@
         <nav class="navbar navbar-expand-lg navbar-light">
 
             <div class="container d-flex justify-content-between">
-                <div class="d-block d-lg-none fs-3 mx-4 my-3">
+                <div class="d-block d-lg-none fs-3 mx-4 my-3 hw-mobile-logo">
                     {{ __('HEDEN WATERCOLOR') }}
                 </div>
                 <button class="navbar-toggler mx-3" type="button" data-bs-toggle="collapse"
@@ -139,7 +139,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="hw-div-mainmenu collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto hw-ul-itemlist">
+                    <ul class="navbar-nav me-auto hw-ul-itemlist text-center">
                         <li class="nav-item"> <a class="nav-link"
                                 href="{{ route('start') }}">{{ __('Home') }}</a> </li>
                         <li class="nav-item"> <a class="nav-link"

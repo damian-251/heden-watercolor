@@ -158,4 +158,21 @@ body {
       
     }
 
+    /* Ajustamos el menú para tamaños más pequeños */
+    @media (max-width: 400px) {
+
+        button.navbar-toggler {
+            margin-right: 0 !important;
+        }
+
+        .hw-mobile-logo {
+            margin-left: .5rem !important;
+        }
+
+
+    
+ 
+        
+    }
+
 }
