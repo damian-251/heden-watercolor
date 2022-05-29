@@ -112,6 +112,11 @@ body {
 .btn-primary:hover {
     background-color: #8424e3dc;
     border-color: #8424e3dc;
+
+}
+
+.hw-main-menu {
+    opacity: 95%;
 }
 
 
@@ -148,6 +153,10 @@ body {
     .hw-ul-itemlist {
         text-align: center;
         display: flex;
+    }
+
+    .hw-main-menu {
+        opacity: 95%;
     }
 
     /* Carrusel sin margen para móviles */

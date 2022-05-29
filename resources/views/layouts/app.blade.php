@@ -60,63 +60,7 @@
 
 <body>
     @include('cookie-consent::index')
-    <nav class="navbar navbar-expand-md navbar-light shadow-sm hw-topmenu">
-        <div class="navbar-collapse collpase">
-            <ul class="navbar-nav ms-auto">
-                <!-- Authentication Links -->
-                @guest
-                    @if (Route::has('login'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                        </li>
-                    @endif
-
-                    @if (Route::has('register'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                        </li>
-                    @endif
-                @else
-                    <li class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            {{ Auth::user()->name }}
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                                     document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
-                            </a>
-
-                            <a class="dropdown-item" href="{{ route('user-control-panel') }}">
-                                {{ __('User settings') }} </a>
-
-                            @if (Auth::user()->is_admin)
-                                {{-- Mostramos el panel de administración a los administradores --}}
-                                <a class="dropdown-item" href="{{ route('admin-cp') }}">
-                                    {{ __('Administration Panel') }} </a>
-                            @endif
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
-                        </div>
-                    </li>
-                @endguest
-                <li class="nav-item dropdown">
-                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                        {{ __('Language') }}
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        @foreach (config('app.available_locales') as $locale_name => $available_locale)
-                            <a class="dropdown-item"
-                                href="language/{{ $available_locale }}">{{ $locale_name }}</a>
-                        @endforeach
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    @include('partials.login-menu')
     <div id="app">
         {{-- @if (env('APP_ENV') != 'production')
         <div class="alert alert-warning fs-3 text-center" role="alert">
@@ -127,7 +71,7 @@
         <div class="hw-logo d-none d-lg-block">
             HEDEN WATERCOLOR
         </div>
-        <nav class="navbar navbar-expand-lg navbar-light">
+        <nav class="navbar navbar-expand-lg navbar-light sticky-top hw-main-menu">
 
             <div class="container d-flex justify-content-between">
                 <div class="d-block d-lg-none fs-3 mx-4 my-3 hw-mobile-logo">
@@ -171,31 +115,42 @@
             @yield('content')
         </main>
         <footer class="bg-light">
-            <div class="container-fluid p-3">
-                <div class="row">
-                    <div class="col-lg-4 col-md-12">
-                        Lorem ipsum
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div>
-                            <div class="text-center">
-                                Heden Watercolor
-                            </div>
-                            <div class="d-flex justify-content-center">
-                                <a href="https://www.instagram.com/heden.watercolor/" target="_blank"><img
-                                        src="{{ asset('assets/images/icons/instagram.png') }}"
-                                        alt="{{ __('Link to Instagram account') }}"></a>
-                            </div>
+            <div class="container-fluid p-3 d-lg-flex justify-content-between">
+                <div class="col-lg-4 col-md-12">
+                    {{-- Lorem ipsum --}}
+                </div>
+                <div class="col-lg-4 col-md-12">
+                    <div>
+                        <div class="text-center">
+                            Heden Watercolor
                         </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="my-auto">
-                            <a
-                                href="{{ route('privacy-view', ['lang' => app()->getLocale()]) }}">{{ __('Privacy policy') }}</a>
-                            Shipping
+                        <div class="d-flex justify-content-center">
+                            <a href="https://www.instagram.com/heden.watercolor/" target="_blank"><img
+                                    src="{{ asset('assets/images/icons/instagram.png') }}"
+                                    alt="{{ __('Link to Instagram account') }}"></a>
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-4 col-md-12">
+                    {{-- <div class="text-end mr-3">
+                        <a class="d-block"
+                            href="{{ route('privacy-view', ['lang' => app()->getLocale()]) }}">{{ __('Privacy policy') }}</a>
+                        <a class="d-block" href="#"> {{ __('Shipping') }}</a>
+                        <a class="d-block" href="#"> {{ __('Support') }}</a>
+                    </div> --}}
+                </div>
+
+            </div>
+            <div class="d-flex justify-content-center pb-3">
+                <ul class="nav">
+                    <li class="nav-item"><a class="nav-link"
+                            href="{{ route('privacy-view', ['lang' => app()->getLocale()]) }}">{{ __('Privacy policy') }}</a>
+                    </li>
+                    <li class="nav-item"><a  class="nav-link" href="#"> {{ __('Shipping') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"> {{ __('Support') }}</a></li>
+
+
+                </ul>
             </div>
         </footer>
     </div>

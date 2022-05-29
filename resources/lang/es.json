@@ -35,7 +35,24 @@
     "Filter" : "Filtro",
     "Search by title" : "Buscar por título",
     "Search options" : "Opciones de búsqueda",
-    "Creation date" : "Fecha de creación"
+    "Creation date" : "Fecha de creación",
+    "Location" : "Localización",
+    "Create" : "Crear",
+    "Edit" : "Editar",
+    "Delete" : "Eliminar",
+    "Modify special section" : "Modificar sección especial",
+    "Mark order as sent" : "Marcar pedido como enviado",
+    "Colour" : "Color",
+    "Tag" : "Etiqueta",
+    "Update" : "Actualizar",
+    "Disable temporary section" : "Desactivar sección especial",
+    "Disabled" : "Desactivado",
+    "Administration Control Panel" : "Panel de Control",
+    "Administration Panel" : "Panel de Control",
+    "Logout" : "Cerrar sesión",
+    "User settings" : "Opciones de usuario",
+    "Shipping" : "Envío"
+        
 
 
   }

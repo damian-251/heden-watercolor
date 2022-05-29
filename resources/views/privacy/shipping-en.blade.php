@@ -1,135 +1,687 @@
 @extends('layouts.app')
 
 @section('title')
-    {{__('Portfolio')}}
+    {{ __('Portfolio') }}
 @endsection
 
 @section('styles')
-<link href="{{ asset('css/portfolio.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/portfolio.css') }}" rel="stylesheet">
+    <style>
+        [data-custom-class='body'],
+        [data-custom-class='body'] * {
+            background: transparent !important;
+        }
+
+        [data-custom-class='title'],
+        [data-custom-class='title'] * {
+            font-family: Arial !important;
+            font-size: 26px !important;
+            color: #000000 !important;
+        }
+
+        [data-custom-class='subtitle'],
+        [data-custom-class='subtitle'] * {
+            font-family: Arial !important;
+            color: #595959 !important;
+            font-size: 14px !important;
+        }
+
+        [data-custom-class='heading_1'],
+        [data-custom-class='heading_1'] * {
+            font-family: Arial !important;
+            font-size: 19px !important;
+            color: #000000 !important;
+        }
+
+        [data-custom-class='heading_2'],
+        [data-custom-class='heading_2'] * {
+            font-family: Arial !important;
+            font-size: 17px !important;
+            color: #000000 !important;
+        }
+
+        [data-custom-class='body_text'],
+        [data-custom-class='body_text'] * {
+            color: #595959 !important;
+            font-size: 14px !important;
+            font-family: Arial !important;
+        }
+
+        [data-custom-class='link'],
+        [data-custom-class='link'] * {
+            color: #3030F1 !important;
+            font-size: 14px !important;
+            font-family: Arial !important;
+            word-break: break-word !important;
+        }
+
+    </style>
+    <style>
+        ul {
+            list-style-type: square;
+        }
+
+        ul>li>ul {
+            list-style-type: circle;
+        }
+
+        ul>li>ul>li>ul {
+            list-style-type: square;
+        }
+
+        ol li {
+            font-family: Arial;
+        }
+
+    </style>
 @endsection
 
 @section('content')
-
-
-<h1>Shipping policy</h1>
-
-<p>All orders are processed within 1 to 4 business days (excluding weekends and holidays) after receiving your order confirmation email. You will receive another notification when your order has shipped. 
-</p>
-
-<h2>Domestic Shipping Rates and Estimates</h2>
-
-For calculated shipping rates: Shipping charges for your order will be calculated and displayed at checkout. 
-
-For simple flat rate shipping: We offer $X flat rate shipping to [list countries]. 
-
-Shipping option
-	
-
-Estimated delivery time
-	
-
-Price
-
-Option 1
-	
-
-X to X business days
-	
-
-$X
-
-Option 2
-	
-
-X to X business days
-	
-
-$X
-
-Option 3
-	
-
-X to X business days
-	
-
-$X
-Local delivery
-
-If you offer local delivery or in-store pickup to customers in your area, you can dedicate a section of your shipping policy page to explain the process or create a separate shipping page specifically for local customers. 
-
-Free local delivery is available for orders over $X within [area of coverage]. For orders under $X, we charge $X for local delivery.
-
-Deliveries are made from [delivery hours] on [available days]. We will contact you via text message with the phone number you provided at checkout to notify you on the day of our arrival. 
-
-You can list out the ZIP/postal codes you service and/or consider embedding a map here so customers can easily see if they are within your local delivery range.
-In-store pickup
-
-You can skip the shipping fees with free local pickup at [list the locations where in-store pickup is available]. After placing your order and selecting local pickup at checkout, your order will be prepared and ready for pick up within X to X business days. We will send you an email when your order is ready along with instructions. 
-
-Our in-store pickup hours are [store hours] on [available days of the week]. Please have your order confirmation email with you when you come.
-International Shipping
-
-We offer international shipping to the following countries: [list of countries]. 
-
-If relevant you can also include countries you don’t ship to: At this time, we do not ship to [list of countries]. 
-
-If you’re using calculated shipping rates: Shipping charges for your order will be calculated and displayed at checkout. 
-
-If you offer multiple international shipping options, you can list them in a table as well. You can include broader delivery timelines (e.g. 8 to 20 days) for international shipping since expectations can vary greatly depending on the destination.
-
-Shipping option
-	
-
-Estimated delivery time
-	
-
-Price
-
-Option 1
-	
-
-X to X business days
-	
-
-$X
-
-Option 2
-	
-
-X to X business days
-	
-
-$X
-
-Option 3
-	
-
-X to X business days
-	
-
-$X
-
- 
-
-Your order may be subject to import duties and taxes (including VAT), which are incurred once a shipment reaches your destination country. [Your Company] is not responsible for these charges if they are applied and are your responsibility as the customer.
-How do I check the status of my order?
-
-When your order has shipped, you will receive an email notification from us which will include a tracking number you can use to check its status. Please allow 48 hours for the tracking information to become available. 
-
-If you haven’t received your order within X days of receiving your shipping confirmation email, please contact us at support@email.com with your name and order number, and we will look into it for you.
-
-Include a link for customers to track their order if available.
-Shipping to P.O. boxes
-
-Some carriers have limitations around shipping to P.O. Boxes. If one of your carriers falls into this group, you should look up their policy and communicate it to your customers here. 
-Refunds, returns, and exchanges
-
-Summarize your return policy here and link out to your full return policy page if you have one. 
-
-We accept returns up to X days after delivery, if the item is unused and in its original condition, and we will refund the full order amount minus the shipping costs for the return. 
-
-In the event that your order arrives damaged in any way, please email us as soon as possible at support@email.com with your order number and a photo of the item’s condition. We address these on a case-by-case basis but will try our best to work towards a satisfactory solution.
-
-If you have any further questions, please don't hesitate to contact us at support@email.com.
+    <div data-custom-class="body" class="p-3">
+        <div>
+            <div>
+                <div><strong><span style="font-size: 26px;"><span data-custom-class="title">SHIPPING & DELIVERY
+                                POLICY</span></span></strong></div>
+                <div><br></div>
+                <div><span style="color: rgb(127, 127, 127);"><strong><span style="font-size: 15px;"><span
+                                    data-custom-class="subtitle">Last updated <bdt class="question">May 29, 2022
+                                    </bdt></span></span></strong></span></div>
+                <div><br></div>
+                <div><br></div>
+                <div><br></div>
+                <div style="line-height: 1.5;"><span style="color: rgb(127, 127, 127);"><span
+                            style="color: rgb(89, 89, 89); font-size: 15px;"><span data-custom-class="body_text">
+                                <bdt class="block-component"></bdt>
+                            </span></span></span></span></span></span></span></span></span></div>
+                <div style="line-height: 1.5;"><span style="color: rgb(127, 127, 127);"><span
+                            style="color: rgb(89, 89, 89); font-size: 15px;"><span data-custom-class="body_text">Please
+                                carefully review our Shipping & Delivery Policy when purchasing our products. This policy
+                                will apply to any order you place with us.</span></span></span></div>
+                <div style="line-height: 1.5;"><br></div>
+                <div style="line-height: 1.5;"><span data-custom-class="heading_1"><strong><span
+                                style="color: rgb(127, 127, 127);"><span
+                                    style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                        data-custom-class="heading_1"><strong>WHAT ARE MY SHIPPING & DELIVERY
+                                            OPTIONS?</strong></span></span></span></strong></span><span
+                        style="color: rgb(127, 127, 127);"><span style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                data-custom-class="body_text">
+                                <bdt class="block-component">
+                                    <bdt class="block-component">
+                            </span></bdt></span></span></span></span></span></span></span><span
+                        data-custom-class="body_text">
+                        <bdt class="block-component"></bdt>
+                    </span></span></span>
+                    <bdt class="block-component"></bdt>
+                    </bdt></span></span></span>
+                </div>
+                <div style="line-height: 1.5;"><br></div>
+                <div style="line-height: 1.5;"><strong><span data-custom-class="heading_2">
+                            <bdt class="block-component"></bdt>Shipping Fees
+                        </span></strong></div>
+                <div style="line-height: 1.5;"><br></div>
+                <div>
+                    <div style="line-height: 1.5;"><span style="color: rgb(127, 127, 127);"><span
+                                style="color: rgb(89, 89, 89); font-size: 15px;"><span data-custom-class="body_text">We
+                                    <bdt class="block-component"></bdt>offer <bdt class="block-component"></bdt> shipping at
+                                    the following rates:
+                                </span><span data-custom-class="body_text">
+                                    <bdt class="block-component"></bdt>
+                                </span></span></span></div>
+                    <div style="line-height: 1.5;"><br></div>
+                    <table style="width: 44%; margin-right: calc(56%);">
+                        <tbody>
+                            <tr>
+                                <td style="width: 57.8771%; border-bottom: 1px solid black;">
+                                    <div style="text-align: center; line-height: 1;"><span
+                                            style="color: rgb(127, 127, 127);"><span
+                                                style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                    data-custom-class="body_text"><strong>Shipping
+                                                        Method</strong></span></span></span></div>
+                                    <div style="text-align: center; line-height: 1;"><br></div>
+                                </td>
+                                <td style="width: 42.4261%; border-bottom: 1px solid black;">
+                                    <div style="text-align: center; line-height: 1;"><span
+                                            style="color: rgb(127, 127, 127);"><span
+                                                style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                    data-custom-class="body_text"><strong>Shipping
+                                                        Fee</strong></span></span></span></div>
+                                    <div style="text-align: center; line-height: 1;"><br></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="line-height: 1;"><span style="color: rgb(127, 127, 127);"><span
+                            style="color: rgb(89, 89, 89); font-size: 15px;"><span data-custom-class="body_text">
+                                <bdt class="forloop-component"></bdt>
+                            </span></span></span></div>
+                <table style="width: 44%; margin-right: calc(56%);">
+                    <tbody>
+                        <tr>
+                            <td style="width: 57.8771%;">
+                                <div style="text-align: center; line-height: 1;"><br></div>
+                                <div style="text-align: center; line-height: 1;"><span
+                                        style="color: rgb(127, 127, 127);"><span
+                                            style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                data-custom-class="body_text">
+                                                <bdt class="question">Standard (Spain)</bdt>
+                                            </span></span></span></div>
+                                <div style="text-align: center; line-height: 1.4;"><span
+                                        style="color: rgb(127, 127, 127);"><span
+                                            style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                data-custom-class="body_text">
+                                                <bdt class="block-component"></bdt>
+                                            </span></span></span></div>
+                            </td>
+                            <td style="width: 42.4261%; text-align: center; line-height: 1;"><br><span
+                                    style="color: rgb(127, 127, 127);"><span
+                                        style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                            data-custom-class="body_text">
+                                            <bdt class="question">15€ (NOK 150)</bdt>
+                                        </span></span></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div>
+                    <div>
+                        <div>
+                            <div style="line-height: 1.5;"><span style="color: rgb(127, 127, 127);"><span
+                                        style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                            data-custom-class="body_text">
+                                            <bdt class="forloop-component"></bdt>
+                                        </span></span></span></div>
+                            <table style="width: 44%; margin-right: calc(56%);">
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 57.8771%;">
+                                            <div style="text-align: center; line-height: 1;"><br></div>
+                                            <div style="text-align: center; line-height: 1;"><span
+                                                    style="color: rgb(127, 127, 127);"><span
+                                                        style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                            data-custom-class="body_text">
+                                                            <bdt class="question">Standard (Norway)</bdt>
+                                                        </span></span></span></div>
+                                            <div style="text-align: center; line-height: 1.4;"><span
+                                                    style="color: rgb(127, 127, 127);"><span
+                                                        style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                            data-custom-class="body_text">
+                                                            <bdt class="block-component"></bdt>
+                                                        </span></span></span></div>
+                                        </td>
+                                        <td style="width: 42.4261%; text-align: center; line-height: 1;"><br><span
+                                                style="color: rgb(127, 127, 127);"><span
+                                                    style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                        data-custom-class="body_text">
+                                                        <bdt class="question">10€ (NOK 100)</bdt>
+                                                    </span></span></span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div>
+                                <div>
+                                    <div>
+                                        <div style="line-height: 1.5;"><span style="color: rgb(127, 127, 127);"><span
+                                                    style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                        data-custom-class="body_text">
+                                                        <bdt class="forloop-component"></bdt>
+                                                    </span></span></span><span style="color: rgb(127, 127, 127);"><span
+                                                    style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                        data-custom-class="body_text">
+                                                        <bdt class="block-component">
+                                                            <bdt class="block-component"></bdt>
+                                                    </span></span></span></span></span></span></span></span></span></div>
+                                        <div style="line-height: 1.5;"><br></div>
+                                        <div style="line-height: 1.5;"><span style="color: rgb(127, 127, 127);"><span
+                                                    style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                        data-custom-class="body_text">All times and dates given for
+                                                        delivery of the products are given in good faith but are estimates
+                                                        only.<bdt class="block-component"></bdt></span></span></span></div>
+                                        <div style="line-height: 1.5;"><br></div>
+                                        <div style="line-height: 1.5;"><span style="color: rgb(127, 127, 127);"><span
+                                                    style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                        data-custom-class="body_text">For EU and UK consumers: This
+                                                        does not affect your statutory rights. Unless specifically noted,
+                                                        estimated delivery times reflect the earliest available delivery,
+                                                        and deliveries will be made within 30 days after the day we accept
+                                                        your order. For more information please refer to our Terms.<bdt
+                                                            class="statement-end-if-in-editor"></bdt><span
+                                                            style="color: rgb(127, 127, 127);"><span
+                                                                style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                    data-custom-class="body_text">
+                                                                    <bdt class="statement-end-if-in-editor">
+                                                                        <bdt class="statement-end-if-in-editor"></bdt>
+                                                                    </bdt>
+                                                                </span></span></span></span><span
+                                                        data-custom-class="body_text">
+                                                        <bdt class="block-component">
+                                                            <bdt class="block-component"></bdt>
+                                                    </span></span></span></span></span></span></div>
+                                        <div style="line-height: 1.5;"><br></div>
+                                        <div>
+                                            <div>
+                                                <div>
+                                                    <div>
+                                                        <div>
+                                                            <div>
+                                                                <div>
+                                                                    <div style="line-height: 1.5;"><span
+                                                                            style="color: rgb(127, 127, 127);"><span
+                                                                                style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                    data-custom-class="heading_1"><strong>DO
+                                                                                        YOU DELIVER
+                                                                                        INTERNATIONALLY?</strong></span><span
+                                                                                    data-custom-class="body_text">
+                                                                                    <bdt class="statement-end-if-in-editor">
+                                                                                        <bdt
+                                                                                            class="statement-end-if-in-editor">
+                                                                                            <bdt
+                                                                                                class="statement-end-if-in-editor">
+                                                                                                <span
+                                                                                                    style="color: rgb(127, 127, 127);"><span
+                                                                                                        style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                                            data-custom-class="body_text">
+                                                                                                            <bdt
+                                                                                                                class="block-component">
+                                                                                                            </bdt>
+                                                                                                        </span></span></span>
+                                                                                            </bdt>
+                                                                                        </bdt>
+                                                                                    </bdt>
+                                                                                </span><span
+                                                                                    data-custom-class="body_text">
+                                                                                    <bdt class="block-component"></bdt>
+                                                                                </span></span></span></span></span></span></span></span></span>
+                                                                        <bdt class="block-component"></bdt>
+                                                                        </bdt></span></span></span>
+                                                                    </div>
+                                                                    <div style="line-height: 1.5;"><br></div>
+                                                                    <div style="line-height: 1.5;"><span
+                                                                            style="color: rgb(127, 127, 127);"><span
+                                                                                style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                    data-custom-class="body_text">We
+                                                                                    offer international shipping to the
+                                                                                    following countries:<bdt
+                                                                                        class="forloop-component"></bdt>
+                                                                                </span></span></span></div>
+                                                                    <ul>
+                                                                        <li style="line-height: 1.5;"><span
+                                                                                style="color: rgb(127, 127, 127);"><span
+                                                                                    style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                        data-custom-class="body_text"><span
+                                                                                            style="color: rgb(127, 127, 127);"><span
+                                                                                                style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                                    data-custom-class="body_text">
+                                                                                                    <bdt
+                                                                                                        class="question">
+                                                                                                        Spain</bdt>
+                                                                                                </span></span></span></span></span></span>
+                                                                        </li>
+                                                                    </ul>
+                                                                    <div style="line-height: 1.5;"><span
+                                                                            style="color: rgb(127, 127, 127);"><span
+                                                                                style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                    data-custom-class="body_text"><span
+                                                                                        style="color: rgb(127, 127, 127);"><span
+                                                                                            style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                                data-custom-class="body_text">
+                                                                                                <bdt
+                                                                                                    class="forloop-component">
+                                                                                                </bdt>
+                                                                                            </span></span></span></div>
+                                                                    <ul>
+                                                                        <li style="line-height: 1.5;"><span
+                                                                                style="color: rgb(127, 127, 127);"><span
+                                                                                    style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                        data-custom-class="body_text"><span
+                                                                                            style="color: rgb(127, 127, 127);"><span
+                                                                                                style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                                    data-custom-class="body_text">
+                                                                                                    <bdt
+                                                                                                        class="question">
+                                                                                                        Norway</bdt>
+                                                                                                </span></span></span></span></span></span>
+                                                                        </li>
+                                                                    </ul>
+                                                                    <div style="line-height: 1.5;"><span
+                                                                            style="color: rgb(127, 127, 127);"><span
+                                                                                style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                    data-custom-class="body_text"><span
+                                                                                        style="color: rgb(127, 127, 127);"><span
+                                                                                            style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                                data-custom-class="body_text">
+                                                                                                <bdt
+                                                                                                    class="forloop-component">
+                                                                                                </bdt>
+                                                                                            </span></span></span></span></span></span><span
+                                                                            style="color: rgb(127, 127, 127);"><span
+                                                                                style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                    data-custom-class="body_text">
+                                                                                    <bdt class="block-component">
+                                                                                        <bdt class="block-component"></bdt>
+                                                                                        Free shipping is not valid on
+                                                                                        international orders.<bdt
+                                                                                            class="statement-end-if-in-editor">
+                                                                                        </bdt>
+                                                                                </span></span></span></div>
+                                                                    <div style="line-height: 1.5;"><br></div>
+                                                                    <div style="line-height: 1.5;"><span
+                                                                            style="color: rgb(127, 127, 127);"><span
+                                                                                style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                    data-custom-class="body_text"><span
+                                                                                        style="color: rgb(127, 127, 127);"><span
+                                                                                            style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                                data-custom-class="body_text"><span
+                                                                                                    style="color: rgb(127, 127, 127);"><span
+                                                                                                        style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                                            data-custom-class="body_text">
+                                                                                                            <bdt
+                                                                                                                class="statement-end-if-in-editor">
+                                                                                                            </bdt>
+                                                                                                        </span></span></span></span></span></span></span></span></span>
+                                                                        <bdt class="block-component"><span
+                                                                                data-custom-class="body_text"></bdt>
+                                                                        </span></span></span></span></span></span></bdt>
+                                                                        </span></span></span></span></span></span></bdt>
+                                                                        </bdt></span></span></span>
+                                                                        <bdt class="block-component"></bdt>
+                                                                        </bdt></span></span></span>
+                                                                    </div>
+                                                                    <div style="line-height: 1.4;"><span
+                                                                            style="color: rgb(127, 127, 127);"><span
+                                                                                style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                    data-custom-class="body_text"><span
+                                                                                        style="font-size: 15px; color: rgb(89, 89, 89);"><span
+                                                                                            style="font-size: 15px; color: rgb(89, 89, 89);"><span
+                                                                                                data-custom-class="body_text"><span
+                                                                                                    style="color: rgb(127, 127, 127);"><span
+                                                                                                        style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                                            data-custom-class="body_text"><span
+                                                                                                                style="color: rgb(127, 127, 127);"><span
+                                                                                                                    style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                                                        data-custom-class="body_text">Please
+                                                                                                                        note,
+                                                                                                                        we
+                                                                                                                        may
+                                                                                                                        be
+                                                                                                                        subject
+                                                                                                                        to
+                                                                                                                        various
+                                                                                                                        rules
+                                                                                                                        and
+                                                                                                                        restrictions
+                                                                                                                        in
+                                                                                                                        relation
+                                                                                                                        to
+                                                                                                                        some
+                                                                                                                        international
+                                                                                                                        deliveries
+                                                                                                                        and
+                                                                                                                        you
+                                                                                                                        may
+                                                                                                                        be
+                                                                                                                        subject
+                                                                                                                        to
+                                                                                                                        additional
+                                                                                                                        taxes
+                                                                                                                        and
+                                                                                                                        duties
+                                                                                                                        over
+                                                                                                                        which
+                                                                                                                        we
+                                                                                                                        have
+                                                                                                                        no
+                                                                                                                        control.
+                                                                                                                        If
+                                                                                                                        such
+                                                                                                                        cases
+                                                                                                                        apply,
+                                                                                                                        you
+                                                                                                                        are
+                                                                                                                        responsible
+                                                                                                                        for
+                                                                                                                        complying
+                                                                                                                        with
+                                                                                                                        the
+                                                                                                                        laws
+                                                                                                                        applicable
+                                                                                                                        to
+                                                                                                                        the
+                                                                                                                        country
+                                                                                                                        where
+                                                                                                                        you
+                                                                                                                        live
+                                                                                                                        and
+                                                                                                                        will
+                                                                                                                        be
+                                                                                                                        responsible
+                                                                                                                        for
+                                                                                                                        any
+                                                                                                                        such
+                                                                                                                        additional
+                                                                                                                        costs
+                                                                                                                        or
+                                                                                                                        taxes.</span></span></span></span></span></span></span></span></span></span></span></span><span
+                                                                            style="color: rgb(127, 127, 127);"><span
+                                                                                style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                    data-custom-class="body_text"><span
+                                                                                        style="color: rgb(127, 127, 127);"><span
+                                                                                            style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                                data-custom-class="body_text">
+                                                                                                <bdt
+                                                                                                    class="statement-end-if-in-editor">
+                                                                                                    <bdt
+                                                                                                        class="statement-end-if-in-editor">
+                                                                                                        <bdt
+                                                                                                            class="statement-end-if-in-editor">
+                                                                                                        </bdt>
+                                                                                                    </bdt>
+                                                                                                </bdt>
+                                                                                            </span></span></span>
+                                                                                    <bdt class="else-block">
+                                                                                        <bdt class="block-component">
+                                                                                            <bdt class="block-component">
+                                                                                            </bdt>
+                                                                                        </bdt>
+                                                                                    </bdt>
+                                                                                </span></span></span></span></span></span>
+                                                                    </div>
+                                                                    <div style="line-height: 1.5;"><br></div>
+                                                                    <div style="line-height: 1.5;"><span
+                                                                            style="color: rgb(127, 127, 127);"><span
+                                                                                style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                    data-custom-class="heading_1"><strong>WHAT
+                                                                                        HAPPENS IF MY ORDER IS
+                                                                                        DELAYED?</strong></span></span></span>
+                                                                    </div>
+                                                                    <div style="line-height: 1.5;"><br></div>
+                                                                    <div style="line-height: 1.5;"><span
+                                                                            style="color: rgb(127, 127, 127);"><span
+                                                                                style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                    data-custom-class="body_text">
+                                                                                    <bdt class="block-component"></bdt>
+                                                                                </span></span></span><span
+                                                                            style="color: rgb(127, 127, 127);"><span
+                                                                                style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                    data-custom-class="body_text">If
+                                                                                    delivery is delayed for any reason we
+                                                                                    will let you know as soon as possible
+                                                                                    and will advise you of a revised
+                                                                                    estimated date for
+                                                                                    delivery.</span></span></span><span
+                                                                            style="color: rgb(127, 127, 127);"><span
+                                                                                style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                    data-custom-class="body_text">
+                                                                                    <bdt
+                                                                                        class="statement-end-if-in-editor">
+                                                                                    </bdt>
+                                                                                </span></span></span></div>
+                                                                    <div style="line-height: 1.5;"><br></div>
+                                                                    <div style="line-height: 1.5;"><span
+                                                                            style="color: rgb(127, 127, 127);"><span
+                                                                                style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                    data-custom-class="body_text">For
+                                                                                    EU and UK consumers: This does not
+                                                                                    affect your statutory rights. For more
+                                                                                    information please refer to our
+                                                                                    Terms.</span></span></span></div>
+                                                                    <div style="line-height: 1.5;"><span
+                                                                            style="color: rgb(127, 127, 127);"><span
+                                                                                style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                    data-custom-class="body_text">
+                                                                                    <bdt class="else-block">
+                                                                                        <bdt class="block-component">
+                                                                                            <bdt class="block-component">
+                                                                                            </bdt>
+                                                                                </span></span></span></span></span></span>
+                                                                    </div>
+                                                                    <div style="line-height: 1.5;"><br></div>
+                                                                    <div style="line-height: 1.5;"><span
+                                                                            style="color: rgb(127, 127, 127);"><span
+                                                                                style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                    data-custom-class="heading_1"><strong>HOW
+                                                                                        CAN YOU CONTACT US ABOUT THIS
+                                                                                        POLICY?</strong></span></span></span>
+                                                                    </div>
+                                                                    <div style="line-height: 1.5;"><br></div>
+                                                                    <div style="line-height: 1.5;"><span
+                                                                            style="color: rgb(127, 127, 127);"><span
+                                                                                style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                    data-custom-class="body_text">If
+                                                                                    you have any further questions or
+                                                                                    comments, you may contact us
+                                                                                    by:</span><span
+                                                                                    data-custom-class="heading_1"><span
+                                                                                        style="color: rgb(127, 127, 127);"><span
+                                                                                            style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                                data-custom-class="heading_1"><span
+                                                                                                    style="color: rgb(127, 127, 127);"><span
+                                                                                                        style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                                            data-custom-class="body_text">
+                                                                                                            <bdt
+                                                                                                                class="block-component">
+                                                                                                            </bdt>
+                                                                                                            </bdt>
+                                                                                                            </bdt>
+                                                                                                        </span></span></span>
+                                                                                                </bdt>
+                                                                                            </span></span></span></span></span></span></span></span></span>
+                                                                        </bdt></span></span></span></span><span
+                                                                            data-custom-class="heading_1"><span
+                                                                                style="color: rgb(127, 127, 127);"><span
+                                                                                    style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                        data-custom-class="heading_1"><span
+                                                                                            style="color: rgb(127, 127, 127);"><span
+                                                                                                style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                                    data-custom-class="body_text">
+                                                                                                    <bdt
+                                                                                                        class="block-component">
+                                                                                                    </bdt>
+                                                                                                    </bdt>
+                                                                                                    </bdt>
+                                                                                                </span></span></span></bdt>
+                                                                                    </span></span></span></span></span></span></span></span></span>
+                                                                        </bdt></span></span></span></span><span
+                                                                            data-custom-class="body_text">
+                                                                            <bdt class="statement-end-if-in-editor">
+                                                                                <bdt class="block-component"></bdt>
+                                                                            </bdt>
+                                                                        </span></span></span></div>
+                                                                    <ul>
+                                                                        <li><span
+                                                                                style="font-size: 15px; color: rgb(89, 89, 89);"><span
+                                                                                    style="font-size: 15px; color: rgb(89, 89, 89);"><span
+                                                                                        data-custom-class="body_text">Email:
+                                                                                        <bdt class="question">
+                                                                                            heden.watercolor@gmail.com</bdt>
+                                                                                    </span></span></span></li>
+                                                                    </ul>
+                                                                    <div><span style="color: rgb(127, 127, 127);"><span
+                                                                                style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                    data-custom-class="body_text"><span
+                                                                                        style="color: rgb(127, 127, 127);"><span
+                                                                                            style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                                data-custom-class="body_text">
+                                                                                                <bdt
+                                                                                                    class="statement-end-if-in-editor">
+                                                                                                    <span
+                                                                                                        style="color: rgb(127, 127, 127);"><span
+                                                                                                            style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                                                data-custom-class="body_text"><span
+                                                                                                                    style="color: rgb(127, 127, 127);"><span
+                                                                                                                        style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                                                            data-custom-class="body_text"><span
+                                                                                                                                style="color: rgb(127, 127, 127);"><span
+                                                                                                                                    style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                                                                        data-custom-class="body_text">
+                                                                                                                                        <bdt
+                                                                                                                                            class="block-component">
+                                                                                                                                            <span
+                                                                                                                                                style="color: rgb(127, 127, 127);"><span
+                                                                                                                                                    style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                                                                                        data-custom-class="body_text">
+                                                                                                                                                        <bdt
+                                                                                                                                                            class="statement-end-if-in-editor">
+                                                                                                                                                            <bdt
+                                                                                                                                                                class="statement-end-if-in-editor">
+                                                                                                                                                                <bdt
+                                                                                                                                                                    class="statement-end-if-in-editor">
+                                                                                                                                                                </bdt>
+                                                                                                                                                            </bdt>
+                                                                                                                                                        </bdt>
+                                                                                                                                                    </span></span></span>
+                                                                                                                                        </bdt>
+                                                                                                                                    </span></span></span></span></span></span></span></span></span>
+                                                                                                </bdt>
+                                                                                            </span></span></span></span><span
+                                                                                    data-custom-class="body_text"><span
+                                                                                        style="color: rgb(127, 127, 127);"><span
+                                                                                            style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                                data-custom-class="body_text">
+                                                                                                <bdt
+                                                                                                    class="statement-end-if-in-editor">
+                                                                                                    <bdt
+                                                                                                        class="statement-end-if-in-editor">
+                                                                                                        <bdt
+                                                                                                            class="block-component">
+                                                                                                        </bdt>
+                                                                                                    </bdt>
+                                                                                                </bdt>
+                                                                                            </span></span></span></span></span></span>
+                                                                    </div>
+                                                                    <ul>
+                                                                        <li><span style="color: rgb(127, 127, 127);"><span
+                                                                                    style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                        data-custom-class="body_text">Online
+                                                                                        contact form: <bdt
+                                                                                            class="question"><a
+                                                                                                href="http://www.hedenwatercolor.com/support"
+                                                                                                target="_blank"
+                                                                                                data-custom-class="link">http://www.hedenwatercolor.com/support</a>
+                                                                                        </bdt></span></span></span></li>
+                                                                    </ul>
+                                                                    <div style="line-height: 1.5;"><span
+                                                                            style="color: rgb(127, 127, 127);"><span
+                                                                                style="color: rgb(89, 89, 89); font-size: 15px;"><span
+                                                                                    data-custom-class="body_text">
+                                                                                    <bdt
+                                                                                        class="statement-end-if-in-editor">
+                                                                                    </bdt>
+                                                                                </span></span></span></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 @endsection

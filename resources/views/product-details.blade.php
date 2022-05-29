@@ -49,7 +49,7 @@
 
             <div class="col-md-6 hw-product-title-info">
                 <h2 class="mb-3">{{ $productTr->name }}</h2>
-                <p class="h-50">{{ $productTr->description }}</p>
+                <p class="h-50"><?=$descrip = nl2br($productTr->description);?></p>
                 <p class="hw-product-date"></p>
                 <div class="hw-details-date">
                     {{ __('Creation date') }}: {{ $productDate }}

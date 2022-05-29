@@ -32,7 +32,8 @@ $session = \Stripe\Checkout\Session::create([
                      'subtotal' => $totalPrice,
                      'final_price' => $finalPrice,
                      'full_address' => $address,
-                     'billing_address' => $addressB]
+                     'billing_address' => $addressB,
+                     'cart' => $cart]
     ]
   ]);
 
@@ -70,7 +71,7 @@ $session = \Stripe\Checkout\Session::create([
   
       <script src="https://js.stripe.com/v3/"></script>
       <script>
-        const stripe = Stripe('pk_test_51Ks3ZJFw94udS3GmAgau8Ds8KAmp0gukBBwLW5fBxsDzOmYsFe1kDLQtmn1hQvREdNGIO0rNcOGtYLS0jqt44Qad00ruYySCaE');
+        const stripe = Stripe({{env('STRIPE_KEY')}});
         const btn = document.getElementById('checkout-button');
 
         btn.addEventListener("click", function(event) {

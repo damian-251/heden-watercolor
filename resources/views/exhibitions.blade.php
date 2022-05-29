@@ -5,6 +5,8 @@
 @endsection
 
 @section('styles')
+<style>
+.mapouter iframe {width:100%;height:100%;}</style>
 @endsection
 
 @section('content')
