@@ -453,9 +453,10 @@ class AdminController extends Controller
             'height' => 'required',
         ]);
 
+        Log::channel('custom')->debug("Editando producto..." . $request);
         $product = Product::findOrFail($request->id);
         //Primero agregamos los datos propios de la tabla producto.
-
+        Log::channel('custom')->debug("Editando producto..." . $product);
         //Iniciamos la transacción para que si algo falla en el proceso no se realice la edición
         DB::beginTransaction();
 
@@ -573,8 +574,7 @@ class AdminController extends Controller
 
         //Colores
         $product->colours()->detach();
-        $product->colours()->attach($request->tags);
-
+        $product->colours()->attach($request->colours);
         $product->save();
 
         //Guardamos los cambios

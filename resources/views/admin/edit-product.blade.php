@@ -82,9 +82,9 @@
                                 checked @endif
                                 @endforeach
                             >
+                            {{ $colourTr->name }}</label>
                     @endif
                 @endforeach
-                {{ $colourTr->name }}</label>
             @endforeach
         </div>
 

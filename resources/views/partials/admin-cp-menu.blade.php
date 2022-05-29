@@ -29,7 +29,7 @@
                         <a class="dropdown-item" href="{{route('edit-tag')}}">{{__('Tag')}}</a>
                         <a class="dropdown-item" href="{{route('edit-colour')}}">{{__('Colour')}}</a>
                         <a class="dropdown-item" href="{{route('edit-location')}}">{{__('Location')}}</a>
-                        <a class="dropdown-item" href="{{route('product-list')}}">{{__('Product')}}</a>
+                        <a class="dropdown-item" href="{{route('portfolio')}}">{{__('Product')}}</a>
                     </div>
                 </li>
                 <li class="nav-item"> <a class="nav-link" href="{{route('modify-special')}}">{{ __('Modify special section') }}</a> </li>

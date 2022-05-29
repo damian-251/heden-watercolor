@@ -78,6 +78,18 @@
                         @endif
                     </form>
                 @endif
+                {{-- Si eres administrador puedes editar y borrar el mismo producto --}}
+                @if (auth()->check() && auth()->user()->is_admin)
+                    <div class="d-flex justify-content-center">
+                        <form action={{ route('delete-product', ['id'=> $product->id]) }} method="POST" class="d-inline m-4">
+                            @method('DELETE')
+                            @csrf
+                            <button class="btn btn-danger btn-sm boton" type="submit">{{__('Delete')}}</button>
+                        </form>
+                        <a href={{ route('edit-product', ['id'=> $product->id]) }} class="btn btn-warning btn-sm boton m-4">{{__('Edit')}}</a>
+                    </div>
+                    
+                @endif
             </div>
 
         </div>
