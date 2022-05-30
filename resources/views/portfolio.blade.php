@@ -36,6 +36,16 @@
                         @endforeach
                     </ul>
                 </li>
+                <li><a class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown" href="#">{{ __('Colours') }}</a>
+                    <ul class="dropdown-menu">
+                        @foreach ($colourNames as $colourName)
+                            <li>
+                                <a class="dropdown-item"
+                                    href="{{ route('portfolio', ['type' => 'colour', 'parameter' => $colourName->name]) }}">{{ $colourName->name }}</a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </li>
             </ul>
         </div>
         <form class="d-flex" action="{{ route('portfolioP') }}" method="POST">

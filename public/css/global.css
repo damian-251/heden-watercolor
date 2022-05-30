@@ -15,6 +15,11 @@ específico si así se requiere */
 
 .js-cookie-consent {
     background-color: #fff3cd;
+    position: fixed;
+    bottom: 0;
+    right: auto;
+    z-index: 1000;
+    width: 100%;
 }
 
 .js-cookie-consent>div>div>div>p {
@@ -29,7 +34,7 @@ específico si así se requiere */
 
 
 
-* {
+*, h1 {
     font-family: 'Alegraya Sans', sans-serif;
 }
 

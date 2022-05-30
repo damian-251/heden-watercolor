@@ -146,10 +146,9 @@
                     <li class="nav-item"><a class="nav-link"
                             href="{{ route('privacy-view', ['lang' => app()->getLocale()]) }}">{{ __('Privacy policy') }}</a>
                     </li>
-                    <li class="nav-item"><a  class="nav-link" href="#"> {{ __('Shipping') }}</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#"> {{ __('Support') }}</a></li>
-
-
+                    <li class="nav-item"><a  class="nav-link" href="{{route('shipping-policy-view')}}"> {{ __('Shipping') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{route('support')}}"> {{ __('Support') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('cookies')}}"> {{ __('Cookies policy') }}</a></li>
                 </ul>
             </div>
         </footer>

@@ -340,6 +340,8 @@ Route::post('contact-email-p', [MailController::class, 'contactEmailP'])->name('
 //Políticas de privacidad
 Route::get('privacy/{lang?}', [PagesController::class, 'privacyView'])->name('privacy-view');
 Route::get('shipping-policy/{lang?}', [PagesController::class, 'shippingPrivacyView'])->name('shipping-policy-view');
+Route::get('cookies', [PagesController::class, 'cookiesView'])->name('cookies');
+Route::get('support', [PagesController::class, 'supportView'])->name('support');
 
 
 //Lienzo para realizar pruebas

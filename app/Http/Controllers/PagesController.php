@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Colour_tr;
 use App\Models\Location;
 use App\Models\Location_tr;
 use App\Models\Product;
@@ -10,37 +11,49 @@ use App\Models\Tag;
 use App\Models\Tag_tr;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class PagesController extends Controller
 {
     public function vistaPortfolio(Request $request, $type = null, $parameter = null)
     {
 
-        Log::channel('custom')->debug("Request "  . $request);
-
         //Valores para poner en el menú de filtrado de obras 
         $tagNames = Tag_tr::select('name')->where('language_code', app()->getLocale())->get();
         $locationNames = Location_tr::select('name')->where('language_code', app()->getLocale())->get();
+        $colourNames = Colour_tr::select('name')->where('language_code', app()->getLocale())->get();
         $searchQuery = null;
 
         //Si hay algún parámetro los filtramos
         if ($type != null) {
-            if ($type == "tag") {
-                $tagId = Tag_tr::where('name', $parameter)->first()->tag_id;
-                $tag = Tag::find($tagId);
-                $products = Product::whereHas('tags', function ($query) use ($tagId) {
-                    $query->where('tag_id', $tagId);
-                })->get();
-            } else if ($type == "location") {
 
-                $locationId = Location_tr::where('name', $parameter)->first()->location_id;
-                $location = Location::find($locationId);
+            switch ($type) {
+                case 'tag':
+                    $tagId = Tag_tr::where('name', $parameter)->first()->tag_id;
+                    $tag = Tag::find($tagId);
+                    $products = Product::whereHas('tags', function ($query) use ($tagId) {
+                        $query->where('tag_id', $tagId);
+                    })->get();
+                    break;
+                case 'location':
+                    $locationId = Location_tr::where('name', $parameter)->first()->location_id;
+                    $location = Location::find($locationId);
 
-                $products = Product::whereHas('location', function ($query) use ($locationId) {
-                    $query->where('location_id', $locationId);
-                })->get();
+                    $products = Product::whereHas('location', function ($query) use ($locationId) {
+                        $query->where('location_id', $locationId);
+                    })->get();
+                    break;
+                case 'colour':
+                    $colourId = Colour_tr::where('name', $parameter)->first()->colour_id;
+                    $colour = Tag::find($colourId);
+                    $products = Product::whereHas('colours', function ($query) use ($colourId) {
+                        $query->where('colour_id', $colourId);
+                    })->get();
+                    break;
+                default:
+                    $products = Product::all();
+                    break;
             }
+
         } else if (isset($request->search)) {
             $search = $request->search;
             //Hemos introducido término para buscar por título
@@ -64,17 +77,17 @@ class PagesController extends Controller
                             $query->where('name', 'like', '%' . $searchQuery . '%');
                         });
                     })->orderBy('creation_date', 'desc')->get();
-                    
+
                     break;
                 case '#width':
 
                     $products = Product::where('width', '=', $searchQuery)
-                    ->orderBy('creation_date', 'desc')->get();
+                        ->orderBy('creation_date', 'desc')->get();
                     break;
-                    
+
                 case '#height':
                     $products = Product::where('height', '=', $searchQuery)
-                    ->orderBy('creation_date', 'desc')->get();
+                        ->orderBy('creation_date', 'desc')->get();
                     break;
                 case '#location':
 
@@ -88,8 +101,8 @@ class PagesController extends Controller
                     $tagWords = explode(" ", $searchQuery);
                     $products = Product::whereHas('tags', function ($query) use ($tagWords) {
                         foreach ($tagWords as $tagWord) {
-                        $query->whereHas('tag_translation', function ($query) use ($tagWord) {
-                            
+                            $query->whereHas('tag_translation', function ($query) use ($tagWord) {
+
                                 $query->where(function ($query) use ($tagWord) {
                                     $query->where('name', '=', $tagWord);
                                 });
@@ -110,12 +123,12 @@ class PagesController extends Controller
                 case '#range':
                     $datesString = explode(" ", $searchQuery);
                     //Convertimos la fecha al formato de la base de datos
-                    for ($i=0; $i < count($datesString) ; $i++) { 
+                    for ($i = 0; $i < count($datesString); $i++) {
                         $date[$i] = Carbon::createFromFormat('d-m-Y', $datesString[$i])->format('Y-m-d');
                     }
 
                     $products = Product::whereBetween('creation_date', [$date[0], $date[1]])
-                    ->orderBy('creation_date', 'desc')->get();
+                        ->orderBy('creation_date', 'desc')->get();
                     break;
 
                 default:
@@ -129,7 +142,7 @@ class PagesController extends Controller
             $products = Product::orderBy('creation_date', 'desc')->get();
         }
 
-        return view('portfolio', compact('products', 'tagNames', 'locationNames', 'searchQuery'));
+        return view('portfolio', compact('products', 'tagNames', 'locationNames', 'colourNames','searchQuery'));
     }
 
     /**
@@ -215,7 +228,7 @@ class PagesController extends Controller
                 break;
 
             default:
-                # code...
+                return view('privacy.privacy-en');
                 break;
         }
     }
@@ -224,5 +237,15 @@ class PagesController extends Controller
     public function shippingPrivacyView($lang = "en")
     {
         return view('privacy.shipping-en');
+    }
+
+    public function cookiesView()
+    {
+        return view('privacy.cookies');
+    }
+
+    public function supportView()
+    {
+        return view('privacy.support');
     }
 }

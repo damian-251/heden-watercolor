@@ -6,7 +6,17 @@
 
 require('./bootstrap');
 
+Vue.config.devtools = false;
+Vue.config.debug = false;
+Vue.config.silent = true; 
+
+
+
+Vue.config.productionTip = false;
+
 window.Vue = require('vue').default;
+
+
 
 /**
  * The following block of code may be used to automatically register your

@@ -215,8 +215,8 @@
                         data-custom-class="body_text"><strong>How do I exercise my rights?</strong> The easiest way to
                         exercise your rights is by filling out our data subject request form available <bdt
                             class="block-component"></bdt>here: <bdt class="question"><a
-                                href="http://www.hedenwatercolor.com/delete-data" target="_blank"
-                                data-custom-class="link">http://www.hedenwatercolor.com/delete-data</a></bdt>
+                                href="{{route('support')}}" target="_blank"
+                                data-custom-class="link">https://www.hedenwatercolor.com/support</a></bdt>
                         <bdt class="else-block"></bdt>, or by contacting us. We will consider and act upon any request
                         in accordance with applicable data protection laws.
                     </span></span></div>
