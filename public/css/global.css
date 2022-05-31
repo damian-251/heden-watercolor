@@ -36,6 +36,7 @@ específico si así se requiere */
 
 * {
     font-family: 'Alegreya Sans', sans-serif;
+    font-size: 1rem;
 }
 
 h1, h2 {
@@ -177,7 +178,7 @@ body {
     }
 
     /* Ajustamos el menú para tamaños más pequeños */
-    @media (max-width: 400px) {
+    @media (max-width: 440px) {
 
         button.navbar-toggler {
             margin-right: 0 !important;
@@ -185,11 +186,9 @@ body {
 
         .hw-mobile-logo {
             margin-left: .5rem !important;
+            font-size: 1rem !important;
         }
 
-
-    
- 
         
     }
 

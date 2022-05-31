@@ -48,8 +48,14 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                     @foreach (config('app.available_locales') as $locale_name => $available_locale)
-                        <a class="dropdown-item"
-                            href="language/{{ $available_locale }}">{{ $locale_name }}</a>
+                    <div class="d-flex">
+                            <a class="dropdown-item"
+                                href="language/{{ $available_locale }}">
+                                <img class="d-inline-block w-25"
+                                src="{{ asset('assets/images/icons/' . $available_locale . '.png') }}"
+                                alt="{{$locale_name }}">
+                                {{ $locale_name }}</a>
+                    </div>
                     @endforeach
                 </div>
             </li>
