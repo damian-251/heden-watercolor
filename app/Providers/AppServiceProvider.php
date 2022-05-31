@@ -38,7 +38,7 @@ class AppServiceProvider extends ServiceProvider
         //La sección temporal
         //No podemos llevar solo la traducción que queremos porque aquí siempre el app()->getlocale() sale en inglés
         //En este caso todas las traducciones serán obligatorias
-        // $specialTagStart = Tag::where('active', true)->with('tag_translation')->first();
+        $specialTagStart = Tag::where('active', true)->with('tag_translation')->first();
 
         View::share('specialTagStart', $specialTagStart);
 

@@ -34,8 +34,12 @@ específico si así se requiere */
 
 
 
-*, h1 {
-    font-family: 'Alegraya Sans', sans-serif;
+* {
+    font-family: 'Alegreya Sans', sans-serif;
+}
+
+h1, h2 {
+    font-family:'Cinzel Decorative', sans-serif !important;
 }
 
 body {
