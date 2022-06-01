@@ -56,7 +56,7 @@
                   {{__('Subtotal')}}
                 </div>
                 <div class="col-md-6 fs-2">
-                  <span id="subtotal">{{$totalPrice }}</span> {{$currency}}
+                  <span id="subtotal" class="fs-2">{{$totalPrice }}</span> {{$currency}}
                 </div>
               </div>
               <div class="row ">
@@ -66,7 +66,7 @@
                 </div>
             
                 <div class="col-md-6 fs-2">
-                  <span id="shipping_price"></span> {{$currency}}
+                  <span id="shipping_price" class="fs-2"></span> {{$currency}}
                 </div>
           
               </div>
@@ -77,7 +77,7 @@
                 </div>
             
                 <div class="col-md-6 fs-2">
-                  <span id="total_price">{{$totalPrice}}</span> {{$currency}}
+                  <span id="total_price" class="fs-2">{{$totalPrice}}</span> {{$currency}}
                 </div>
       
               </div>

@@ -28,7 +28,7 @@
 
     @if (env('APP_ENV') != 'local')
         <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-NRP9S1XZBH"></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-6NRZLW8R3G"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
 
@@ -37,7 +37,7 @@
             }
             gtag('js', new Date());
 
-            gtag('config', 'G-NRP9S1XZBH');
+            gtag('config', 'G-6NRZLW8R3G');
         </script>
     @endif
 
@@ -146,9 +146,12 @@
                     <li class="nav-item"><a class="nav-link"
                             href="{{ route('privacy-view', ['lang' => app()->getLocale()]) }}">{{ __('Privacy policy') }}</a>
                     </li>
-                    <li class="nav-item"><a  class="nav-link" href="{{route('shipping-policy-view')}}"> {{ __('Shipping') }}</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{route('support')}}"> {{ __('Support') }}</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('cookies')}}"> {{ __('Cookies policy') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('shipping-policy-view') }}">
+                            {{ __('Shipping') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('support') }}">
+                            {{ __('Support') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('cookies') }}">
+                            {{ __('Cookies policy') }}</a></li>
                 </ul>
             </div>
         </footer>

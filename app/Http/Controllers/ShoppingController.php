@@ -396,7 +396,7 @@ class ShoppingController extends Controller
             $finalPrice = $totalPrice + $shippingPrice;
         }
 
-        return view('shopping.review-order', compact('locale', 'address', 'addressB', 'shippingPrice', 'currency', 'totalPrice', 'finalPrice', 'currencyStripe', 'addressId', 'currency', 'addressIdB'));
+        return view('shopping.review-order', compact('locale', 'cart','address', 'addressB', 'shippingPrice', 'currency', 'totalPrice', 'finalPrice', 'currencyStripe', 'addressId', 'currency', 'addressIdB'));
     }
 
     public function paymentSuccessful()
