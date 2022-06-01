@@ -3,7 +3,7 @@
 @section('content')
 @include('partials.user-menu')
 <h2 class="text-center">{{__('Order summary')}}</h2>
-<div class="container m-5 w-auto">
+<div class="d-flex justify-content-center m-5 w-auto">
     @foreach ($orders as $order)
     <div class="row shadow m-3 p-3 w-75 mx-auto d-flex justify-content-center">
 

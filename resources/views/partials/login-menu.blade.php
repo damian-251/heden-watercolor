@@ -50,7 +50,7 @@
                     @foreach (config('app.available_locales') as $locale_name => $available_locale)
                     <div class="d-flex">
                             <a class="dropdown-item"
-                                href="language/{{ $available_locale }}">
+                                href="{{ route('translation', ['locale'=>$available_locale]) }}">
                                 <img class="d-inline-block w-25"
                                 src="{{ asset('assets/images/icons/' . $available_locale . '.png') }}"
                                 alt="{{$locale_name }}">

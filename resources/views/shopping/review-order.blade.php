@@ -33,7 +33,7 @@ $session = \Stripe\Checkout\Session::create([
                      'final_price' => $finalPrice,
                      'full_address' => $address,
                      'billing_address' => $addressB,
-                     'cart' => $cart]
+                     'cart' => $cart->products->pluck('id', 'sku')] //Añadimos la iformación de los productos para que estén en stripe
     ]
   ]);
 
@@ -71,7 +71,7 @@ $session = \Stripe\Checkout\Session::create([
   
       <script src="https://js.stripe.com/v3/"></script>
       <script>
-        const stripe = Stripe({{env('STRIPE_KEY')}});
+        const stripe = Stripe("{{env('STRIPE_KEY')}}");
         const btn = document.getElementById('checkout-button');
 
         btn.addEventListener("click", function(event) {

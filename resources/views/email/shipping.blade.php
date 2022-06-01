@@ -65,7 +65,7 @@
     {{__('City')}}: {{$address->city}} <br>
     {{__('Country')}}: {{$country}} <br>
 
-    <h2>{{__('Shipping Address')}}</h2>
+    <h2>{{__('Billing Address')}}</h2>
 
     {{__('Full name')}}: {{$billingAddress->full_name}} <br>
     {{__('Address Line 1')}}: {{$billingAddress->line1}} <br>
