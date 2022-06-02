@@ -52,12 +52,9 @@ services:
     container_name: db
     restart: unless-stopped
     tty: true
-    ports:
-      - "3306:3306"
     environment:
       MYSQL_DATABASE: laravel
-      MYSQL_ROOT_PASSWORD: password
-      SERVICE_TAGS: dev
+      MARIADB_RANDOM_ROOT_PASSWORD: "yes"
       SERVICE_NAME: mysql
     volumes:
       - dbdata:/var/lib/mysql/
