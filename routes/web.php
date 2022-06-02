@@ -66,11 +66,6 @@ Route::get('translation2', function () {
 
 //Ruta para realizar pruebas de las bases de datos
 
-//Vistas
-Route::get('dbtest', [TestDbController::class, 'index'])->name('test.db');
-Route::get('shop-test', [TestDbController::class, 'shop'])->name('test.shop');
-Route::get('cart', [TestDbController::class, 'cart'])->name('cart.shop');
-
 //Vista de portfolio
 Route::get('portfolio/{type?}/{parameter?}', [PagesController::class, 'vistaPortfolio'])->name('portfolio');
 

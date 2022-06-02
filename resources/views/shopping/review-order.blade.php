@@ -33,7 +33,7 @@ $session = \Stripe\Checkout\Session::create([
                      'final_price' => $finalPrice,
                      'full_address' => $address,
                      'billing_address' => $addressB,
-                     'cart' => $cart->products->pluck('id', 'sku')] //Añadimos la iformación de los productos para que estén en stripe
+                     'cart' => $products] //Añadimos la iformación de los productos para que estén en stripe
     ]
   ]);
 

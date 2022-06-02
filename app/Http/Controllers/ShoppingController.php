@@ -362,6 +362,9 @@ class ShoppingController extends Controller
             $cart = Cart::where('session_id', session()->getId())->with('products')->first();
         }
 
+        //Se lo enviamos como metadato a la plataforma de stripe para tener un resguardo de los productos
+        $products = $cart->products->pluck('id', 'sku');
+
         //Por si acaso antes de llegar a este último paso comprobamos que los productos tengan stock
         //Si alguno de ellos no tiene stock lo volvemos a la página del carrito
         foreach ($cart->products as $product) {
@@ -396,7 +399,7 @@ class ShoppingController extends Controller
             $finalPrice = $totalPrice + $shippingPrice;
         }
 
-        return view('shopping.review-order', compact('locale', 'cart','address', 'addressB', 'shippingPrice', 'currency', 'totalPrice', 'finalPrice', 'currencyStripe', 'addressId', 'currency', 'addressIdB'));
+        return view('shopping.review-order', compact('locale', 'products','address', 'addressB', 'shippingPrice', 'currency', 'totalPrice', 'finalPrice', 'currencyStripe', 'addressId', 'currency', 'addressIdB'));
     }
 
     public function paymentSuccessful()
