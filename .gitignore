@@ -15,7 +15,7 @@ yarn-error.log
 /ssl/*
 /certbot
 /backup
-/public/assets/images
+/public/assets/images/*
 !/public/assets/images/about
 !/public/assets/images/carousel
 !/public/assets/images/icons
