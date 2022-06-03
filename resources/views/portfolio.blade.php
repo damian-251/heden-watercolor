@@ -9,6 +9,7 @@
 @endsection
 
 @section('content')
+@include('partials.messages')
     <div class="hw-filter-search">
         <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle mx-3" type="button" id="dropdownMenuButton1"
@@ -150,6 +151,11 @@
             </div>
         </div>
 
+        @if(!empty($warning))
+        <div class="d-flex justify-content-center">
+            <div class="alert alert-warning text-center mx-4 w-50"> {{ $warning }}</div>
+        </div>
+        @endif
     </div>
     @if ($searchQuery != null)
         <h2 class="text-center m-3">{{ $searchQuery }}</h2>

@@ -142,7 +142,13 @@ class PagesController extends Controller
             $products = Product::orderBy('creation_date', 'desc')->get();
         }
 
-        return view('portfolio', compact('products', 'tagNames', 'locationNames', 'colourNames','searchQuery'));
+        if ($products->count() == 0) {
+            return view('portfolio', compact('products', 'tagNames', 'locationNames', 'colourNames','searchQuery'))->with('warning', __('No results found'));
+        }else {
+
+            return view('portfolio', compact('products', 'tagNames', 'locationNames', 'colourNames','searchQuery'));
+        }
+
     }
 
     /**
@@ -151,6 +157,9 @@ class PagesController extends Controller
     public function vistaDetalles($id = 1)
     {
         $product = Product::with('tags', 'product_translation', 'colours', 'location')->find($id);
+        if ($product == null) {
+            return redirect()->route('portfolio')->with('error', 'Product not found');
+        }
         $productTr = Product_tr::where('product_id', $id)->where('language_code', app()->getLocale())->first();
 
         //Si no está lo ponemos en el idioma por defecto

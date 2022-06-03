@@ -26,32 +26,32 @@
         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="english-tab">
               {{--Título de la obra --}}
         <h2 class="text-center m-4">{{__('Title')}}</h2>
-            <input class="form-control" type="text" name="title_en" id="title_en" placeholder="English title" required>
+            <input class="form-control" type="text" value="{{ old('title_en') }}" name="title_en" id="title_en" placeholder="English title" required>
 
             {{-- Descripción de la obra --}}
         <h2 class="text-center m-4">{{__('Description')}}</h2>
-        <textarea class="form-control"  name="description_en" id="description_en" cols="30" rows="10" placeholder="English description" required></textarea>
+        <textarea class="form-control"  name="description_en" id="description_en" cols="30" rows="10" placeholder="English description" required>{{ old('description_en') }}</textarea>
         </div>
         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="spanish-tab">
               {{--Título de la obra --}}
         <h2 class="text-center m-4">{{__('Title')}}</h2>
-            <input class="form-control" type="text" name="title_es" id="title_es" placeholder="Spanish title">
+            <input class="form-control" value="{{old('title_es')}}" type="text" name="title_es" id="title_es" placeholder="Spanish title">
 
             {{-- Descripción de la obra --}}
         <h2 class="text-center m-4">{{__('Description')}}</h2>
 
-        <textarea class="form-control" name="description_es" id="description_es" cols="30" rows="10" placeholder="Spanish description"></textarea>
+        <textarea class="form-control" name="description_es" id="description_es" cols="30" rows="10" placeholder="Spanish description">{{old('description_es')}}</textarea>
 
         </div>
         <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="norwegian-tab">
               {{--Título de la obra --}}
         <h2 class="text-center m-4">{{__('Title')}}</h2>
-            <input class="form-control" type="text" name="title_no" id="title_no" placeholder="Norwegian title">
+            <input class="form-control" value="{{old('title_no')}}" type="text" name="title_no" id="title_no" placeholder="Norwegian title">
 
             {{-- Descripción de la obra --}}
         <h2 class="text-center m-4">{{__('Description')}}</h2>
 
-        <textarea class="form-control" name="description_no" id="description_no" cols="30" rows="10" placeholder="Norwegian description"></textarea>
+        <textarea class="form-control" name="description_no" id="description_no" cols="30" rows="10" placeholder="Norwegian description">{{old('description_no')}}</textarea>
 
         </div>
       </div>

@@ -589,9 +589,13 @@ class AdminController extends Controller
     public function deleteProduct($id)
     {
         $product = Product::findOrFail($id);
-        $product->delete(); //Hemos configurado softdelete
-        //TODO: Faltaría borrar/modificar las asociaciones que tuviese es producto
-        return back()->with('message', 'Product deleted!');
+        DB::beginTransaction();
+        $product->carts()->detach();
+        $product->tags()->detach();
+        $product->colours()->detach();
+        $product->delete(); 
+        DB::commit();
+        return redirect()->route('portfolio')->with('message', 'Product deleted!');
     }
 
 
