@@ -11,26 +11,20 @@
     @include('partials.messages')
 
     <div class="container">
+        <h1 class="text-center mb-3">{{__('Request painting')}}</h1>
         <div class="row ">
-
+            
             <div class="col-md-6 p-4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum posuere laoreet dapibus. Praesent
-                malesuada augue turpis, sed porttitor neque porttitor ac. Aenean mollis hendrerit lectus, nec faucibus sem
-                pretium ultrices. Suspendisse egestas lacus in est faucibus viverra. Nullam dapibus sapien eu est suscipit
-                tincidunt. Mauris elementum condimentum augue vel mattis. Phasellus eu laoreet massa. Ut fringilla tellus id
-                placerat suscipit. Sed cursus mi et ultrices porta. Mauris ut malesuada eros. In hac habitasse platea
-                dictumst. Maecenas et nibh vitae neque tincidunt pharetra.
+                
+                <div class="mb-4">
 
-                Quisque id neque eros. Nulla luctus venenatis tellus vel fermentum. Quisque eleifend lobortis ante, quis
-                consectetur ligula sodales ac. Curabitur ac viverra nisi. Etiam et massa at libero dapibus molestie.
-                Curabitur accumsan id risus ac tempor. Aliquam erat volutpat. Donec semper nunc vitae diam molestie, at
-                ornare lacus egestas. Sed massa ante, sagittis ac mauris quis, malesuada tristique dui.
-
-                Nulla euismod magna magna, ut elementum elit auctor nec. Vivamus mattis nisi sem, sed hendrerit est
-                venenatis vel. Etiam sit amet auctor tortor. Maecenas posuere laoreet risus vel facilisis. Integer eu quam
-                metus. Praesent massa lectus, commodo id libero sit amet, pulvinar egestas arcu. Nullam varius, nisi non
-                ultrices vestibulum, turpis tortor lacinia justo, ac tincidunt dolor ex vel tellus. Sed id lectus in tellus
-                tempus efficitur. Vivamus a iaculis tortor, sit amet iaculis lacus. Nunc accumsan luctus elit.
+                    {{__('You can request a painting from the autor by filling the following form. You can give indications like size or some specifications, you have yo upload a file in which the painting is going to be based.')}}
+                </div>
+                <picture>
+                    <source srcset="{{ asset('assets/images/about/heden-4.webp') }}" type="image/webp">
+                    <source srcset="{{ asset('assets/images/about/heden-4.jpg') }}" type="image/jpeg">
+                    <img class="w-100" src="{{ asset('assets/images/about/heden-4.jpg') }}" alt="Image of a painting">
+                </picture>
             </div>
 
             <div class="col-md-6 p-4">

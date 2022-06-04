@@ -21,10 +21,17 @@ class MailController extends Controller
             'details' => 'required',
             'file' => 'required|mimes:jpeg,png,webp|max:900',
             'g-recaptcha-response' => ['required', new ReCaptcha]
+        ], [
+            'file.max' => __('The file size es greater than the max allowed size (900KB)'),
+            'email.required' => __('The email is required'),
+            'details.required' => __('The details are required'),
+            'file.required' => __('You have to upload a file with your request'),
+            'file.mimes' => __('You have to upload a file in the allowed formats (JPEG, PNG, WEBP)'),
+            'g-recaptcha-response.required' => __('You need to fill the recaptcha validation')
+
         ]);
 
         
-
         //Ponemos la imagen en un directorio privado
         $path = $request->file->store('', 'paintingRequest');
         //Log::channel('custom')->debug("Path " . $path);
@@ -62,6 +69,13 @@ class MailController extends Controller
             'name' => 'required',
             'mensaje' => 'required',
             'g-recaptcha-response' => ['required', new ReCaptcha],
+        ],
+        [
+            'email.required' => __('The email is required'),
+            'name.required' => __('The name is required'),
+            'mensaje.required' => __('You have to write a message'),
+            'g-recaptcha-response.required' => __('You need to fill the recaptcha validation')
+
         ]);
 
         Log::channel('custom')->debug("Petición formulario de contacto: " . $request);

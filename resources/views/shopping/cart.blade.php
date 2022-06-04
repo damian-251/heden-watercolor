@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    {{ __('Shopping cart') }}
+    Heden Watercolor - {{ __('Shopping cart') }}
 @endsection
 
 @section('styles')
