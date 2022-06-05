@@ -19,7 +19,7 @@
                         <picture>
                             <source srcset="{{ asset($product->img_path_webp) }}" type="image/webp">
                             <source srcset="{{ asset($product->img_path_jpg) }}" type="image/jpeg">
-                            <img src="{{ asset($product->img_path_jpg) }}" alt="Product image">
+                            <img class="hw-cart-item" src="{{ asset($product->img_path_jpg) }}" alt="Product image">
                         </picture>
                     </div>
 

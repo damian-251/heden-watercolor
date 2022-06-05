@@ -74,9 +74,11 @@
         <nav class="navbar navbar-expand-lg navbar-light sticky-top hw-main-menu">
 
             <div class="container d-flex justify-content-between">
+                <a class="text-decoration-none text-body" href="{{route('start')}}">
                 <div class="d-block d-lg-none fs-3 mx-4 my-3 hw-mobile-logo">
-                    {{ __('HEDEN WATERCOLOR') }}
+                    HEDEN WATERCOLOR
                 </div>
+                 </a>
                 <button class="navbar-toggler mx-3" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -129,6 +131,9 @@
                                     src="{{ asset('assets/images/icons/instagram.png') }}"
                                     alt="{{ __('Link to Instagram account') }}"></a>
                         </div>
+                    </div>
+                    <div class="d-flex justify-content-center mt-3">
+                        <img class="stripe-logo" src={{ asset('assets/images/stripe/stripe.svg') }} "happy.svg" alt="Powered by Stripe"/>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-12">

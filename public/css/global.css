@@ -31,7 +31,9 @@ específico si así se requiere */
     justify-content: center;
 }
 
-
+.stripe-logo {
+    width: 8rem;
+}
 
 
 * {
@@ -169,6 +171,10 @@ body {
         opacity: 95%;
     }
 
+    .stripe-logo {
+        width: 10rem;
+    }
+
     /* Carrusel sin margen para móviles */
 
     .py-4 .px-5 {
@@ -182,6 +188,10 @@ body {
 
         button.navbar-toggler {
             margin-right: 0 !important;
+        }
+
+        .stripe-logo {
+            width: 12rem;
         }
 
         .hw-mobile-logo {
