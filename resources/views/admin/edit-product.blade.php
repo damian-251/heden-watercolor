@@ -42,27 +42,27 @@
                 {{-- Título de la obra --}}
                 <h2 class="text-center m-4">{{ __('Title') }}</h2>
                 <input class="form-control" type="text" name="title_es" id="title_es" placeholder="Spanish title"
-                    value="{{ $productEs->name }}">
+                value="@if($productEs != null){{ $productEs->name }} @endif">
 
                 {{-- Descripción de la obra --}}
                 <h2 class="text-center m-4">{{ __('Description') }}</h2>
 
                 <textarea class="form-control" name="description_es" id="description_es" cols="30" rows="10"
-                    placeholder="Spanish description">{{ $productEs->description }}</textarea>
+                    placeholder="Spanish description">@if ($productEs != null){{ $productEs->description }}@endif</textarea>
 
             </div>
             <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="norwegian-tab">
                 {{-- Título de la obra --}}
                 <h2 class="text-center m-4">{{ __('Title') }}</h2>
-                <input value="{{ $productNo->name }}" class=" form-control" type="text" name="title_no" id="title_no"
+                <input value="@if($productNo != null){{ $productNo->name }}@endif"
+                 class="form-control" type="text" name="title_no" id="title_no"
                     placeholder="Norwegian title">
 
                 {{-- Descripción de la obra --}}
                 <h2 class="text-center m-4">{{ __('Description') }}</h2>
 
                 <textarea class="form-control" name="description_no" id="description_no" cols="30" rows="10"
-                    placeholder="Norwegian description">{{ $productNo->description }}</textarea>
-
+                    placeholder="Norwegian description">@if ($productNo != null){{ $productNo->description }}@endif</textarea>
             </div>
         </div>
 
