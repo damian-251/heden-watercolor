@@ -20,7 +20,7 @@
     <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
     <div class="mx-auto">
       {{__('If you have any question related to privacy policies, problems using the website or other technical issues please contact with')}}
-      <a href="mailto:{{env('ADMIN_EMAIL')}}">{{env('ADMIN_EMAIL')}}</a>
+      <a href="mailto:{{config('services.email.admin')}}">{{config('services.email.admin')}}</a>
     </div>
   </div>
 @endsection

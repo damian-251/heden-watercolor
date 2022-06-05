@@ -22,9 +22,9 @@
             </div>
             <div class="carousel-item">
               <picture>
-                <source srcset="{{ asset('assets/images/carousel/carousel-2.webp') }}" type="image/webp">
-                <source srcset="{{ asset('assets/images/carousel/carousel-2.jpg') }}" type="image/jpeg">
-                  <img src="{{ asset('assets/images/carousel/carousel-2.jpg') }}" class="d-block w-100" alt="Carousel image 2">
+                <source srcset="{{ asset('assets/images/carousel/carousel-5.webp') }}" type="image/webp">
+                <source srcset="{{ asset('assets/images/carousel/carousel-5.jpg') }}" type="image/jpeg">
+                  <img src="{{ asset('assets/images/carousel/carousel-5.jpg') }}" class="d-block w-100" alt="Carousel image 2">
               </picture>
             </div>
             <div class="carousel-item">
@@ -36,9 +36,9 @@
             </div>
             <div class="carousel-item">
               <picture>
-                <source srcset="{{ asset('assets/images/carousel/carousel-4.webp') }}" type="image/webp">
-                <source srcset="{{ asset('assets/images/carousel/carousel-4.jpg') }}" type="image/jpeg">
-                  <img src="{{ asset('assets/images/carousel/carousel-4.jpg') }}" class="d-block w-100" alt="Carousel image 4">
+                <source srcset="{{ asset('assets/images/carousel/carousel-6.webp') }}" type="image/webp">
+                <source srcset="{{ asset('assets/images/carousel/carousel-6.jpg') }}" type="image/jpeg">
+                  <img src="{{ asset('assets/images/carousel/carousel-6.jpg') }}" class="d-block w-100" alt="Carousel image 4">
               </picture>
             </div>
         </div>

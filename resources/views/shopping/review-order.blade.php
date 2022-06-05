@@ -8,7 +8,7 @@ if (Auth::check()) {
     $userId = "";
 }
 /* Comunicación con la pasarela de pago Stripe */
-\Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+\Stripe\Stripe::setApiKey(config('services.stripe.secret'));
 $session = \Stripe\Checkout\Session::create([
     'line_items' => [[
       'price_data' => [
@@ -21,7 +21,7 @@ $session = \Stripe\Checkout\Session::create([
       'quantity' => 1,
     ]],
     'mode' => 'payment',
-    'success_url' => route('payment-successful'), /* TODO Hay que poner URL propias de la página */
+    'success_url' => route('payment-successful'), 
     'cancel_url' => route('payment-failed'),
     'payment_intent_data' => [
       'metadata' => ['user_id' => $userId,
@@ -71,7 +71,7 @@ $session = \Stripe\Checkout\Session::create([
   
       <script src="https://js.stripe.com/v3/"></script>
       <script>
-        const stripe = Stripe("{{env('STRIPE_KEY')}}");
+        const stripe = Stripe("{{config('services.stripe.public')}}");
         const btn = document.getElementById('checkout-button');
 
         btn.addEventListener("click", function(event) {

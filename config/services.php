@@ -30,5 +30,19 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
-
+    'recaptcha' => [
+        'public' => env('RECAPTCHA_PUBLIC'),
+        'secret' => env('RECAPTCHA_SECRET')
+    ],
+    'stripe' => [
+        'public' => env('STRIPE_KEY'),
+        'secret' => env('STRIPE_SECRET')
+    ],
+    'reservation' => [
+        'minutes' => env('RESERVATION_TIME')
+    ],
+    'email' => [
+        'admin' => env('ADMIN_EMAIL'),
+        'request' => env('EMAIL_REQUEST')
+    ]
 ];

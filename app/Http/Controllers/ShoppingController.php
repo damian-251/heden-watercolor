@@ -68,7 +68,7 @@ class ShoppingController extends Controller
             if ($product->reserved == null) {
                 //Le añadimos el tiempo de reserva (media hora)
                 $reservationTime = Carbon::now()->setTimezone('UTC');
-                $reservationTime->addMinutes(env('RESERVATION_TIME'));
+                $reservationTime->addMinutes(config('services.reservation.minutes'));
                 $product->reserved = $reservationTime->format('Y-m-d H:i:s');
                 $product->save();
                 $reserved = false;
@@ -90,7 +90,7 @@ class ShoppingController extends Controller
 
                 //Ya podemos seguir el proceso normal
                 $reservationTime = Carbon::now()->setTimezone('UTC');
-                $reservationTime->addMinutes(env('RESERVATION_TIME'));
+                $reservationTime->addMinutes(config('services.reservation.minutes'));
                 $product->reserved = $reservationTime->format('Y-m-d H:i:s');
                 $product->save();
 

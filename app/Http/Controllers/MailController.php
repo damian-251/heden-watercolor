@@ -45,7 +45,7 @@ class MailController extends Controller
         $correo->details = $request->details;
         $correo->phone = $request->phone;
 
-        Mail::to(env('EMAIL_REQUEST'))->send($correo);
+        Mail::to(config('services.email.request'))->send($correo);
 
         DB::beginTransaction();
         //También añadimos los datos a la base de datos por si el correo se pierde
@@ -88,7 +88,7 @@ class MailController extends Controller
         $correo->email = $request->email;
         $correo->mensaje = $request->mensaje;
 
-        Mail::to(env('EMAIL_REQUEST'))->send($correo);
+        Mail::to(config('services.email.request'))->send($correo);
 
         return back()->with('message', __('The contact form has been submitted'));
     }

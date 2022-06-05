@@ -10,6 +10,6 @@
   the order details in the email provided in Stripe, once the order is sent you will also recieve a 
   confirmation email')}}.</p>
   <p>{{__('If you have any problem or you want more information please
-  contact with') . ' ' . env('ADMIN_EMAIL')}}.</p>
+  contact with') . ' ' . config('services.email.admin')}}.</p>
 </div>
 @endsection

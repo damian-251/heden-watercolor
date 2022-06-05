@@ -42,7 +42,7 @@
     @endif
 
     <p>
-        {{__('If you detect any problem or error in the data displayed, please contact with ' ) . " " . env('ADMIN_EMAIL')}}
+        {{__('If you detect any problem or error in the data displayed, please contact with ' ) . " " . config('services.email.admin')}}
     </p>
 
 </body>

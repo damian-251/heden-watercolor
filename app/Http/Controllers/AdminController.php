@@ -774,7 +774,7 @@ class AdminController extends Controller
         }
 
         //Copia para el administrador y el cliente
-        Mail::to(env('EMAIL_REQUEST'))->send($correo);
+        Mail::to(config('services.email.request'))->send($correo);
         Mail::to($clientEmail)->send($correo);
 
         DB::commit();

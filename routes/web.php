@@ -251,7 +251,7 @@ Route::post('webhook', function(Request $request) {
                 $correo->totalPrice = floatval($request->data['object']['amount'])/100;
 
                 //Copia para el administrador y el cliente
-                Mail::to(env('EMAIL_REQUEST'))->send($correo);
+                Mail::to(config('services.email.request'))->send($correo);
                 Mail::to($clientEmail)->send($correo);
 
 
