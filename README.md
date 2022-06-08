@@ -2,7 +2,7 @@
 
 ## Heden Watercolor
 
-###Introduction
+### Introduction
 
 This project will consist of a web application whose main objective is to meet the requirements and guidelines made by the user who requested this web application.
 
@@ -13,7 +13,7 @@ This web application will allow you to keep all the information about the painti
 The web application is going to be developed having in consideration the painting organization, these paintings can be sorted with different criteria, a selling point where some of the paintings will be there for selling, a user-friendly interface which make easier for the artist to manage the basic things of the web applications and an environment which surrounds the artist and their paintings.
 
 
-###Introducción
+### Introducción
 
 Este proyecto consiste en el desarrollo de una aplicación web cuyo objetivo es cumplir con las pautas y requisitos que ha proporcionado el usuario. 
 El usuario actualmente realiza obras de pintura, principalmente con la técnica de acuarela, las cuales comparte en las redes sociales, donde tienen cierto éxito porque a mucha gente le gusta  Sin embargo, al usuario le gustaría tener un espacio más personal además de poder tener más organizada su colección y poder vender algunas de sus obras. Es decir quiere un entorno que gire en torno al autor y sus obras.
