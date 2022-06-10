@@ -66,15 +66,21 @@
                         @endif
                     </div>
 
-                    <form action="{{ route('add-to-cart') }}" method="POST"
+                    <form 
+                    @if(config('services.shop.disabled') == false)
+                        action="{{ route('add-to-cart') }}" 
+                    @endif
+                    method="POST"
                         class="d-flex justify-content-center align-items-end">
-                        @csrf
+                        @if(config('services.shop.disabled') == false)
+                            @csrf
+                        @endif
                         <input type="hidden" name="product_id" value="{{ $product->id }}">
                         @if ($product->reserved != null && \Carbon\Carbon::parse($product->reserved)->gt($currentTime))
                             <button type="button"
                                 class="btn btn-danger disabled not-allowed">{{ __('Reserved') }}</button>
                         @else
-                            <button class="btn btn-primary" type="submit">{{ __('Add to cart') }}</button>
+                            <button id="hw-add-to-cart" class="btn btn-primary" type="submit">{{ __('Add to cart') }}</button>
                         @endif
                     </form>
                 @endif
@@ -94,4 +100,15 @@
 
         </div>
     </div>
+    @if (config('services.shop.disabled') == true)
+    <script>
+        let addToCartButton = document.getElementById("hw-add-to-cart");
+
+        addToCartButton.addEventListener("click", function(event) {
+            event.preventDefault();
+            alert("{{__('The shop will be available soon. Thank you. If you are interested in a painting please contact with heden.watercolor@gmail.com')}}");
+        })
+    </script>
+        
+    @endif
 @endsection

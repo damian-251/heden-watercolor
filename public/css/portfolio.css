@@ -76,6 +76,13 @@ img {
     cursor: not-allowed !important;
 }
 
+.hw-shop-closed {
+    background-color: #EAE1F8;
+    color: black;
+    border: #9341E5;
+}
+
+
 #hw-search-options, .hw-search-word {
     cursor: pointer;
     transition: .3s ease;
@@ -84,6 +91,7 @@ img {
 #hw-search-options:hover {
     background-color: rgb(234, 225, 248);
 }
+
 
 
 

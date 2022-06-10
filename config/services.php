@@ -44,5 +44,8 @@ return [
     'email' => [
         'admin' => env('ADMIN_EMAIL'),
         'request' => env('EMAIL_REQUEST')
+    ],
+    'shop' => [
+        'disabled' => env('SHOP_DISABLED')
     ]
 ];
