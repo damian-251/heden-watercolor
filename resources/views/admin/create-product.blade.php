@@ -143,6 +143,13 @@
         <h2 class="text-center m-4">{{__('Stock')}}</h2>
         <input type="number" class="form-control mb-4" name="stock" id="stock" placeholder="{{__('Units in stock')}}" min="0" required>
 
+        <div class="form-check">
+            <input name="soldCheck" class="form-check-input" type="checkbox" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+              Marcar si el producto ha sido vendido
+            </label>
+          </div>
+
         <h2 class="text-center m-4">{{__('Dimensions')}}</h2>
         <input class="form-control mb-4" type="number" name="width" id="width" placeholder="Width in cm" required>
         <input class="form-control mb-4" type="number" name="height" id="height"  placeholder="Height in cm" required>

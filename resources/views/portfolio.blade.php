@@ -178,6 +178,13 @@
                         @endif
                     </div>
 
+                    <div class="hw-product-text-sold fs-3 shadow-lg"
+                        style="display: none;@if ($product->sold == false) border-radius: 0px; padding: 0; @endif">
+                        @if ($product->sold == true)
+                            {{ __('Sold') }}
+                        @endif
+                    </div>
+
                 </div>
             </a>
         @endforeach

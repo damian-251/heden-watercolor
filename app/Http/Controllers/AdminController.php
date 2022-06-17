@@ -307,6 +307,13 @@ class AdminController extends Controller
             return back()->with('message', 'You have to specify price in eur and nok');
         }
 
+        //Especificamos si el producto está vendido o no
+        if ($request->soldCheck == 'on') {
+            $product->sold = true;
+        }else {
+            $product->sold = false;
+        }
+
 
         // ---- Fecha de creación ---- 
 
@@ -481,6 +488,13 @@ class AdminController extends Controller
             }
         } else {
             throw new CreateProductException('You have to specify both eur and nok');
+        }
+
+        //Especificamos si el producto está vendido o no
+        if ($request->soldCheck == 'on') {
+            $product->sold = true;
+        }else {
+            $product->sold = false;
         }
 
 

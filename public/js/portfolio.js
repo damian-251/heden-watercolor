@@ -4,6 +4,8 @@ let dropdowns = document.querySelectorAll('.dropdown-toggle')
 let imageText = document.getElementsByClassName('hw-product-text');
 let linkImage = document.getElementsByClassName('hw-product-link');
 
+let soldText = document.getElementsByClassName('hw-product-text-sold');
+
 let index = 0;
 
 let opcionesBusqueda = document.getElementById("hw-search-options");
@@ -34,13 +36,18 @@ for (let index = 0; index < linkImage.length; index++) {
 
     linkImage[index].addEventListener('mouseover', function(e){
         imageText[index].style.display = "block";
+        soldText[index].style.display = "block";
     });
     
     linkImage[index].addEventListener('mouseout', function(e){
         imageText[index].style.display = "none";
+        soldText[index].style.display = "none";
+
     });   
     
 }
+
+
 
 //Mostrar ocultar opciones de búsqueda
 

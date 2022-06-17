@@ -68,6 +68,17 @@ img {
 
 }
 
+.hw-product-text-sold {
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    background-color: #b92121;
+    padding: .5rem 1rem;
+    border-radius: 10px;
+}
+
 .hw-div-product img:hover {
     opacity: .7;
 }

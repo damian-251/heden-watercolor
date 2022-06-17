@@ -11,7 +11,7 @@
     <form class="w-75 mx-auto" action="{{ route('edit-product-p', ['id' => $product->id]) }}" method="POST"
         enctype="multipart/form-data">
         @csrf
-        @method("PUT")
+        @method('PUT')
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
                 <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
@@ -42,27 +42,34 @@
                 {{-- Título de la obra --}}
                 <h2 class="text-center m-4">{{ __('Title') }}</h2>
                 <input class="form-control" type="text" name="title_es" id="title_es" placeholder="Spanish title"
-                value="@if($productEs != null){{ $productEs->name }} @endif">
+                    value="@if ($productEs != null) {{ $productEs->name }} @endif">
 
                 {{-- Descripción de la obra --}}
                 <h2 class="text-center m-4">{{ __('Description') }}</h2>
 
                 <textarea class="form-control" name="description_es" id="description_es" cols="30" rows="10"
-                    placeholder="Spanish description">@if ($productEs != null){{ $productEs->description }}@endif</textarea>
+                    placeholder="Spanish description">
+@if ($productEs != null)
+{{ $productEs->description }}
+@endif
+</textarea>
 
             </div>
             <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="norwegian-tab">
                 {{-- Título de la obra --}}
                 <h2 class="text-center m-4">{{ __('Title') }}</h2>
-                <input value="@if($productNo != null){{ $productNo->name }}@endif"
-                 class="form-control" type="text" name="title_no" id="title_no"
-                    placeholder="Norwegian title">
+                <input value="@if ($productNo != null) {{ $productNo->name }} @endif" class="form-control"
+                    type="text" name="title_no" id="title_no" placeholder="Norwegian title">
 
                 {{-- Descripción de la obra --}}
                 <h2 class="text-center m-4">{{ __('Description') }}</h2>
 
                 <textarea class="form-control" name="description_no" id="description_no" cols="30" rows="10"
-                    placeholder="Norwegian description">@if ($productNo != null){{ $productNo->description }}@endif</textarea>
+                    placeholder="Norwegian description">
+@if ($productNo != null)
+{{ $productNo->description }}
+@endif
+</textarea>
             </div>
         </div>
 
@@ -93,8 +100,8 @@
             @foreach ($tags as $tag)
                 @foreach ($tag->tag_translation as $tagTr)
                     @if ($tagTr->language_code == 'en')
-                        <label class="form-check-label"><input type="checkbox" name="tags[]" value="{{ $tag->id }}"
-                                id="{{ $tag->id }}" class="form-check-input"
+                        <label class="form-check-label"><input type="checkbox" name="tags[]"
+                                value="{{ $tag->id }}" id="{{ $tag->id }}" class="form-check-input"
                                 @foreach ($product->tags as $productTag) @if ($productTag->id == $tag->id)
                                 checked @endif
                                 @endforeach
@@ -111,8 +118,8 @@
             @foreach ($specialTags as $tag)
                 @foreach ($tag->tag_translation as $tagTr)
                     @if ($tagTr->language_code == 'en')
-                        <label class="form-check-label"><input class="form-check-input" type="checkbox" name="specialTags[]"
-                                value="{{ $tag->id }}" id="{{ $tag->id }}">
+                        <label class="form-check-label"><input class="form-check-input" type="checkbox"
+                                name="specialTags[]" value="{{ $tag->id }}" id="{{ $tag->id }}">
                             {{ $tagTr->name }}</label>
                     @endif
                 @endforeach
@@ -139,15 +146,26 @@
 
         <h2 class="text-center m-4">{{ __('Price') }}</h2>
         <p class="text-center">{{ __('0 or blank if the product is not for sale') }}</p>
-        <input type="number" class="form-control  mb-4" name="price_eur" value="{{ $product->price_eur }}" id="price_eur"
-            step=".01" placeholder="Price in €" min="0" required>
-        <input type="number" class="form-control mb-4" name="price_nok" value="{{ $product->price_nok }}" id="price_nok"
-            placeholder="Price en NOK" min="0" required>
+        <input type="number" class="form-control  mb-4" name="price_eur" value="{{ $product->price_eur }}"
+            id="price_eur" step=".01" placeholder="Price in €" min="0" required>
+        <input type="number" class="form-control mb-4" name="price_nok" value="{{ $product->price_nok }}"
+            id="price_nok" placeholder="Price en NOK" min="0" required>
 
 
         <h2 class="text-center m-4">{{ __('Stock') }}</h2>
         <input type="number" class="form-control mb-4" name="stock" value="{{ $product->stock }}" id="stock"
             placeholder="{{ __('Units in stock') }}" min="0" required>
+
+        <div class="form-check">
+            <input name="soldCheck" class="form-check-input" type="checkbox" id="flexCheckDefault" 
+            @if ($product->sold == true)
+                checked
+            @endif
+            >
+            <label class="form-check-label" for="flexCheckDefault">
+                Marcar si el producto ha sido vendido
+            </label>
+        </div>
 
         <h2 class="text-center m-4">{{ __('Dimensions') }}</h2>
         <input value="{{ $product->width }}" class="form-control mb-4" type="number" name="width" id="width"
@@ -162,10 +180,11 @@
         <h2 class="text-center m-4">{{ __('Upload images') }}</h2>
         <p class="text-center">{{ __('Don\'t upload any image if you want to keep de current image') }}</p>
         <div class="d-flex justify-content-around">
-            <label><input class="form-control" type="file" name="image_jpg" placeholder="Image in JPG" accept=".jpg"
-                    > Image in JPG (max 200KB)</label>
+            <label><input class="form-control" type="file" name="image_jpg" placeholder="Image in JPG"
+                    accept=".jpg"> Image in JPG (max 200KB)</label>
             {{-- Por defecto la imagen se mostrará en webp y si no es compatible o no está disponible será en jpg --}}
-            <label><input class="form-control" type="file" name="image_webp" placeholder="Image in WEBP" accept=".webp">
+            <label><input class="form-control" type="file" name="image_webp" placeholder="Image in WEBP"
+                    accept=".webp">
                 Image in WEBP (max 100KB)</label>
 
         </div>

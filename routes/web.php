@@ -211,6 +211,13 @@ Route::post('webhook', function(Request $request) {
                 $product->stock -=$product->pivot->units;
                 $product->save();
 
+                //FIXME: Como está en una transacción no es posible acceder a un valor que ha sido editado, se debe marcar manualmente como vendido
+                // //Si el stock del producto es de 0 lo marcamos como vendido
+                // if ($product->stock == 0) {
+                //     $product->sold = true;
+                //     $product->save();
+                // }
+
 
                 //Insertamos en la orden los pedidos
                 $order->products()->attach($product->id, ['units' => $product->pivot->units, 'price' => $price, 
@@ -234,6 +241,8 @@ Route::post('webhook', function(Request $request) {
 
             DB::commit();
             Log::channel('custom')->debug("Todo correcto :')" );
+
+            
 
             //Aquí enviamos el correo electrónico al usuario con su pedido y una copia al administrador
             //(Se supone que Stripe envía un correo al usuario pero en la versión de desarrollo parece que no)
